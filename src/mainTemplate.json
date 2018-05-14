@@ -202,14 +202,14 @@
       "type": "string",
       "defaultValue": "",
       "metadata": {
-        "description": "A Base-64 encoded form of the certificate (.crt) to secure HTTPS communications between the browser and Kibana."
+        "description": "A Base-64 encoded form of the certificate (.crt) to secure HTTP communication between the browser and Kibana."
       }
     },
     "kibanaKeyBlob": {
       "type": "securestring",
       "defaultValue": "",
       "metadata": {
-        "description": "A Base-64 encoded form of the private key (.key) to secure HTTPS communications between the browser and Kibana."
+        "description": "A Base-64 encoded form of the private key (.key) to secure HTTP communication between the browser and Kibana."
       }
     },
     "kibanaKeyPassphrase": {
@@ -217,6 +217,13 @@
       "defaultValue": "",
       "metadata": {
         "description": "The passphrase to decrypt the private key. Optional as the key may not be encrypted. Supported only in 5.3.0+"
+      }
+    },
+    "kibanaAdditionalYaml": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "Additional configuration for Kibana yaml configuration file. Each line must be separated by a newline character e.g. server.ssl.enabled: true\nkibana.defaultAppId: \"home\""
       }
     },
     "jumpbox": {
@@ -675,14 +682,14 @@
       "type": "string",
       "defaultValue": "",
       "metadata": {
-        "description": "A Base-64 encoded form of the PFX certificate for the Application Gateway. This certificate is used to secure HTTPS connections to the Application Gateway"
+        "description": "A Base-64 encoded form of the PKCS#12 archive (.pfx) certificate for the Application Gateway. This certificate is used to secure HTTPS connections to the Application Gateway"
       }
     },
     "appGatewayCertPassword": {
       "type": "securestring",
       "defaultValue": "",
       "metadata": {
-        "description": "The password for the PFX certificate for the Application Gateway."
+        "description": "The password for the PKCS#12 archive (.pfx) certificate for the Application Gateway."
       }
     },
     "appGatewayWafStatus": {
@@ -1143,6 +1150,7 @@
       "kibanaKeyPassphrase": "[parameters('kibanaKeyPassphrase')]",
       "kibanaCertBlob": "[parameters('kibanaCertBlob')]",
       "kibanaHttps": "[variables('kibanaHttps')]",
+      "kibanaYaml": "[parameters('kibanaAdditionalYaml')]",
       "jumpbox": "[parameters('jumpbox')]",
       "dataNodeStorageSettings": {
         "count": "[variables('storageAccountsCount')]",
