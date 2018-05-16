@@ -154,6 +154,20 @@
         "description": "The password for the PKCS#12 archive (.pfx/.p12) certificate used to secure Transport layer of Elasticsearch"
       }
     },
+    "samlMetadataUri" : {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "The URI from which the metadata file for the Identity Provider can be retrieved to configure SAML Single-Sign-On"
+      }
+    },
+    "samlServiceProviderUri" : {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "The public URI for the Service Provider to configure SAML Single-Sign-On. If samlMetadataUri is provided but a value is not provided for samlServiceProviderUri, the public domain name for the Kibana instance will be used"
+      }
+    },
     "kibana": {
       "type": "string",
       "defaultValue": "Yes",
@@ -831,7 +845,9 @@
       "securityReadPwd": "[parameters('securityReadPassword')]",
       "securityKibanaPwd": "[parameters('securityKibanaPassword')]",
       "securityLogstashPwd": "[parameters('securityLogstashPassword')]",
-      "securityBootstrapPwd": "[if(not(empty(parameters('securityBootstrapPassword'))),parameters('securityBootstrapPassword'),uniqueString(resourceGroup().id, deployment().name, parameters('securityAdminPassword')))]"
+      "securityBootstrapPwd": "[if(not(empty(parameters('securityBootstrapPassword'))),parameters('securityBootstrapPassword'),uniqueString(resourceGroup().id, deployment().name, parameters('securityAdminPassword')))]",
+      "samlMetadataUri": "[parameters('samlMetadataUri')]",
+      "samlServiceProviderUri": "[parameters('samlServiceProviderUri')]"
     },
     "phoneHomeSettings": {
       "email": "[parameters('userEmail')]",

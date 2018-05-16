@@ -43,6 +43,9 @@ help()
     echo "-T base64 encoded PKCS#12 archive (.pfx/.p12) certificate used to secure the transport layer"
     echo "-W password for PKCS#12 archive (.pfx/.p12) certificate used to secure the transport layer"
 
+    echo "-O URI from which to retrieve the metadata file for the Identity Provider to configure SAML Single-Sign-On"
+    echo "-U Public domain name for the instance of Kibana to configure SAML Single-Sign-On"
+
     echo "-j install azure cloud plugin for snapshot and restore"
     echo "-a set the default storage account for azure cloud plugin"
     echo "-k set the key for the default storage account for azure cloud plugin"
@@ -125,8 +128,11 @@ TRANSPORT_CERT_PASSWORD=""
 PROTOCOL="http"
 CURL_SWITCH=""
 
+SAML_METADATA_URI=""
+SAML_SP_URI=""
+
 #Loop through options passed
-while getopts :n:m:v:A:R:K:S:Z:p:a:k:L:C:B:H:G:T:W:Xxyzldjh optname; do
+while getopts :n:m:v:A:R:K:S:Z:p:a:k:L:C:B:H:G:T:W:O:U:Xxyzldjh optname; do
   log "Option $optname set"
   case $optname in
     n) #set cluster name
@@ -188,6 +194,12 @@ while getopts :n:m:v:A:R:K:S:Z:p:a:k:L:C:B:H:G:T:W:Xxyzldjh optname; do
       ;;
     W) #Transport cert password
       TRANSPORT_CERT_PASSWORD="${OPTARG}"
+      ;;
+    O) #SAML metadata URI
+      SAML_METADATA_URI="${OPTARG}"
+      ;;
+    U) #SAML Service Provider URI
+      SAML_SP_URI="${OPTARG}"
       ;;
     d) #cluster is using dedicated master nodes
       CLUSTER_USES_DEDICATED_MASTERS=1
@@ -766,6 +778,30 @@ configure_elasticsearch_yaml()
       fi
 
       log "[configure_elasticsearch_yaml] Configured Transport layer encryption"
+    fi
+
+    # Configure SAML realm
+    if [[ dpkg --compare-versions "$ES_VERSION" ">=" "6.2.0" && -n "$SAML_METADATA_URI" && -n "$SAML_SP_URI" ]]; then
+        [ -d /etc/elasticsearch/saml ] || mkdir -p /etc/elasticsearch/saml
+        wget --retry-connrefused --waitretry=1 -q "$SAML_METADATA_URI" -O /etc/elasticsearch/saml/metadata.xml
+        SAML_SP_URI=${SAML_SP_URI%/}
+        # extract the entityID from the metadata file
+        local IDP_ENTITY_ID="$(grep -oP '\sentityID="(.*?)"\s' /mnt/c/elasticsearch/elasticsearch-6.2.4/config/Elasticsearch.xml | sed 's/^.*"\(.*\)".*/\1/')"
+        {
+            echo -e ""
+            echo -e "xpack.security.authc.realms.saml1:"
+            echo -e "  type: saml"
+            echo -e "  order: 2"
+            echo -e "  idp.metadata.path: /etc/elasticsearch/saml/metadata.xml"
+            echo -e "  idp.entity_id: \"$IDP_ENTITY_ID\""
+            echo -e "  sp.entity_id:  \"$SAML_SP_URI/\""
+            echo -e "  sp.acs: \"$SAML_SP_URI/api/security/v1/saml\""
+            echo -e "  sp.logout: \"$SAML_SP_URI/logout\""
+            echo -e "  attributes.principal: \"http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name\""
+            echo -e "  attributes.name: \"http://schemas.microsoft.com/identity/claims/displayname\""
+            echo -e "  attributes.mail: \"http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress\""
+            echo -e "  attributes.groups: \"http://schemas.microsoft.com/ws/2008/06/identity/claims/role\""
+        } >> $ES_CONF
     fi
 
     # Configure Azure Cloud plugin
