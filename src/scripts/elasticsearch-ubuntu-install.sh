@@ -44,7 +44,7 @@ help()
     echo "-W password for PKCS#12 archive (.pfx/.p12) certificate used to secure the transport layer"
 
     echo "-O URI from which to retrieve the metadata file for the Identity Provider to configure SAML Single-Sign-On"
-    echo "-U Public domain name for the instance of Kibana to configure SAML Single-Sign-On"
+    echo "-P Public domain name for the instance of Kibana to configure SAML Single-Sign-On"
 
     echo "-j install azure cloud plugin for snapshot and restore"
     echo "-a set the default storage account for azure cloud plugin"
@@ -132,7 +132,7 @@ SAML_METADATA_URI=""
 SAML_SP_URI=""
 
 #Loop through options passed
-while getopts :n:m:v:A:R:K:S:Z:p:a:k:L:C:B:H:G:T:W:O:U:Xxyzldjh optname; do
+while getopts :n:m:v:A:R:K:S:Z:p:a:k:L:C:B:H:G:T:W:O:P:Xxyzldjh optname; do
   log "Option $optname set"
   case $optname in
     n) #set cluster name
@@ -198,7 +198,7 @@ while getopts :n:m:v:A:R:K:S:Z:p:a:k:L:C:B:H:G:T:W:O:U:Xxyzldjh optname; do
     O) #SAML metadata URI
       SAML_METADATA_URI="${OPTARG}"
       ;;
-    U) #SAML Service Provider URI
+    P) #SAML Service Provider URI
       SAML_SP_URI="${OPTARG}"
       ;;
     d) #cluster is using dedicated master nodes
@@ -780,16 +780,17 @@ configure_elasticsearch_yaml()
       log "[configure_elasticsearch_yaml] Configured Transport layer encryption"
     fi
 
-    # Configure SAML realm
-    if [[ dpkg --compare-versions "$ES_VERSION" ">=" "6.2.0" && -n "$SAML_METADATA_URI" && -n "$SAML_SP_URI" ]]; then
+    # Configure SAML realm only for valid versions of Elasticsearch and if the conditions are met
+    if [[ dpkg --compare-versions "$ES_VERSION" ">=" "6.2.0" && -n "$SAML_METADATA_URI" && -n "$SAML_SP_URI" && -n "$HTTP_CERT" && ${INSTALL_XPACK} -ne 0 ]]; then
         [ -d /etc/elasticsearch/saml ] || mkdir -p /etc/elasticsearch/saml
         wget --retry-connrefused --waitretry=1 -q "$SAML_METADATA_URI" -O /etc/elasticsearch/saml/metadata.xml
         SAML_SP_URI=${SAML_SP_URI%/}
         # extract the entityID from the metadata file
-        local IDP_ENTITY_ID="$(grep -oP '\sentityID="(.*?)"\s' /mnt/c/elasticsearch/elasticsearch-6.2.4/config/Elasticsearch.xml | sed 's/^.*"\(.*\)".*/\1/')"
+        local IDP_ENTITY_ID="$(grep -oP '\sentityID="(.*?)"\s' /etc/elasticsearch/saml/metadata.xml | sed 's/^.*"\(.*\)".*/\1/')"
+
         {
             echo -e ""
-            echo -e "xpack.security.authc.realms.saml1:"
+            echo -e "xpack.security.authc.realms.saml_aad:"
             echo -e "  type: saml"
             echo -e "  order: 2"
             echo -e "  idp.metadata.path: /etc/elasticsearch/saml/metadata.xml"

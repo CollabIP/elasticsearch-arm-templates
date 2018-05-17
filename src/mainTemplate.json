@@ -154,14 +154,14 @@
         "description": "The password for the PKCS#12 archive (.pfx/.p12) certificate used to secure Transport layer of Elasticsearch"
       }
     },
-    "samlMetadataUri" : {
+    "samlMetadataUri": {
       "type": "string",
       "defaultValue": "",
       "metadata": {
         "description": "The URI from which the metadata file for the Identity Provider can be retrieved to configure SAML Single-Sign-On"
       }
     },
-    "samlServiceProviderUri" : {
+    "samlServiceProviderUri": {
       "type": "string",
       "defaultValue": "",
       "metadata": {

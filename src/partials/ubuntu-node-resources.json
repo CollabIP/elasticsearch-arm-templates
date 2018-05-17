@@ -1,0 +1,374 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "templateBaseUrl": {
+        "type": "string",
+        "metadata": {
+            "description": "The base url for templates"
+        }
+    },
+    "commonVmSettings": {
+        "type": "object",
+        "metadata": {
+            "description" : "Shared VM settings"
+        }
+    },
+    "topologySettings": {
+      "type": "object",
+      "metadata": {
+        "description": "Aggregate for topology variable"
+      }
+    },
+    "networkSettings": {
+      "type": "object",
+      "metadata": {
+        "description": "Network settings"
+      }
+    },
+    "esSettings": {
+      "type": "object",
+      "metadata": {
+          "description" : "The Elasticsearch settings"
+      }
+    },
+    "phoneHomeSettings": {
+      "type": "object",
+      "metadata": {
+          "description": "Deployment details sent back to our CRM, only needed when deploying from the marketplace, optional in the ARM template"
+      }
+    },
+    "azureCloudStorageAccount": {
+      "type": "object",
+      "metadata": {
+          "description": "The storage settings for the Azure Cloud plugin"
+      }
+    },
+    "kibanaIp": {
+      "type": "string",
+      "metadata": {
+        "description": "Public IP address of Kibana instance"
+      }
+    },
+    "elasticTags": {
+      "type": "object",
+      "defaultValue": {
+        "provider": "648D2193-0CE0-4EFB-8A82-AF9792184FD9"
+      },
+      "metadata": {
+        "description": "A unique identifier to allow the Azure Infrastructure to understand the origin of resources deployed to Azure. You do not need to supply a value for this."
+      }
+    }
+  },
+  "variables": {
+    "jumpboxTemplates": {
+      "No": "empty/empty-jumpbox-resources.json",
+      "Yes": "machines/jumpbox-resources.json"
+    },
+    "jumpboxTemplateUrl": "[concat(parameters('templateBaseUrl'), variables('jumpboxTemplates')[parameters('topologySettings').jumpbox])]",
+    "kibanaTemplates": {
+      "No": "empty/empty-kibana-resources.json",
+      "Yes": "machines/kibana-resources.json"
+    },
+    "kibanaTemplateUrl": "[concat(parameters('templateBaseUrl'), variables('kibanaTemplates')[parameters('topologySettings').kibana])]",
+    "dataTemplateUrl": "[concat(parameters('templateBaseUrl'), 'datanodes/data-node-', string(parameters('topologySettings').dataNodeStorageSettings.dataDisks), 'disk-resources.json')]",
+    "namespacePrefix": "[parameters('topologySettings').vmHostNamePrefix]",
+    "dataNodeShortOpts": {
+      "No": "z",
+      "Yes": ""
+    },
+    "dataNodeShortOpt": "[variables('dataNodeShortOpts')[parameters('topologySettings').dataNodesAreMasterEligible]]",
+    "dedicatedMasterNodesShortOpts": {
+      "No": "d",
+      "Yes": ""
+    },
+    "dedicatedMasterNodesShortOpt": "[variables('dedicatedMasterNodesShortOpts')[parameters('topologySettings').dataNodesAreMasterEligible]]",
+    "installAzureCloudPluginShortOpts": {
+      "No": "",
+      "Yes": "j"
+    },
+    "installAzureCloudPluginShortOpt": "[variables('installAzureCloudPluginShortOpts')[parameters('azureCloudStorageAccount').install]]",
+    "installPluginsShortOpts": {
+      "No": "",
+      "Yes": "l"
+    },
+    "installPluginsShortOpt": "[variables('installPluginsShortOpts')[parameters('esSettings').installPlugins]]",
+    "enableAnonymousAccessOpts": {
+      "No": "",
+      "Yes": "X"
+    },
+    "enableAnonymousAccessOpt": "[variables('enableAnonymousAccessOpts')[parameters('topologySettings').enableAnonymousAccess]]",
+    "kibanaDomainName": "[if(not(empty(parameters('esSettings').samlMetadataUri)),if(not(empty(parameters('esSettings').samlServiceProviderUri)),parameters('esSettings').samlServiceProviderUri,parameters('kibanaIp')),'')]",
+    "commonShortOpts": "[concat(variables('dedicatedMasterNodesShortOpt'),  variables('installPluginsShortOpt'), variables('installAzureCloudPluginShortOpt'), variables('enableAnonymousAccessOpt'), 'n ')]",
+    "commonInstallParams": "[concat('\"', parameters('esSettings').clusterName, '\" -v \"', parameters('esSettings').version, '\" -m ', parameters('esSettings').heapSize,' -A \"', parameters('esSettings').securityAdminPwd, '\" -R \"', parameters('esSettings').securityReadPwd, '\" -K \"', parameters('esSettings').securityKibanaPwd, '\" -S \"', parameters('esSettings').securityLogstashPwd, '\" -B \"', parameters('esSettings').securityBootstrapPwd, '\" -Z ', parameters('topologySettings').vmDataNodeCount,' -p \"', variables('namespacePrefix'), '\" -a \"', parameters('azureCloudStorageAccount').name, '\" -k \"', parameters('azureCloudStorageAccount').key, '\" -L \"', parameters('esSettings').installAdditionalPlugins, '\" -C \"', replace(parameters('esSettings').yamlConfiguration, '\"', '\\\"'), '\" -H \"', parameters('esSettings').httpCertBlob,'\" -G \"', parameters('esSettings').httpCertPassword, '\" -T \"', parameters('esSettings').transportCertBlob, '\" -W \"', parameters('esSettings').transportCertPassword, '\" -O \"', parameters('esSettings').samlMetadataUri, '\" -P \"', variables('kibanaDomainName'), '\"')]",
+    "ubuntuScripts": [
+      "[concat(parameters('templateBaseUrl'), 'scripts/elasticsearch-ubuntu-install.sh')]",
+      "[concat(parameters('templateBaseUrl'), 'scripts/kibana-install.sh')]",
+      "[concat(parameters('templateBaseUrl'), 'scripts/vm-disk-utils-0.1.sh')]",
+      "[concat(parameters('templateBaseUrl'), 'scripts/user-information.sh')]",
+      "[concat(parameters('templateBaseUrl'), 'scripts/data-node-install.sh')]"
+    ],
+    "ubuntuSkus": {
+      "5": "16.04-LTS",
+      "6": "16.04-LTS"
+    },
+    "ubuntuSku": "[variables('ubuntuSkus')[substring(parameters('esSettings').version, 0, 1)]]",
+    "ubuntuSettings": {
+      "imageReference": {
+        "publisher": "Canonical",
+        "offer": "UbuntuServer",
+        "sku": "[variables('ubuntuSku')]",
+        "version": "latest"
+      },
+      "managementPort": "22",
+      "extensionSettings": {
+        "master": {
+          "publisher": "Microsoft.Azure.Extensions",
+          "type": "CustomScript",
+          "typeHandlerVersion": "2.0",
+          "autoUpgradeMinorVersion": true,
+          "settings": {
+            "fileUris": "[variables('ubuntuScripts')]"
+          },
+          "protectedSettings": {
+            "commandToExecute": "[concat('bash elasticsearch-ubuntu-install.sh -x', variables('commonShortOpts'), variables('commonInstallParams'))]"
+          }
+        },
+        "client": {
+          "publisher": "Microsoft.Azure.Extensions",
+          "type": "CustomScript",
+          "typeHandlerVersion": "2.0",
+          "autoUpgradeMinorVersion": true,
+          "settings": {
+            "fileUris": "[variables('ubuntuScripts')]"
+          },
+          "protectedSettings": {
+            "commandToExecute": "[concat('bash elasticsearch-ubuntu-install.sh -y', variables('commonShortOpts'), variables('commonInstallParams'))]"
+          }
+        },
+        "data": {
+          "publisher": "Microsoft.Azure.Extensions",
+          "type": "CustomScript",
+          "typeHandlerVersion": "2.0",
+          "autoUpgradeMinorVersion": true,
+          "settings": {
+            "fileUris": "[variables('ubuntuScripts')]"
+          },
+          "protectedSettings": {
+            "commandToExecute": "[concat('bash data-node-install.sh -', variables('dataNodeShortOpt'), variables('commonShortOpts'), variables('commonInstallParams'), ' -U \"http://app-lon02.marketo.com/index.php/leadCapture/save2\" -I \"813-MAM-392\" -c \"', parameters('phoneHomeSettings').company, '\" -e \"', parameters('phoneHomeSettings').email, '\" -f \"', parameters('phoneHomeSettings').firstName, '\" -g \"', parameters('phoneHomeSettings').lastName, '\" -t \"', parameters('phoneHomeSettings').jobTitle, '\" -s \"', parameters('phoneHomeSettings').topology, '\" -o \"', parameters('phoneHomeSettings').country, '\"')]"
+          }
+        },
+        "kibana": {
+          "publisher": "Microsoft.Azure.Extensions",
+          "type": "CustomScript",
+          "typeHandlerVersion": "2.0",
+          "autoUpgradeMinorVersion": true,
+          "settings": {
+            "fileUris": "[variables('ubuntuScripts')]"
+          },
+          "protectedSettings": {
+            "commandToExecute": "[concat('bash kibana-install.sh -', variables('installPluginsShortOpt'), 'n \"', parameters('esSettings').clusterName, '\" -v \"', parameters('esSettings').version, '\" -u \"', concat(if(equals(parameters('networkSettings').https, 'Yes'), 'https', 'http'), '://', parameters('topologySettings').vNetLoadBalancerIp, ':9200') ,'\" -S \"', parameters('esSettings').securityKibanaPwd, '\" -C \"', parameters('topologySettings').kibanaCertBlob, '\" -K \"', parameters('topologySettings').kibanaKeyBlob, '\" -P \"', parameters('topologySettings').kibanaKeyPassphrase, '\" -Y \"', replace(parameters('topologySettings').kibanaYaml, '\"', '\\\"'), '\" -H \"', parameters('esSettings').httpCertBlob,'\" -G \"', parameters('esSettings').httpCertPassword, '\" -U \"', variables('kibanaDomainName'), '\"')]"
+          }
+        }
+      }
+    }
+  },
+  "resources": [
+    {
+      "condition": "[equals(parameters('topologySettings').dataNodesAreMasterEligible, 'No')]",
+      "name": "master-nodes",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2016-02-01",
+      "dependsOn": [
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[concat(parameters('templateBaseUrl'), 'machines/master-nodes-resources.json')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "templateBaseUrl": { "value": "[parameters('templateBaseUrl')]" },
+          "vm": {
+            "value": {
+              "shared": "[parameters('commonVmSettings')]",
+              "namespace": "[concat(parameters('commonVmSettings').namespacePrefix, 'master-')]",
+              "installScript": "[variables('ubuntuSettings').extensionSettings.master]",
+              "size": "[parameters('topologySettings').vmSizeMasterNodes]",
+              "count": 3,
+              "useSharedStorageAccount": "Yes",
+              "useBackendPools": "No",
+              "backendPools": [],
+              "imageReference": "[variables('ubuntuSettings').imageReference]"
+            }
+          },
+          "elasticTags": {
+            "value": "[parameters('elasticTags')]"
+          }
+        }
+      }
+    },
+    {
+      "condition": "[greater(parameters('topologySettings').vmClientNodeCount, 0)]",
+      "name": "client-nodes",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2016-02-01",
+      "dependsOn": [
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[concat(parameters('templateBaseUrl'), 'machines/client-nodes-resources.json')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "templateBaseUrl": { "value": "[parameters('templateBaseUrl')]" },
+          "vm": {
+            "value": {
+              "shared": "[parameters('commonVmSettings')]",
+              "namespace": "[concat(parameters('commonVmSettings').namespacePrefix, 'client-')]",
+              "installScript": "[variables('ubuntuSettings').extensionSettings.client]",
+              "size": "[parameters('topologySettings').vmSizeClientNodes]",
+              "count": "[parameters('topologySettings').vmClientNodeCount]",
+              "useSharedStorageAccount": "Yes",
+              "useBackendPools": "Yes",
+              "backendPools": "[parameters('topologySettings').loadBalancerBackEndPools]",
+              "imageReference": "[variables('ubuntuSettings').imageReference]"
+            }
+          },
+          "elasticTags": {
+            "value": "[parameters('elasticTags')]"
+          }
+        }
+      }
+    },
+    {
+      "name": "data-nodes",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2016-02-01",
+      "dependsOn": [
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('dataTemplateUrl')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "templateBaseUrl": { "value": "[parameters('templateBaseUrl')]" },
+          "vm": {
+            "value": {
+              "shared": "[parameters('commonVmSettings')]",
+              "namespace": "[concat(parameters('commonVmSettings').namespacePrefix, 'data-')]",
+              "installScript": "[variables('ubuntuSettings').extensionSettings.data]",
+              "size": "[parameters('topologySettings').vmSizeDataNodes]",
+              "count": "[parameters('topologySettings').vmDataNodeCount]",
+              "useSharedStorageAccount": "No",
+              "useBackendPools": "Yes",
+              "backendPools": "[parameters('topologySettings').dataLoadBalancerBackEndPools]",
+              "imageReference": "[variables('ubuntuSettings').imageReference]"
+            }
+          },
+          "storageSettings": {
+            "value": "[parameters('topologySettings').dataNodeStorageSettings]"
+          },
+          "elasticTags": {
+            "value": "[parameters('elasticTags')]"
+          }
+        }
+      }
+    },
+    {
+      "name": "jumpbox",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2016-02-01",
+      "dependsOn": [
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('jumpboxTemplateUrl')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "templateBaseUrl": {
+            "value": "[parameters('templateBaseUrl')]"
+          },
+          "storageAccountName": {
+            "value": "[parameters('commonVmSettings').storageAccountName]"
+          },
+          "credentials": {
+            "value": "[parameters('commonVmSettings').credentials]"
+          },
+          "location": {
+            "value": "[parameters('commonVmSettings').location]"
+          },
+          "namespace": {
+            "value": "[concat(parameters('commonVmSettings').namespacePrefix, 'jumpbox')]"
+          },
+          "networkSettings": {
+            "value": "[parameters('networkSettings')]"
+          },
+          "osSettings": {
+            "value": "[variables('ubuntuSettings')]"
+          },
+          "elasticTags": {
+            "value": "[parameters('elasticTags')]"
+          }
+        }
+      }
+    },
+    {
+      "name": "kibana",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2016-02-01",
+      "dependsOn": [
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('kibanaTemplateUrl')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "templateBaseUrl": {
+            "value": "[parameters('templateBaseUrl')]"
+          },
+          "storageAccountName": {
+            "value": "[parameters('commonVmSettings').storageAccountName]"
+          },
+          "credentials": {
+            "value": "[parameters('commonVmSettings').credentials]"
+          },
+          "location": {
+            "value": "[parameters('commonVmSettings').location]"
+          },
+          "namespace": {
+            "value": "[concat(parameters('commonVmSettings').namespacePrefix, 'kibana')]"
+          },
+          "networkSettings": {
+            "value": "[parameters('networkSettings')]"
+          },
+          "osSettings": {
+            "value": "[variables('ubuntuSettings')]"
+          },
+          "vmSize": {
+            "value": "[parameters('topologySettings').vmSizeKibana]"
+          },
+          "https": {
+            "value": "[parameters('topologySettings').kibanaHttps]"
+          },
+          "elasticTags": {
+            "value": "[parameters('elasticTags')]"
+          }
+        }
+      }
+    }
+  ],
+  "outputs": {
+    "jumpboxssh": {
+      "value": "[reference('jumpbox').outputs.ssh.value]",
+      "type": "string"
+    }
+  }
+}
