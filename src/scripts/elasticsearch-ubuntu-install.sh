@@ -731,7 +731,8 @@ configure_elasticsearch_yaml()
       # use HTTPS for calls to localhost when TLS configured on HTTP layer
       PROTOCOL="https"
       # use the insecure flag to make calls to localhost to bootstrap cluster. curl checks
-      # that the certificate subject name matches the host name when using --cacert
+      # that the certificate subject name matches the host name when using --cacert, so
+      # this can't be used
       CURL_SWITCH="-k"
 
       log "[configure_elasticsearch_yaml] Configured HTTP layer encryption"
@@ -781,29 +782,29 @@ configure_elasticsearch_yaml()
     fi
 
     # Configure SAML realm only for valid versions of Elasticsearch and if the conditions are met
-    if dpkg --compare-versions "$ES_VERSION" ">=" "6.2.0"; then
-      if [[ -n "$SAML_METADATA_URI" && -n "$SAML_SP_URI" && -n "$HTTP_CERT" && ${INSTALL_XPACK} -ne 0 ]]; then
-        [ -d /etc/elasticsearch/saml ] || mkdir -p /etc/elasticsearch/saml
-        wget --retry-connrefused --waitretry=1 -q "$SAML_METADATA_URI" -O /etc/elasticsearch/saml/metadata.xml
-        SAML_SP_URI=${SAML_SP_URI%/}
-        # extract the entityID from the metadata file
-        local IDP_ENTITY_ID="$(grep -oP '\sentityID="(.*?)"\s' /etc/elasticsearch/saml/metadata.xml | sed 's/^.*"\(.*\)".*/\1/')"
-        {
-            echo -e ""
-            echo -e "xpack.security.authc.realms.saml_aad:"
-            echo -e "  type: saml"
-            echo -e "  order: 2"
-            echo -e "  idp.metadata.path: /etc/elasticsearch/saml/metadata.xml"
-            echo -e "  idp.entity_id: \"$IDP_ENTITY_ID\""
-            echo -e "  sp.entity_id:  \"$SAML_SP_URI/\""
-            echo -e "  sp.acs: \"$SAML_SP_URI/api/security/v1/saml\""
-            echo -e "  sp.logout: \"$SAML_SP_URI/logout\""
-            echo -e "  attributes.principal: \"http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name\""
-            echo -e "  attributes.name: \"http://schemas.microsoft.com/identity/claims/displayname\""
-            echo -e "  attributes.mail: \"http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress\""
-            echo -e "  attributes.groups: \"http://schemas.microsoft.com/ws/2008/06/identity/claims/role\""
-        } >> $ES_CONF
-      fi
+    if [[ $(dpkg --compare-versions "$ES_VERSION" ">=" "6.2.0") -eq 0 && -n "$SAML_METADATA_URI" && -n "$SAML_SP_URI" && -n "$HTTP_CERT" && ${INSTALL_XPACK} -ne 0 ]]; then
+      log "[configure_elasticsearch_yaml] Configuring SAML realm for $SAML_SP_URI"
+      [ -d /etc/elasticsearch/saml ] || mkdir -p /etc/elasticsearch/saml
+      wget --retry-connrefused --waitretry=1 -q "$SAML_METADATA_URI" -O /etc/elasticsearch/saml/metadata.xml
+      SAML_SP_URI="${SAML_SP_URI%/}"
+      # extract the entityID from the metadata file
+      local IDP_ENTITY_ID="$(grep -oP '\sentityID="(.*?)"\s' /etc/elasticsearch/saml/metadata.xml | sed 's/^.*"\(.*\)".*/\1/')"
+      {
+          echo -e ""
+          echo -e "xpack.security.authc.realms.saml_aad:"
+          echo -e "  type: saml"
+          echo -e "  order: 2"
+          echo -e "  idp.metadata.path: /etc/elasticsearch/saml/metadata.xml"
+          echo -e "  idp.entity_id: \"$IDP_ENTITY_ID\""
+          echo -e "  sp.entity_id:  \"$SAML_SP_URI/\""
+          echo -e "  sp.acs: \"$SAML_SP_URI/api/security/v1/saml\""
+          echo -e "  sp.logout: \"$SAML_SP_URI/logout\""
+          echo -e "  attributes.principal: \"http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name\""
+          echo -e "  attributes.name: \"http://schemas.microsoft.com/identity/claims/displayname\""
+          echo -e "  attributes.mail: \"http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress\""
+          echo -e "  attributes.groups: \"http://schemas.microsoft.com/ws/2008/06/identity/claims/role\""
+      } >> $ES_CONF
+      log "[configure_elasticsearch_yaml] Configured SAML realm for $SAML_SP_URI"
     fi
 
     # Configure Azure Cloud plugin
