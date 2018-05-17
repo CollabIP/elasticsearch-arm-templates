@@ -74,8 +74,6 @@
   },
   "variables": {
     "namespace": "[parameters('namespace')]",
-    "subnetId": "[concat(resourceId(parameters('networkSettings').resourceGroup, 'Microsoft.Network/virtualNetworks', parameters('networkSettings').name), '/subnets/', parameters('networkSettings').subnet.name)]",
-    "publicIpName": "[concat(variables('namespace'), '-ip')]",
     "nicName": "[concat(variables('namespace'), '-nic')]",
     "password_osProfile": {
       "computername": "[parameters('namespace')]",
@@ -112,7 +110,6 @@
         "provider": "[toUpper(parameters('elasticTags').provider)]"
       },
       "dependsOn": [
-        "[concat('Microsoft.Network/networkInterfaces/', variables('nicName'))]"
       ],
       "properties": {
         "hardwareProfile": {
