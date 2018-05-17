@@ -5,16 +5,6 @@ This repository consists of:
 * [src/mainTemplate.json](src/mainTemplate.json) - The main Azure Resource Management (ARM) template. The template itself is composed of many nested linked templates with the main template acting as the entry point.
 * [src/createUiDefinition](src/createUiDefinition.json) - UI definition file for our Azure Marketplace offering. This file produces an output JSON that the ARM template can accept as input parameters.
 
-## Building
-
-After pulling the source, call `npm install` once to pull in all devDependencies.
-
-You may edit [build/allowedValues.json](build/allowedValues.json), which the build will use to patch the ARM template and Marketplace UI definition.
-
-Run `npm run build`; this will validate EditorConfig settings, JSON files, patch the allowedValues and create a zip in the `dist` folder.
-
-For more details around developing the template, take a look at the [Development README](build/README.md)
-
 ## Azure Marketplace
 
 The Azure Marketplace Elasticsearch offering offers a simplified UI and installation experience over the full power of the ARM template. 
@@ -121,7 +111,7 @@ posts for further information
     </td><td><code>No</code></td></tr>
 
   <tr><td>azureCloudStorageAccountName</td><td>string</td>
-    <td> The name of an existing storage account to use for snapshots with Azure Cloud plugin. 
+    <td> The name of an existing storage account to use for snapshots with Azure Cloud plugin.
     Must be a valid Azure Storage Account name.
     </td><td><code>""</code></td></tr>
 
@@ -139,7 +129,7 @@ posts for further information
     </td><td><code>""</code></td></tr>
 
   <tr><td>esAdditionalYaml</td><td>string</td>
-    <td>Additional configuration for Elasticsearch yaml configuration file. Each line must be separated by a newline character <code>\n</code> e.g. <code>"action.auto_create_index: .security\nindices.queries.cache.size: 5%"</code>. <strong>This is an expert level feature - It is recommended that you run your additional yaml through a <a href="http://www.yamllint.com/">linter</a> before starting a deployment.</strong>
+    <td>Additional configuration for Elasticsearch yaml configuration file. Each line must be separated by a newline character <code>\n</code> e.g. <code>"action.auto_create_index: +.*\nindices.queries.cache.size: 5%"</code>. <strong>This is an expert level feature - It is recommended that you run your additional yaml through a <a href="http://www.yamllint.com/">linter</a> before starting a deployment.</strong>
     </td><td><code>""</code></td></tr>
 
   <tr><td>esHeapSize</td><td>integer</td>
@@ -148,19 +138,33 @@ posts for further information
     </td><td><code>0</code></td></tr>
 
   <tr><td>esHttpCertBlob</td><td>string</td>
-    <td>A Base-64 encoded form of the PKCS#12 archive (.pfx/.p12) certificate to secure communication for HTTP layer to Elasticsearch. <strong>X-Pack plugin must be installed</strong>
+    <td>A Base-64 encoded form of the PKCS#12 archive (.pfx/.p12) certificate to configure TLS for HTTP layer to Elasticsearch. <strong>X-Pack plugin must be installed</strong>
     </td><td><code>""</code></td></tr>
 
   <tr><td>esHttpCertPassword</td><td>securestring</td>
-    <td>The password for the PKCS#12 archive (.pfx) certificate to secure communication for HTTP layer to Elasticsearch. Optional as the archive may not be encrypted. <strong>X-Pack plugin must be installed</strong>
+    <td>The password for the PKCS#12 archive (.pfx/.p12) certificate to configure TLS for HTTP layer to Elasticsearch. Optional as the archive may not be encrypted. <strong>X-Pack plugin must be installed</strong>
     </td><td><code>""</code></td></tr>
 
   <tr><td>esTransportCertBlob</td><td>string</td>
-    <td>A Base-64 encoded form of the PKCS#12 archive (.pfx/.p12) certificate to secure communication for Transport layer to Elasticsearch. <strong>X-Pack plugin must be installed</strong>
+    <td>A Base-64 encoded form of the PKCS#12 archive (.pfx/.p12) certificate to configure TLS for Transport layer to Elasticsearch. <strong>X-Pack plugin must be installed</strong>
     </td><td><code>""</code></td></tr>
 
   <tr><td>esTransportCertPassword</td><td>securestring</td>
-    <td>The password for the PKCS#12 archive (.pfx) certificate to secure communication for Transport layer to Elasticsearch. Optional as the archive may not be encrypted. <strong>X-Pack plugin must be installed</strong>
+    <td>The password for the PKCS#12 archive (.pfx/.p12) certificate to configure TLS for Transport layer to Elasticsearch. Optional as the archive may not be encrypted. <strong>X-Pack plugin must be installed</strong>
+    </td><td><code>""</code></td></tr>
+
+  <tr><td>samlMetadataUri</td><td>string</td>
+    <td>The URI from which the metadata file for the Identity Provider can be retrieved to configure SAML Single-Sign-On. For Azure Active Directory, this can be found in the Single-Sign-On settings of the Enterprise Application, and will look something like <code>https://login.microsoftonline.com/&lt;guid&gt;/federationmetadata/2007-06/federationmetadata.xml?appid=&lt;guid&gt;</code><ul>
+    <li><strong>Kibana must be installed</strong></li>
+    <li><strong>X-Pack plugin must be installed with a level of license that enables the SAML realm.</strong></li>
+    <li><strong>TLS must be configure for HTTP layer of Elasticsearch</strong></li></ul>
+    </td><td><code>""</code></td></tr>
+
+  <tr><td>samlServiceProviderUri</td><td>string</td>
+    <td>The public URI for the Service Provider to configure SAML Single-Sign-On. If <code>samlMetadataUri</code> is provided but a value is not provided for <code>samlServiceProviderUri</code>, the public domain name for the deployed Kibana instance will be used. <ul>
+    <li><strong>Kibana must be installed</strong></li>
+    <li><strong>X-Pack plugin must be installed with a level of license that enables the SAML realm.</strong></li>
+    <li><strong>TLS must be configure for HTTP layer of Elasticsearch</strong></li></ul>
     </td><td><code>""</code></td></tr>
 
   <tr><td>kibana</td><td>string</td>
@@ -370,7 +374,7 @@ posts for further information
     </td><td><code>2</code></td></tr>
 
    <tr><td>appGatewayCertBlob</td><td>string</td>
-    <td>A Base-64 encoded form of the PFX certificate for the Application Gateway. 
+    <td>A Base-64 encoded form of the PKCS#12 archive (.pfx/.p12) certificate for the Application Gateway.
     This certificate is used to secure HTTPS connections to and from the Application Gateway.
     <strong>Required when selecting <code>gateway</code> for load balancing.</strong>
     </td><td><code>""</code></td></tr>
@@ -416,11 +420,27 @@ posts for further information
 
 </table>
 
-### Command line deploy
+## Building
+
+After pulling the source, call `npm install` once to pull in all devDependencies.
+
+You may edit [build/allowedValues.json](build/allowedValues.json), which the build will use to patch the ARM template and Marketplace UI definition.
+
+Run
+
+```sh
+npm run build
+```
+
+this will validate EditorConfig settings, JSON files, patch the allowedValues and create a zip in the `dist` folder.
+
+For more details around developing the template, take a look at the [Development README](build/README.md)
+
+## Command line deploy
 
 You can deploy using the template directly from Github using the Azure CLI or Azure PowerShell
 
-#### Azure CLI 1.0
+### Azure CLI 1.0
 
 1. Log into Azure
 
@@ -458,7 +478,7 @@ where `<name>` refers to the resource group you just created.
 
 The `--parameters-file` can specify a different location for the items that get provisioned inside of the resource group. Make sure these are the same prior to deploying if you need them to be. Omitting location from the parameters file is another way to make sure the resources get deployed in the same location as the resource group.
 
-#### Azure PowerShell
+### Azure PowerShell
 
 1. Log into Azure
 
@@ -502,21 +522,22 @@ The `--parameters-file` can specify a different location for the items that get 
   New-AzureRmResourceGroupDeployment -Name "<deployment name>" -ResourceGroupName "<name>" -TemplateUri "https://raw.githubusercontent.com/elastic/azure-marketplace/feature/tls/src/mainTemplate.json" -TemplateParameterObject $clusterParameters
   ```
 
-### Targeting a specific template version
+## Targeting a specific template version
 
 You can target a specific version of the template by modifying the URI of the template and the artifactsBaseUrl parameter of the template.
 
-**Targeting a specific template version is recommended for repeatable deployments.** 
+**Targeting a specific template version is recommended for repeatable deployments in production.**
 
-For example, to target the [`6.2.2` tag release with PowerShell](https://github.com/elastic/azure-marketplace/tree/6.2.2)
+For example, to target the [`6.2.4` tag release with PowerShell](https://github.com/elastic/azure-marketplace/tree/6.2.4)
 
 ```powershell
-$templateVersion = "6.2.2"
+$templateVersion = "6.2.4"
 $templateBaseUrl = "https://raw.githubusercontent.com/elastic/azure-marketplace/$templateVersion/src"
 
+# minimum parameters required to deploy
 $clusterParameters = @{
     "artifactsBaseUrl" = $templateBaseUrl
-    "esVersion" = "6.2.2"
+    "esVersion" = "6.2.4"
     "adminUsername" = "russ"
     "adminPassword" = "Password1234"
     "securityAdminPassword" = "Password123"
@@ -525,8 +546,12 @@ $clusterParameters = @{
     "securityLogstashPassword" = "Password123"
 }
 
-New-AzureRmResourceGroup -Name "<name>" -Location "<location>"
-New-AzureRmResourceGroupDeployment -Name "<deployment name>" -ResourceGroupName "<name>" -TemplateUri "$templateBaseUrl/mainTemplate.json" -TemplateParameterObject $clusterParameters
+$resourceGroup = "my-azure-cluster"
+$location = "Australia Southeast"
+$name = "my-azure-cluster"
+
+New-AzureRmResourceGroup -Name $resourceGroup -Location $location
+New-AzureRmResourceGroupDeployment -Name $name -ResourceGroupName $resourceGroup -TemplateUri "$templateBaseUrl/mainTemplate.json" -TemplateParameterObject $clusterParameters
 ```
 
 ### Web based deploy
