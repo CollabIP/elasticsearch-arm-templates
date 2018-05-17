@@ -781,13 +781,13 @@ configure_elasticsearch_yaml()
     fi
 
     # Configure SAML realm only for valid versions of Elasticsearch and if the conditions are met
-    if [[ dpkg --compare-versions "$ES_VERSION" ">=" "6.2.0" && -n "$SAML_METADATA_URI" && -n "$SAML_SP_URI" && -n "$HTTP_CERT" && ${INSTALL_XPACK} -ne 0 ]]; then
+    if dpkg --compare-versions "$ES_VERSION" ">=" "6.2.0"; then
+      if [[ -n "$SAML_METADATA_URI" && -n "$SAML_SP_URI" && -n "$HTTP_CERT" && ${INSTALL_XPACK} -ne 0 ]]; then
         [ -d /etc/elasticsearch/saml ] || mkdir -p /etc/elasticsearch/saml
         wget --retry-connrefused --waitretry=1 -q "$SAML_METADATA_URI" -O /etc/elasticsearch/saml/metadata.xml
         SAML_SP_URI=${SAML_SP_URI%/}
         # extract the entityID from the metadata file
         local IDP_ENTITY_ID="$(grep -oP '\sentityID="(.*?)"\s' /etc/elasticsearch/saml/metadata.xml | sed 's/^.*"\(.*\)".*/\1/')"
-
         {
             echo -e ""
             echo -e "xpack.security.authc.realms.saml_aad:"
@@ -803,6 +803,7 @@ configure_elasticsearch_yaml()
             echo -e "  attributes.mail: \"http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress\""
             echo -e "  attributes.groups: \"http://schemas.microsoft.com/ws/2008/06/identity/claims/role\""
         } >> $ES_CONF
+      fi
     fi
 
     # Configure Azure Cloud plugin

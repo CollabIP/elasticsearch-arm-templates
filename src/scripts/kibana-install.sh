@@ -287,7 +287,7 @@ configuration_and_plugins()
       local PROTOCOL="`echo $SAML_SP_URI | grep '://' | sed -e's,^\(.*://\).*,\1,g'`"
       local HOSTNAME_AND_PORT=`echo $SAML_SP_URI | sed -e s,$PROTOCOL,,g`
       local HOSTNAME=`echo $HOSTNAME_AND_PORT | sed -e s,.*@,,g | cut -d: -f1`
-      local PORT=`echo $HOSTNAME_AND_PORT | grep : | cut -d: -f2 | grep / | cut -d/ -f1`
+      local PORT=`echo $HOSTNAME_AND_PORT | grep : | cut -d: -f2`
       if [[ -z "$PORT" ]]; then
         if [[ "$PROTOCOL" == "https://" ]]; then
           PORT=443
