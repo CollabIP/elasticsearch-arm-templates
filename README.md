@@ -7,7 +7,7 @@ This repository consists of:
 
 ## Azure Marketplace
 
-The Azure Marketplace Elasticsearch offering offers a simplified UI and installation experience over the full power of the ARM template. 
+The [Azure Marketplace Elasticsearch offering](https://azuremarketplace.microsoft.com/en-us/marketplace/apps/elastic.elasticsearch) offers a simplified UI and installation experience over the full power of the ARM template.
 
 It will always bootstrap a cluster complete with a trial license of Elastic's commercial [X-Pack plugins](https://www.elastic.co/products/x-pack).
 
@@ -22,14 +22,14 @@ the templates directly from GitHub using the Azure CLI or PowerShell SDKs. <a hr
 
 **By default, this template does not configure** 
 
-- **TLS for communication with Elasticsearch via the HTTP layer through an external load balancer**
-- **TLS for communication between Elasticsearch nodes via the Transport layer**
-- **TLS for communication beween the browser and Kibana**
+- **SSL/TLS for communication with Elasticsearch via the HTTP layer through an external load balancer**
+- **SSL/TLS for communication between Elasticsearch nodes via the Transport layer**
+- **SSL/TLS for communication beween the browser and Kibana**
 
 **It is strongly recommended that you secure
 communication before using in production.**
 
-You can secure external access to the cluster with TLS by either
+You can secure external access to the cluster with SSL/TLS by either
 
 1. using `external` as the `loadBalancerType` and supplying a PKCS#12 archive certificate with the
 `esHttpCertBlob` parameter to secure the HTTP layer, and supplying a PKCS#12 archive certificate with the `esTransportCertBlob` parameter to secure the Transport layer. Both parameters require that X-Pack plugin be installed.
@@ -39,7 +39,7 @@ or
 2. using `gateway` as the `loadBalancerType` and supplying a PKCS#12 archive certificate with the `appGatewayCertBlob` parameter. This sets
 the cluster up to use [Application Gateway](https://azure.microsoft.com/en-au/services/application-gateway/) for load balancing and SSL offload.
 
-You can secure external access from the browser to Kibana with TLS by supplying a certificate and private key with `kibanaCertBlob` and `kibanaKeyBlob`, respectively.
+You can secure external access from the browser to Kibana with SSL/TLS by supplying a certificate and private key with `kibanaCertBlob` and `kibanaKeyBlob`, respectively.
 
 ---
 
@@ -62,7 +62,7 @@ Marketplace. In fact, there are many features in the ARM template that are
 not exposed within the Marketplace such as configuring
 
 * Azure Storage account to use with Azure Repository plugin for Snapshot/Restore
-* Application Gateway to use for TLS and SSL offload
+* Application Gateway to use for SSL/TLS and SSL offload
 * The number and size of disks to attach to each data node VM
 
 Check out our [**examples repository**](https://github.com/elastic/azure-marketplace-examples)
@@ -75,15 +75,15 @@ posts for further information
 ### Parameters
 
 <table>
-  <tr><th>Parameter</td><th>Type</th><th>Description</th><th>Default Value</th></tr>
+  <tr><th>Parameter</td><th>Type</th><th>Description</th><th>Requirements</th><th>Default Value</th></tr>
 
   <tr><td>artifactsBaseUrl</td><td>string</td>
     <td>The base url of the Elastic ARM template.
-    </td><td>Raw content of the current branch</td></tr>
+    </td><td><strong>Required</strong></td><td>Raw content of the current branch</td></tr>
 
   <tr><td>esVersion</td><td>string</td>
-    <td>A valid supported Elasticsearch version. See <a href="https://github.com/elastic/azure-marketplace/blob/master/src/mainTemplate.json#L15">this list for supported versions</a>
-    </td><td>The latest version of Elasticsearch supported by the ARM template version</td></tr>
+    <td>A valid supported Elasticsearch version for the target template version. See <a href="https://github.com/elastic/azure-marketplace/blob/master/src/mainTemplate.json">this list for supported versions</a>
+    </td><td><strong>Required</strong></td><td>Latest version supported by target template version</td></tr>
 
   <tr><td>esClusterName</td><td>string</td>
     <td> The name of the Elasticsearch cluster. Required
@@ -95,8 +95,8 @@ posts for further information
     <li>By choosing <code>internal</code>, only an internal load balancer is deployed. Useful when connecting to the cluster happens from inside the Virtual Network</li>
     <li>By choosing <code>external</code>, both internal and external load balancers will be deployed. Kibana communicates with the cluster through the internal
     load balancer.</li>
-    <li>By choosing <code>gateway</code>, <a href="https://docs.microsoft.com/en-us/azure/application-gateway/application-gateway-introduction">Application Gateway</a> will be deployed for load balancing, 
-    allowing a PFX certificate to be supplied for transport layer security to and from Application Gateway, and providing SSL offload. 
+    <li>By choosing <code>gateway</code>, <a href="https://docs.microsoft.com/en-us/azure/application-gateway/application-gateway-introduction">Application Gateway</a> will be deployed for load balancing,
+    allowing a PKCS#12 archive (.pfx/.p12) certificate to be supplied for SSL/TLS to and from Application Gateway, and providing SSL offload.
     An internal load balancer will also deployed. Application Gateway and Kibana communicate with the cluster through the internal
     load balancer.</li>
     </ul>
@@ -138,33 +138,35 @@ posts for further information
     </td><td><code>0</code></td></tr>
 
   <tr><td>esHttpCertBlob</td><td>string</td>
-    <td>A Base-64 encoded form of the PKCS#12 archive (.pfx/.p12) certificate to configure TLS for HTTP layer to Elasticsearch. <strong>X-Pack plugin must be installed</strong>
+    <td>A Base-64 encoded form of the PKCS#12 archive (.pfx/.p12) certificate to configure SSL/TLS for HTTP layer to Elasticsearch. <strong>X-Pack plugin must be installed</strong>
     </td><td><code>""</code></td></tr>
 
   <tr><td>esHttpCertPassword</td><td>securestring</td>
-    <td>The password for the PKCS#12 archive (.pfx/.p12) certificate to configure TLS for HTTP layer to Elasticsearch. Optional as the archive may not be encrypted. <strong>X-Pack plugin must be installed</strong>
+    <td>The password for the PKCS#12 archive (.pfx/.p12) certificate to configure SSL/TLS for HTTP layer to Elasticsearch. Optional as the archive may not be encrypted. <strong>X-Pack plugin must be installed</strong>
     </td><td><code>""</code></td></tr>
 
   <tr><td>esTransportCertBlob</td><td>string</td>
-    <td>A Base-64 encoded form of the PKCS#12 archive (.pfx/.p12) certificate to configure TLS for Transport layer to Elasticsearch. <strong>X-Pack plugin must be installed</strong>
+    <td>A Base-64 encoded form of the PKCS#12 archive (.pfx/.p12) certificate to configure SSL/TLS for Transport layer to Elasticsearch. <strong>X-Pack plugin must be installed</strong>
     </td><td><code>""</code></td></tr>
 
   <tr><td>esTransportCertPassword</td><td>securestring</td>
-    <td>The password for the PKCS#12 archive (.pfx/.p12) certificate to configure TLS for Transport layer to Elasticsearch. Optional as the archive may not be encrypted. <strong>X-Pack plugin must be installed</strong>
+    <td>The password for the PKCS#12 archive (.pfx/.p12) certificate to configure SSL/TLS for Transport layer to Elasticsearch. Optional as the archive may not be encrypted. <strong>X-Pack plugin must be installed</strong>
     </td><td><code>""</code></td></tr>
 
   <tr><td>samlMetadataUri</td><td>string</td>
     <td>The URI from which the metadata file for the Identity Provider can be retrieved to configure SAML Single-Sign-On. For Azure Active Directory, this can be found in the Single-Sign-On settings of the Enterprise Application, and will look something like <code>https://login.microsoftonline.com/&lt;guid&gt;/federationmetadata/2007-06/federationmetadata.xml?appid=&lt;guid&gt;</code><ul>
+    <li><strong>Supported only for Elasticsearch 6.2.0+</strong></li>
     <li><strong>Kibana must be installed</strong></li>
     <li><strong>X-Pack plugin must be installed with a level of license that enables the SAML realm.</strong></li>
-    <li><strong>TLS must be configure for HTTP layer of Elasticsearch</strong></li></ul>
+    <li><strong>SSL/TLS must be configured for HTTP layer of Elasticsearch</strong></li></ul>
     </td><td><code>""</code></td></tr>
 
   <tr><td>samlServiceProviderUri</td><td>string</td>
-    <td>The public URI for the Service Provider to configure SAML Single-Sign-On. If <code>samlMetadataUri</code> is provided but a value is not provided for <code>samlServiceProviderUri</code>, the public domain name for the deployed Kibana instance will be used. <ul>
+    <td>The public URI for the Service Provider to configure SAML Single-Sign-On. If <code>samlMetadataUri</code> is provided but no value is provided for <code>samlServiceProviderUri</code>, the public domain name for the deployed Kibana instance will be used.<ul>
+    <li><strong>Supported only for Elasticsearch 6.2.0+</strong></li>
     <li><strong>Kibana must be installed</strong></li>
     <li><strong>X-Pack plugin must be installed with a level of license that enables the SAML realm.</strong></li>
-    <li><strong>TLS must be configure for HTTP layer of Elasticsearch</strong></li></ul>
+    <li><strong>SSL/TLS must be configured for HTTP layer of Elasticsearch</strong></li></ul>
     </td><td><code>""</code></td></tr>
 
   <tr><td>kibana</td><td>string</td>
@@ -460,16 +462,10 @@ You can deploy using the template directly from Github using the Azure CLI or Az
   azure group create <name> <location>
   ```
 
-4. Use our published template directly using `--template-uri`
+4. Use our template directly from GitHub using `--template-uri`
 
 ```sh
 azure group deployment create --template-uri https://raw.githubusercontent.com/elastic/azure-marketplace/feature/tls/src/mainTemplate.json --parameters-file parameters/password.parameters.json -g <name>
-```
-
-or if your are executing commands from a clone of this repo using `--template-file`
-
-```sh
-azure group deployment create --template-file src/mainTemplate.json --parameters-file parameters/password.parameters.json -g <name>
 ```
 
 where `<name>` refers to the resource group you just created.
@@ -477,6 +473,31 @@ where `<name>` refers to the resource group you just created.
 **NOTE**
 
 The `--parameters-file` can specify a different location for the items that get provisioned inside of the resource group. Make sure these are the same prior to deploying if you need them to be. Omitting location from the parameters file is another way to make sure the resources get deployed in the same location as the resource group.
+
+### Azure CLI 2.0
+
+1. Log into Azure
+
+  ```sh
+  az login
+  ```
+2. Create a resource group `<name>` in a `<location>` (e.g `westeurope`) where we can deploy too
+
+  ```sh
+  az group create --name <name> --location <location>
+  ```
+
+3. Use our template directly from GitHub using `--template-uri`
+
+```sh
+az group deployment create \
+  --name deployment-name \
+  --resource-group <name> \
+  --template-uri https://raw.githubusercontent.com/elastic/azure-marketplace/feature/sso/src/mainTemplate.json \
+  --parameters @parameters/password.parameters.json
+```
+
+where `<name>` refers to the resource group you just created.
 
 ### Azure PowerShell
 
