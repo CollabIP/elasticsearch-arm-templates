@@ -199,10 +199,6 @@
     }
   ],
   "outputs": {
-    "kibana": {
-      "value": "[reference('elasticsearch-nodes').outputs.kibana.value]",
-      "type": "string"
-    },
     "jumpboxssh": {
       "value": "[reference('elasticsearch-nodes').outputs.jumpboxssh.value]",
       "type": "string"
