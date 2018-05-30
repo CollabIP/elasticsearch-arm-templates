@@ -2,12 +2,6 @@
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "templateBaseUrl": {
-      "type": "string",
-      "metadata": {
-        "description": "Base uri of resources"
-      }
-    },
     "location": {
       "type": "string",
       "metadata": {
@@ -20,12 +14,6 @@
         "description": "The unique namespace for the Kibana VM"
       }
     },
-    "networkSettings": {
-      "type": "object",
-      "metadata": {
-        "description": "Network settings"
-      }
-    },
     "https": {
       "type": "string",
       "defaultValue": "No",
@@ -35,13 +23,6 @@
       ],
       "metadata": {
         "description": "Controls if the output address should be HTTP or HTTPS"
-      }
-    },
-    "managementPort": {
-      "type": "int",
-      "defaultValue": 22,
-      "metadata": {
-        "description": "The port to connect to the VM for management"
       }
     },
     "elasticTags": {

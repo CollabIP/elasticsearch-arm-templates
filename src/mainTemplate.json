@@ -1248,7 +1248,12 @@
       "certPassword": "[parameters('appGatewayCertPassword')]",
       "firewallStatus": "[parameters('appGatewayWafStatus')]",
       "firewallMode": "[parameters('appGatewayWafMode')]"
-    }
+    },
+    "kibanaIpTemplates": {
+      "No": "empty/empty-kibana-ip-resources.json",
+      "Yes": "ips/kibana-ip-resources.json"
+    },
+    "kibanaIpTemplateUrl": "[concat(variables('templateBaseUrl'), variables('kibanaIpTemplates')[variables('topologySettings').kibana])]"
   },
   "resources": [
     {
@@ -1296,6 +1301,32 @@
       }
     },
     {
+      "name": "kibana-ip",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2016-02-01",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('kibanaIpTemplateUrl')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "location": {
+            "value": "[variables('commonVmSettings').location]"
+          },
+          "namespace": {
+            "value": "[concat(variables('commonVmSettings').namespacePrefix, 'kibana')]"
+          },
+          "https": {
+            "value": "[variables('topologySettings').kibanaHttps]"
+          },
+          "elasticTags": {
+            "value": "[parameters('elasticTags')]"
+          }
+        }
+      }
+    },
+    {
       "name": "loadbalancer",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2016-02-01",
@@ -1327,7 +1358,8 @@
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2016-02-01",
       "dependsOn": [
-        "[concat('Microsoft.Resources/deployments/', 'loadbalancer')]"
+        "[concat('Microsoft.Resources/deployments/', 'loadbalancer')]",
+        "[concat('Microsoft.Resources/deployments/', 'kibana-ip')]"
       ],
       "properties": {
         "mode": "Incremental",
@@ -1357,6 +1389,9 @@
           "azureCloudStorageAccount": {
             "value": "[variables('azureCloudStorageAccount')]"
           },
+          "kibanaIp": {
+            "value": "[reference('kibana-ip').outputs.fqdn.value]"
+          },
           "elasticTags": {
             "value": "[parameters('elasticTags')]"
           }
@@ -1370,7 +1405,7 @@
       "type": "string"
     },
     "kibana": {
-      "value": "[reference('virtual-machines').outputs.kibana.value]",
+      "value": "[reference('kibana-ip').outputs.fqdn.value]",
       "type": "string"
     },
     "jumpboxssh": {
