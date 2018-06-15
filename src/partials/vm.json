@@ -20,12 +20,6 @@
         "description": "the outer loop index"
       }
     },
-    "availabilitySet": {
-      "type": "string",
-      "metadata": {
-        "description": "Base uri of resources"
-      }
-    },
     "dataDisks": {
       "type": "object",
       "defaultValue": {
@@ -99,6 +93,11 @@
       "type": "Microsoft.Compute/virtualMachines",
       "name": "[concat(variables('namespace'), parameters('index'))]",
       "location": "[parameters('vm').shared.location]",
+      "zones":[
+        "1",
+        "2",
+        "3"
+      ],
       "tags": {
         "provider": "[toUpper(parameters('elasticTags').provider)]"
       },
@@ -106,9 +105,6 @@
         "[concat('Microsoft.Network/networkInterfaces/', variables('namespace'), parameters('index'), '-nic')]"
       ],
       "properties": {
-        "availabilitySet": {
-          "id": "[resourceId('Microsoft.Compute/availabilitySets', parameters('availabilitySet'))]"
-        },
         "hardwareProfile": {
           "vmSize": "[parameters('vm').size]"
         },

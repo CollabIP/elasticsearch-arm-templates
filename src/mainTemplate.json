@@ -4,9 +4,9 @@
   "parameters": {
     "artifactsBaseUrl": {
       "type": "string",
-      "defaultValue": "https://raw.githubusercontent.com/elastic/azure-marketplace/master/src",
+      "defaultValue": "https://raw.githubusercontent.com/darrell-tethr/azure-marketplace/dev/src",
       "metadata": {
-        "artifactsBaseUrl": "Base URL of the Elastic template gallery package"
+        "artifactsBaseUrl": "Base URL of my custom Elastic template package"
       }
     },
     "elasticTags": {

@@ -29,28 +29,9 @@
   },
   "resources": [
     {
-      "apiVersion": "2017-12-01",
-      "type": "Microsoft.Compute/availabilitySets",
-      "name": "[concat(variables('namespace'), 'av-set')]",
-      "location": "[parameters('vm').shared.location]",
-      "tags": {
-        "provider": "[toUpper(parameters('elasticTags').provider)]"
-      },
-      "properties": {
-        "platformUpdateDomainCount": 3,
-        "platformFaultDomainCount": "[parameters('vm').platformFaultDomainCount]"
-      },
-      "sku": {
-        "name": "Aligned"
-      }
-    },
-    {
       "name": "[concat(variables('namespace'), copyindex(), '-vm-creation')]",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2016-02-01",
-      "dependsOn": [
-        "[concat('Microsoft.Compute/availabilitySets/', variables('namespace'), 'av-set')]"
-      ],
       "copy": {
         "name": "[concat(variables('namespace'),'vm-creation-loop')]",
         "count": "[parameters('vm').count]"
@@ -67,9 +48,6 @@
           },
           "vm": {
             "value": "[parameters('vm')]"
-          },
-          "availabilitySet": {
-            "value": "[concat(variables('namespace'), 'av-set')]"
           },
           "index": {
             "value": "[copyindex()]"
