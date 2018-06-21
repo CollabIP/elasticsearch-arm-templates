@@ -92,9 +92,6 @@
       "name": "[concat(variables('namespace'), copyindex(), '-vm-nodisks-creation')]",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2016-02-01",
-      "dependsOn": [
-        "[concat('Microsoft.Compute/availabilitySets/', variables('namespace'), mod(copyindex(),variables('avSetCount')), '-av-set')]"
-      ],
       "copy": {
         "name": "[concat(variables('namespace'),'vm-creation-loop')]",
         "count": "[parameters('vm').count]"
