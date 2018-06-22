@@ -1037,12 +1037,6 @@
       "Standard": "Standard_LRS"
     },
     "resolvedStorageAccountType": "[variables('storageAccountOverrides')[parameters('storageAccountType')]]",
-    "tmpVmSizeDataDisks": "[variables('dataSkuSettings')[parameters('vmSizeDataNodes')].dataDisks]",
-    "dataDiskOptions": [
-      "[parameters('vmDataDiskCount')]",
-      "[variables('tmpVmSizeDataDisks')]"
-    ],
-    "resolvedDataDiskCount": "[min(variables('dataDiskOptions'))]",
     "kibanaHttps": "[if(and(greater(length(parameters('kibanaKeyBlob')), 0), greater(length(parameters('kibanaCertBlob')), 0)), 'Yes', 'No')]",
     "topologySettings": {
       "dataNodesAreMasterEligible": "[parameters('dataNodesAreMasterEligible')]",
