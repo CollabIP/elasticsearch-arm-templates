@@ -10,6 +10,7 @@ $clusterParameters = @{
     "esVersion" = "6.2.1"
     "esClusterName" = "elasticsearch"
     "loadBalancerType" = "internal"
+    "vmDataNodeCount" = "0"
     "vmDataDiskCount" = 1
     "vmHostNamePrefix" = "ctesd"
     "adminUsername" = "russ"
