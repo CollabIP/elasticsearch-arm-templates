@@ -11,6 +11,7 @@ $clusterParameters = @{
     "esClusterName" = "elasticsearch"
     "loadBalancerType" = "internal"
     "vmDataDiskCount" = 1
+    "vmHostNamePrefix" = "ctesd"
     "adminUsername" = "russ"
     "adminPassword" = "Password1234"
     "securityAdminPassword" = "Password123"
