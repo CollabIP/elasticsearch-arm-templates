@@ -1054,10 +1054,6 @@
       "kibanaCertBlob": "[parameters('kibanaCertBlob')]",
       "kibanaHttps": "[variables('kibanaHttps')]",
       "jumpbox": "[parameters('jumpbox')]",
-      "dataNodeStorageSettings": {
-        "accountType": "[variables('resolvedStorageAccountType')]",
-        "diskSize": "[variables('dataDiskSizes')[parameters('vmDataDiskSize')]]",
-        "dataDisks": "[variables('resolvedDataDiskCount')]"
       },
       "dataLoadBalancerBackEndPools": "[variables('dataLoadBalancerOptions')[variables('clientResourceIndex')].backendPools]",
       "loadBalancerBackEndPools": "[variables('lbBackEndPoolsAdded').backendPools]",
