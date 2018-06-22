@@ -308,18 +308,6 @@
         "description": "Size of the Elasticsearch data nodes"
       }
     },
-    "vmDataDiskSize": {
-      "type": "string",
-      "defaultValue": "Large",
-      "allowedValues": [
-        "Small",
-        "Medium",
-        "Large"
-      ],
-      "metadata": {
-        "description": "The disk size of each attached disk, Small (128Gb), Medium (512Gb) or Large (1024Gb). For Premium Storage, this equates to P10, P20 and P30, respectively."
-      }
-    },
     "storageAccountType": {
       "type": "string",
       "defaultValue": "Default",
