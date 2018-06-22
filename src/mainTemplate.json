@@ -772,7 +772,7 @@
       "jobTitle": "[parameters('userJobTitle')]",
       "company": "[parameters('userCompany')]",
       "country": "[parameters('userCountry')]",
-      "topology": "[concat('m=', if(equals(parameters('dataNodesAreMasterEligible'), 'No'), '3', '0'), ' ', parameters('vmSizeMasterNodes'), ',d=', parameters('vmDataNodeCount'), ' ', parameters('vmSizeDataNodes'), ',c=', parameters('vmClientNodeCount'), ' ', parameters('vmSizeClientNodes'), ',k=', if(equals(parameters('kibana'), 'Yes'), '1', '0'), ' ', parameters('vmSizeKibana'), ',j=', if(equals(parameters('jumpbox'), 'Yes'), '1', '0'), ' Standard_A0', ',l=', parameters('loadBalancerType'))]"
+      "topology": "[concat('m=', if(equals(parameters('dataNodesAreMasterEligible'), 'No'), '3', '0'), ' ', parameters('vmSizeMasterNodes'), ',d=', ' ', parameters('vmSizeDataNodes'), ',c=', parameters('vmClientNodeCount'), ' ', parameters('vmSizeClientNodes'), ',k=', if(equals(parameters('kibana'), 'Yes'), '1', '0'), ' ', parameters('vmSizeKibana'), ',j=', if(equals(parameters('jumpbox'), 'Yes'), '1', '0'), ' Standard_A0', ',l=', parameters('loadBalancerType'))]"
     },
     "networkResourceGroupMap": {
       "new": "[resourceGroup().name]",
@@ -1046,7 +1046,6 @@
     "kibanaHttps": "[if(and(greater(length(parameters('kibanaKeyBlob')), 0), greater(length(parameters('kibanaCertBlob')), 0)), 'Yes', 'No')]",
     "topologySettings": {
       "dataNodesAreMasterEligible": "[parameters('dataNodesAreMasterEligible')]",
-      "vmDataNodeCount": "[parameters('vmDataNodeCount')]",
       "vmSizeDataNodes": "[parameters('vmSizeDataNodes')]",
       "vmDataNodeStorageAccountType": "[variables('dataSkuSettings')[parameters('vmSizeDataNodes')].storageAccountType]",
       "vmHostNamePrefix": "[parameters('vmHostNamePrefix')]",
