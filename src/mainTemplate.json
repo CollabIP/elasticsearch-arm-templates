@@ -308,14 +308,6 @@
         "description": "Size of the Elasticsearch data nodes"
       }
     },
-    "vmDataDiskCount": {
-      "type": "int",
-      "defaultValue": 40,
-      "minValue": 0,
-      "metadata": {
-        "description": "Number of disks to attach to each data node in RAID 0 setup. If the number of disks selected is more than can be attached to the data node VM size, the maximum number of disks that can be attached will be used. If 1 disk is selected, it is not RAIDed. If 0 disks are selected, the temporary disk will be used to store Elasticsearch data. IMPORTANT: The temporary disk is ephemeral in nature so be sure you know the trade-offs when choosing 0 disks."
-      }
-    },
     "vmDataDiskSize": {
       "type": "string",
       "defaultValue": "Large",
@@ -326,14 +318,6 @@
       ],
       "metadata": {
         "description": "The disk size of each attached disk, Small (128Gb), Medium (512Gb) or Large (1024Gb). For Premium Storage, this equates to P10, P20 and P30, respectively."
-      }
-    },
-    "vmDataNodeCount": {
-      "type": "int",
-      "defaultValue": 3,
-      "minValue": 0,
-      "metadata": {
-        "description": "Number of Elasticsearch data nodes"
       }
     },
     "storageAccountType": {
