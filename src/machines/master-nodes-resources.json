@@ -29,7 +29,7 @@
   },
   "resources": [
     {
-      "name": "[concat(variables('namespace'), copyindex(1), '-vm-creation')]",
+      "name": "[concat(variables('namespace'), copyindex(), '-vm-creation')]",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2016-02-01",
       "copy": {
@@ -51,9 +51,6 @@
           },
           "index": {
             "value": "[copyindex(1)]"
-          },
-          "indexToString": {
-            "value": "[string(copyindex(1))]"
           },
           "elasticTags": {
             "value": "[parameters('elasticTags')]"
