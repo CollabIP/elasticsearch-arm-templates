@@ -58,5 +58,11 @@
         }
       }
     }
-  ]
+  ],
+  "outputs": {
+    "intOutput": {
+        "type": "string",
+        "value": "[string(parameters('index'))]"
+    }
+  }
 }
