@@ -145,5 +145,10 @@
       ]
     }
   ],
-  "outputs": {}
+  "outputs": {
+    "intOutput": {
+        "type": "string",
+        "value": "[string(parameters('IndexToString'))]"
+    }
+  }
 }
