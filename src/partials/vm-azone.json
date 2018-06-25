@@ -20,12 +20,6 @@
         "description": "the outer loop index"
       }
     },
-    "indexToString": {
-      "type": "string",
-      "metadata": {
-        "description": "the copyIndex value converted to a string in order to define the Availability Zone value"
-      }
-    },
     "dataDisks": {
       "type": "object",
       "defaultValue": {
