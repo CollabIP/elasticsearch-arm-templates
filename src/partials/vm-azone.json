@@ -93,7 +93,7 @@
       "type": "Microsoft.Compute/virtualMachines",
       "name": "[concat(variables('namespace'), parameters('index'))]",
       "location": "[parameters('vm').shared.location]",
-      "zones": "[reference('linkedTemplate').outputs.intOutput.value]",
+      "zones": "[parameters('index')]",
       "tags": {
         "provider": "[toUpper(parameters('elasticTags').provider)]"
       },
