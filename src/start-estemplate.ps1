@@ -6,10 +6,13 @@
 $DebugPreference = "Continue"
 
 $clusterParameters = @{
-    "artifactsBaseUrl"="https://raw.githubusercontent.com/darrell-tethr/azure-marketplace/dev/src"
+    "artifactsBaseUrl"="https://raw.githubusercontent.com/darrell-tethr/azure-marketplace/feature-deploy-single-node-type/src"
     "esVersion" = "6.2.1"
     "esClusterName" = "elasticsearch"
     "loadBalancerType" = "internal"
+    "nodeType" = "master"
+    "vmId" = "1"
+    "zoneId" = "1"
     "vmDataDiskCount" = 1
     "vmHostNamePrefix" = "ctesd"
     "adminUsername" = "russ"
@@ -25,7 +28,7 @@ $clusterParameters = @{
 # Note that 5>&1 is a PS redirector operator. Required for capturing the debug output.
 $output = Test-AzureRmResourceGroupDeployment `
     -ResourceGroupName "estemplate-poc-rg" `
-    -TemplateUri "https://raw.githubusercontent.com/darrell-tethr/azure-marketplace/dev/src/mainTemplate.json" `
+    -TemplateUri "https://raw.githubusercontent.com/darrell-tethr/azure-marketplace/feature-deploy-single-node-type/src/mainTemplate.json" `
     -TemplateParameterObject $clusterParameters `
     -Verbose `
     5>&1
