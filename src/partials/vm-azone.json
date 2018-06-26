@@ -14,12 +14,6 @@
         "description": "Location where resources will be provisioned"
       }
     },
-    "index": {
-      "type": "int",
-      "metadata": {
-        "description": "the outer loop index"
-      }
-    },
     "dataDisks": {
       "type": "object",
       "defaultValue": {
@@ -41,7 +35,7 @@
   },
   "variables": {
     "namespace": "[parameters('vm').namespace]",
-    "computername": "[concat(parameters('vm').namespace, parameters('index'))]",
+    "computername": "[concat(parameters('vm').namespace, parameters('vm').id)]",
     "password_osProfile": {
       "computername": "[variables('computername')]",
       "adminUsername": "[parameters('vm').shared.credentials.adminUsername]",
@@ -68,7 +62,7 @@
     {
       "apiVersion": "2016-03-30",
       "type": "Microsoft.Network/networkInterfaces",
-      "name": "[concat(variables('namespace'), parameters('index'), '-nic')]",
+      "name": "[concat(variables('namespace'), parameters('vm').id, '-nic')]",
       "location": "[parameters('vm').shared.location]",
       "tags": {
         "provider": "[toUpper(parameters('elasticTags').provider)]"
@@ -91,18 +85,14 @@
     {
       "apiVersion": "2017-12-01",
       "type": "Microsoft.Compute/virtualMachines",
-      "name": "[concat(variables('namespace'), parameters('index'))]",
+      "name": "[concat(variables('namespace'), parameters('vm').id)]",
       "location": "[parameters('vm').shared.location]",
-      "zones":[
-        "1",
-        "2",
-        "3"
-      ],
+      "zones":["1"],
       "tags": {
         "provider": "[toUpper(parameters('elasticTags').provider)]"
       },
       "dependsOn": [
-        "[concat('Microsoft.Network/networkInterfaces/', variables('namespace'), parameters('index'), '-nic')]"
+        "[concat('Microsoft.Network/networkInterfaces/', variables('namespace'), parameters('vm').id, '-nic')]"
       ],
       "properties": {
         "hardwareProfile": {
@@ -112,7 +102,7 @@
         "storageProfile": {
           "imageReference": "[parameters('vm').imageReference]",
           "osDisk": {
-            "name": "[concat(variables('namespace'), parameters('index'), '-osdisk')]",
+            "name": "[concat(variables('namespace'), parameters('vm').id, '-osdisk')]",
             "managedDisk": {
               "storageAccountType": "[parameters('vm').storageAccountType]"
             },
@@ -124,7 +114,7 @@
         "networkProfile": {
           "networkInterfaces": [
             {
-              "id": "[resourceId('Microsoft.Network/networkInterfaces',concat(variables('namespace'), parameters('index'), '-nic'))]"
+              "id": "[resourceId('Microsoft.Network/networkInterfaces',concat(variables('namespace'), parameters('vm').id, '-nic'))]"
             }
           ]
         }
@@ -132,11 +122,11 @@
       "resources": [
         {
           "type": "Microsoft.Compute/virtualMachines/extensions",
-          "name": "[concat(variables('namespace'), parameters('index'), '/script')]",
+          "name": "[concat(variables('namespace'), parameters('vm').id, '/script')]",
           "apiVersion": "2016-03-30",
           "location": "[parameters('vm').shared.location]",
           "dependsOn": [
-            "[concat('Microsoft.Compute/virtualMachines/', variables('namespace'), parameters('index'))]"
+            "[concat('Microsoft.Compute/virtualMachines/', variables('namespace'), parameters('vm').id)]"
           ],
           "properties": "[parameters('vm').installScript]"
         }

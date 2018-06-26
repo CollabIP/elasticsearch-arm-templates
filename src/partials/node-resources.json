@@ -211,7 +211,7 @@
   },
   "resources": [
     {
-      "condition": "[equals(parameters('topologySettings').dataNodesAreMasterEligible, 'No')]",
+      "condition": "[equals(parameters('topologySettings').nodeType, 'master')]",
       "name": "master-nodes",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2016-02-01",
@@ -233,7 +233,8 @@
               "installScript": "[parameters('osSettings').extensionSettings.master]",
               "size": "[parameters('topologySettings').vmSizeMasterNodes]",
               "storageAccountType": "Standard_LRS",
-              "count": 3,
+              "count": 1,
+              "id": "[parameters('topologySettings').vmId]",
               "useBackendPools": "No",
               "backendPools": [],
               "imageReference": "[parameters('osSettings').imageReference]",

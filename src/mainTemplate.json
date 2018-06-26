@@ -68,6 +68,38 @@
         "description": "Set up an internal or external load balancer, or use Application Gateway (gateway) for load balancing and SSL offload. If you are setting up Elasticsearch on a publicly available endpoint, it is *strongly recommended* to secure your nodes with a product like Elastic's X-Pack Security"
       }
     },
+    "nodeType": {
+      "type": "string",
+      "defaultValue": "",
+      "allowedValues": [
+        "master",
+        "data",
+        "client",
+        "ingest"
+      ],
+      "metadata": {
+        "description": "Define the ES Node type to deploy"
+      }
+    },
+    "vmId": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "Define a unique ID number for the VM and its assigned Nic"
+      }
+    },
+    "zoneId": {
+      "type": "string",
+      "defaultValue": "",
+      "allowedValues": [
+        "1",
+        "2",
+        "3"
+      ],
+      "metadata": {
+        "description": "Define the Availability Zone number for the VM and its assigned Nic"
+      }
+    },
     "azureCloudPlugin": {
       "type": "string",
       "allowedValues": [
@@ -1074,6 +1106,9 @@
     "kibanaHttps": "[if(and(greater(length(parameters('kibanaKeyBlob')), 0), greater(length(parameters('kibanaCertBlob')), 0)), 'Yes', 'No')]",
     "topologySettings": {
       "dataNodesAreMasterEligible": "[parameters('dataNodesAreMasterEligible')]",
+      "nodeType": "[parameters('nodeType')]",
+      "vmId": "[parameters('vmId')]",
+      "zoneId": "[parameters('zoneId')]",
       "vmDataNodeCount": "[parameters('vmDataNodeCount')]",
       "vmSizeDataNodes": "[parameters('vmSizeDataNodes')]",
       "vmDataNodeStorageAccountType": "[variables('dataSkuSettings')[parameters('vmSizeDataNodes')].storageAccountType]",

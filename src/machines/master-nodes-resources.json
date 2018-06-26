@@ -29,13 +29,9 @@
   },
   "resources": [
     {
-      "name": "[concat(variables('namespace'), copyindex(), '-vm-creation')]",
+      "name": "[concat(variables('namespace'), parameters('vm').id, '-vm-creation')]",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2016-02-01",
-      "copy": {
-        "name": "[concat(variables('namespace'),'vm-creation-loop')]",
-        "count": "[parameters('vm').count]"
-      },
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -48,9 +44,6 @@
           },
           "vm": {
             "value": "[parameters('vm')]"
-          },
-          "index": {
-            "value": "[copyindex()]"
           },
           "elasticTags": {
             "value": "[parameters('elasticTags')]"
