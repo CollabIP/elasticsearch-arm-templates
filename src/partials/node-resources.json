@@ -284,6 +284,7 @@
       }
     },
     {
+      "condition": "[equals(parameters('topologySettings').nodeType, 'data')]",
       "name": "data-nodes",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2016-02-01",
