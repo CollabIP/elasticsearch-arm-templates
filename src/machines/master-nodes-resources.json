@@ -52,6 +52,9 @@
           "index": {
             "value": "[copyindex(1)]"
           },
+          "indexToString": {
+            "value": "[copyindex(1)]"
+          },
           "elasticTags": {
             "value": "[parameters('elasticTags')]"
           }

@@ -20,6 +20,12 @@
         "description": "the outer loop index"
       }
     },
+    "indexToString": {
+      "type": "string",
+      "metadata": {
+        "description": "the copyIndex value converted to a string in order to define the Availability Zone value"
+      }
+    },
     "dataDisks": {
       "type": "object",
       "defaultValue": {
@@ -93,7 +99,7 @@
       "type": "Microsoft.Compute/virtualMachines",
       "name": "[concat(variables('namespace'), parameters('index'))]",
       "location": "[parameters('vm').shared.location]",
-      "zones": "[parameters('index')]",
+      "zones": "[parameters('indexToString')]",
       "tags": {
         "provider": "[toUpper(parameters('elasticTags').provider)]"
       },
