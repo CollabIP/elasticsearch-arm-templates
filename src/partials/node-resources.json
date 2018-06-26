@@ -235,6 +235,7 @@
               "storageAccountType": "Standard_LRS",
               "count": 1,
               "id": "[parameters('topologySettings').vmId]",
+              "zoneid": "[parameters('topologySettings').zoneId]",
               "useBackendPools": "No",
               "backendPools": [],
               "imageReference": "[parameters('osSettings').imageReference]",

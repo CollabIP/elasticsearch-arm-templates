@@ -1,5 +1,5 @@
 <# Start-estemplate.ps
-
+Runs the test cmdlet only.  See output in start-estemplate.log
 #>
 
 # Enable all debug output
@@ -11,8 +11,8 @@ $clusterParameters = @{
     "esClusterName" = "elasticsearch"
     "loadBalancerType" = "internal"
     "nodeType" = "master"
-    "vmId" = "1"
-    "zoneId" = "1"
+    "vmId" = "2"
+    "zoneId" = "2"
     "vmDataDiskCount" = 1
     "vmHostNamePrefix" = "ctesd"
     "adminUsername" = "russ"
@@ -21,6 +21,7 @@ $clusterParameters = @{
     "securityReadPassword" = "Password123"
     "securityKibanaPassword" = "Password123"
     "securityLogstashPassword" = "Password123"
+    "kibana" = "No"
 }
 
 
