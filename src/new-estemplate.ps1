@@ -11,6 +11,7 @@ $clusterParameters = @{
     "artifactsBaseUrl"="https://raw.githubusercontent.com/darrell-tethr/azure-marketplace/feature-deploy-single-node-type/src"
     "esVersion" = "6.2.1"
     "esClusterName" = "elasticsearch"
+    "vNetNewOrExisting" = "existing"
     "loadBalancerType" = "internal"
     "nodeType" = "master"
     "vmId" = "2"

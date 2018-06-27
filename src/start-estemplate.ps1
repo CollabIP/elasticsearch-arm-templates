@@ -14,12 +14,12 @@ $clusterParameters = @{
     "artifactsBaseUrl"="https://raw.githubusercontent.com/darrell-tethr/azure-marketplace/feature-deploy-single-node-type/src"
     "esVersion" = "6.2.1"
     "esClusterName" = "elasticsearch"
+    "vNetNewOrExisting" = "existing"
     "loadBalancerType" = "internal"
     "nodeType" = "master"
     "vmId" = "2"
     # zones must be defined as an array for the virtual machines resource
     "zoneId" = @("2")
-    "vNetNewOrExisting" = "existing"
     "vmDataDiskCount" = 1
     "vmHostNamePrefix" = "ctesd"
     "adminUsername" = "russ"
