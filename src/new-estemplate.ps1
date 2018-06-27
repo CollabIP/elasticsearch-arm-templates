@@ -10,11 +10,11 @@ Deploys single ES node.
 $clusterParameters = @{
     "artifactsBaseUrl"="https://raw.githubusercontent.com/darrell-tethr/azure-marketplace/feature-deploy-single-node-type/src"
     "esVersion" = "6.2.1"
-    "esClusterName" = "elastic-dev"
+    "esClusterName" = "elasticsearch"
     "loadBalancerType" = "internal"
     "nodeType" = "master"
     "vmId" = "1"
-    "zoneId" = "1"
+    "zoneId" = @("2")
     "vmDataDiskCount" = 1
     "vmHostNamePrefix" = "ctesd"
     "adminUsername" = "russ"
