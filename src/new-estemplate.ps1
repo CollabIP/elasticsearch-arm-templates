@@ -37,4 +37,4 @@ $output = New-AzureRmResourceGroupDeployment `
     -DeploymentDebugLogLevel All
 
 # Run the output for capture debug info
-# $output | out-file .\start-estemplate.log
+$output | out-file .\new-estemplate.log
