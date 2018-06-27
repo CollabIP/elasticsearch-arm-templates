@@ -1,5 +1,10 @@
 <# Start-estemplate.ps
 Runs the test cmdlet only.  See output in start-estemplate.log
+
+For details on how to configure for test and debug
+ see https://blog.mexia.com.au/testing-arm-templates-with-pester
+
+ TO DO:  Add support for Pester for better debugging. See URL above. Also see PS Invoke-Pester
 #>
 
 # Enable all debug output
@@ -13,6 +18,7 @@ $clusterParameters = @{
     "nodeType" = "master"
     "vmId" = "2"
     "zoneId" = "2"
+    "vNetNewOrExisting" = "existing"
     "vmDataDiskCount" = 1
     "vmHostNamePrefix" = "ctesd"
     "adminUsername" = "russ"
