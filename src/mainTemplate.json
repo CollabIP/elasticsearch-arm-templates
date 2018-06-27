@@ -89,13 +89,8 @@
       }
     },
     "zoneId": {
-      "type": "string",
+      "type": "array",
       "defaultValue": "",
-      "allowedValues": [
-        "1",
-        "2",
-        "3"
-      ],
       "metadata": {
         "description": "Define the Availability Zone number for the VM and its assigned Nic"
       }
