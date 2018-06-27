@@ -87,7 +87,7 @@
       "type": "Microsoft.Compute/virtualMachines",
       "name": "[concat(variables('namespace'), parameters('vm').id)]",
       "location": "[parameters('vm').shared.location]",
-      "zones": ["2"],
+      "zones": "[parameters('vm').zoneid]",
       "tags": {
         "provider": "[toUpper(parameters('elasticTags').provider)]"
       },
