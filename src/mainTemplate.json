@@ -338,7 +338,7 @@
     "vmDataNodeCount": {
       "type": "int",
       "defaultValue": 3,
-      "minValue": 0,
+      "minValue": 1,
       "metadata": {
         "description": "Number of Elasticsearch data nodes"
       }
