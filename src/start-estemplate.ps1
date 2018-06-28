@@ -18,7 +18,6 @@ $clusterParameters = @{
     "loadBalancerType" = "internal"
     "nodeType" = "master"
     "vmId" = "1"
-    # zones must be defined as an array for the virtual machines resource
     "zoneId" = @("1")
     "vmDataDiskCount" = 1
     "vmHostNamePrefix" = "ctesd"
