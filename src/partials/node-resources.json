@@ -234,6 +234,7 @@
               "size": "[parameters('topologySettings').vmSizeMasterNodes]",
               "storageAccountType": "Standard_LRS",
               "count": 3,
+              "zoneid": "[parameters('topologySettings').zoneId]",
               "useBackendPools": "No",
               "backendPools": [],
               "imageReference": "[parameters('osSettings').imageReference]",
