@@ -28,7 +28,7 @@ $clusterParameters = @{
     "securityReadPassword" = "Password123"
     "securityKibanaPassword" = "Password123"
     "securityLogstashPassword" = "Password123"
-    "kibana" = "No"
+    "kibana" = "Yes"
 }
 
 
