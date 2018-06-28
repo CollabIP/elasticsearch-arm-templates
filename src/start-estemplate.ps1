@@ -1,5 +1,13 @@
 <# Start-estemplate.ps
 
+UPDATE 6.28.18
+Tried to get the VM Creation loop element (copy) to use a different zone number from the zoneId array values for
+each VM (count=3).  Does not work.  Assigns "1,2,3" as the zone for the first VM creation and fails.
+
+Needs more research.
+
+
+For Test deploy only.  Validates the templates
 #>
 
 # Enable all debug output
