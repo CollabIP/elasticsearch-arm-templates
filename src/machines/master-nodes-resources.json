@@ -50,7 +50,7 @@
             "value": "[parameters('vm')]"
           },
           "index": {
-            "value": "[copyindex(1)]"
+            "value": "[copyindex()]"
           },
           "elasticTags": {
             "value": "[parameters('elasticTags')]"

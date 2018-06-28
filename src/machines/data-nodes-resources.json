@@ -59,7 +59,7 @@
             "value": "[parameters('vm')]"
           },
           "index": {
-            "value": "[copyindex(1)]"
+            "value": "[copyindex()]"
           },
           "dataDisks": {
             "value": {
