@@ -14,9 +14,9 @@ $clusterParameters = @{
     "vNetNewOrExisting" = "existing"
     "loadBalancerType" = "internal"
     "nodeType" = "master"
-    "vmId" = "2"
+    "vmId" = "1"
     # zones must be defined as an array for the virtual machines resource
-    "zoneId" = @("2")
+    "zoneId" = @("1")
     "vmDataDiskCount" = 1
     "vmHostNamePrefix" = "ctesd"
     "adminUsername" = "russ"
@@ -25,6 +25,7 @@ $clusterParameters = @{
     "securityReadPassword" = "Password123"
     "securityKibanaPassword" = "Password123"
     "securityLogstashPassword" = "Password123"
+    "kibana" = "Yes"
 }
 
 
