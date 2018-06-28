@@ -12,7 +12,8 @@ $clusterParameters = @{
     "loadBalancerType" = "internal"
     # Add zoneId as an Array of all zone. Test to see if works for the Copy loop.
     "zoneId" = @("1,2,3")
-    "vmDataDiskCount" = 1
+    "vmDataNodeCount" = 0
+    "vmDataDiskCount" = 0
     "vmHostNamePrefix" = "ctesd"
     "adminUsername" = "russ"
     "adminPassword" = "Password1234"
