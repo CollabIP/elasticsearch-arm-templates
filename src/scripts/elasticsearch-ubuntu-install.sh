@@ -894,7 +894,7 @@ port_forward
 
 start_monit
 
-# 6.29.18 DISBABLED for now due to timeout failure during VM creation script.  NEEDS RESEARCH
+# 6.29.18 DISABLED for now due to timeout failure during VM creation script.  NEEDS RESEARCH
 # patch roles and users through the REST API which is a tad trickier
 # if [[ ${INSTALL_XPACK} -ne 0 ]]; then
 #  wait_for_started
