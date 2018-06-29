@@ -1,4 +1,4 @@
-<# Start-estemplate.ps
+<# test-estemplate.ps
 Runs the test cmdlet only.  See output in start-estemplate.log
 
 For details on how to configure for test and debug
@@ -42,4 +42,4 @@ $output = Test-AzureRmResourceGroupDeployment `
     5>&1
 
 # Run the output for capture debug info
-$output | out-file .\start-estemplate.log
+$output | out-file .\test-estemplate.log
