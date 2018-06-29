@@ -2,7 +2,9 @@
 
 Deploys single ES node.
 
-For now, edit these parameters as needed.
+For now, manually edit these parameters for the $clusterParameters array as needed.
+
+    Initial settings for first master creation VM: ctesdmaster-0
 
     "vNetNewOrExisting" = "new"
     "vNetExistingResourceGroup" = "estemplate-poc-rg"
@@ -11,6 +13,16 @@ For now, edit these parameters as needed.
     "vmId" = "0"
     "zoneId" = @("1")
     "kibana" = "Yes"
+
+    Update values for second master creation VM: ctesdmaster-1
+
+    "vNetNewOrExisting" = "existing"
+    "vNetExistingResourceGroup" = "estemplate-poc-rg"
+    "loadBalancerType" = "internal"
+    "nodeType" = "master"
+    "vmId" = "1"
+    "zoneId" = @("2")
+    "kibana" = "No"
 
 #>
 
@@ -21,12 +33,13 @@ $clusterParameters = @{
     "artifactsBaseUrl"="https://raw.githubusercontent.com/darrell-tethr/azure-marketplace/feature-deploy-single-node-type/src"
     "esVersion" = "6.2.1"
     "esClusterName" = "elasticsearch"
-    "vNetNewOrExisting" = "new"
+    "vNetNewOrExisting" = "existing"
     "vNetExistingResourceGroup" = "estemplate-poc-rg"
     "loadBalancerType" = "internal"
     "nodeType" = "master"
-    "vmId" = "0"
-    "zoneId" = @("1")
+    "vmId" = "1"
+    "zoneId" = @("2")
+    "kibana" = "No"
     "vmDataDiskCount" = 1
     "vmHostNamePrefix" = "ctesd"
     "adminUsername" = "russ"
@@ -35,7 +48,6 @@ $clusterParameters = @{
     "securityReadPassword" = "Password123"
     "securityKibanaPassword" = "Password123"
     "securityLogstashPassword" = "Password123"
-    "kibana" = "Yes"
 }
 
 
