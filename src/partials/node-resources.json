@@ -249,7 +249,7 @@
       }
     },
     {
-      "condition": "[greater(parameters('topologySettings').vmClientNodeCount, 0)]",
+      "condition": "[equals(parameters('topologySettings').nodeType, 'client')]",
       "name": "client-nodes",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2016-02-01",
@@ -271,6 +271,8 @@
               "installScript": "[parameters('osSettings').extensionSettings.client]",
               "size": "[parameters('topologySettings').vmSizeClientNodes]",
               "count": "[parameters('topologySettings').vmClientNodeCount]",
+              "id": "[parameters('topologySettings').vmId]",
+              "zoneid": "[parameters('topologySettings').zoneId]",
               "storageAccountType": "Standard_LRS",
               "useBackendPools": "Yes",
               "backendPools": "[parameters('topologySettings').loadBalancerBackEndPools]",
