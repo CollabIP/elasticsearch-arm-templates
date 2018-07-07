@@ -15,11 +15,12 @@ $clusterParameters = @{
     "esVersion" = "6.2.1"
     "esClusterName" = "elasticsearch"
     "vNetNewOrExisting" = "existing"
-    "vNetExistingResourceGroup" = "estemplate-poc-rg2"
+    "vNetExistingResourceGroup" = "estemplate-poc-rg"
     "loadBalancerType" = "internal"
-    "nodeType" = "master"
-    "vmId" = "2"
-    "zoneId" = @("2")
+    "nodeType" = "data"
+    "vmId" = "0"
+    "zoneId" = @("1")
+    "kibana" = "No"
     "vmDataDiskCount" = 1
     "vmHostNamePrefix" = "ctesd"
     "adminUsername" = "russ"
@@ -28,14 +29,14 @@ $clusterParameters = @{
     "securityReadPassword" = "Password123"
     "securityKibanaPassword" = "Password123"
     "securityLogstashPassword" = "Password123"
-    "kibana" = "No"
+    
 }
 
 
 # Capture all debug info in $output
 # Note that 5>&1 is a PS redirector operator. Required for capturing the debug output.
 $output = Test-AzureRmResourceGroupDeployment `
-    -ResourceGroupName "estemplate-poc-rg2" `
+    -ResourceGroupName "estemplate-poc-rg" `
     -TemplateUri "https://raw.githubusercontent.com/darrell-tethr/azure-marketplace/feature-deploy-single-node-type/src/mainTemplate.json" `
     -TemplateParameterObject $clusterParameters `
     -Verbose `
