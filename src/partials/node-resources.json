@@ -313,7 +313,7 @@
               "id": "[parameters('topologySettings').vmId]",
               "zoneid": "[parameters('topologySettings').zoneId]",
               "useBackendPools": "No",
-              "backendPools": "[parameters('topologySettings').dataLoadBalancerBackEndPools]",
+              "backendPools": [],
               "imageReference": "[parameters('osSettings').imageReference]",
               "platformFaultDomainCount": "[variables('platformFaultDomainCount')]"
             }
