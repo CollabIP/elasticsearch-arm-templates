@@ -837,6 +837,10 @@
       "existing": "[parameters('vNetExistingResourceGroup')]"
     },
     "dataSkuSettings": {
+      "Standard_B2ms": {
+        "dataDisks": 1,
+        "storageAccountType": "Standard_LRS"
+      },
       "Standard_A0": {
         "dataDisks": 1,
         "storageAccountType": "Standard_LRS"
