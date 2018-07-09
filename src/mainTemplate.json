@@ -276,6 +276,7 @@
       "type": "string",
       "defaultValue": "Standard_D1",
       "allowedValues": [
+        "Standard_B2ms",
         "Standard_A0",
         "Standard_A1",
         "Standard_A2",
@@ -461,6 +462,7 @@
       "type": "string",
       "defaultValue": "Standard_D1",
       "allowedValues": [
+        "Standard_B2ms",
         "Standard_A0",
         "Standard_A1",
         "Standard_A2",
