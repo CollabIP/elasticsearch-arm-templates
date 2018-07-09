@@ -274,7 +274,7 @@
     },
     "vmSizeDataNodes": {
       "type": "string",
-      "defaultValue": "Standard_D1",
+      "defaultValue": "Standard_B2ms",
       "allowedValues": [
         "Standard_B2ms",
         "Standard_A0",
@@ -460,7 +460,7 @@
     },
     "vmSizeClientNodes": {
       "type": "string",
-      "defaultValue": "Standard_D1",
+      "defaultValue": "Standard_B2ms",
       "allowedValues": [
         "Standard_B2ms",
         "Standard_A0",
