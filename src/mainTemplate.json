@@ -358,10 +358,10 @@
     },
     "vmDataNodeCount": {
       "type": "int",
-      "defaultValue": 3,
+      "defaultValue": 1,
       "minValue": 1,
       "metadata": {
-        "description": "Number of Elasticsearch data nodes"
+        "description": "Tethr Dev note: This value is no longer used. Number of Elasticsearch data nodes. "
       }
     },
     "storageAccountType": {
