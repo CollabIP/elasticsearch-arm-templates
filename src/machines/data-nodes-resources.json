@@ -60,7 +60,7 @@
                   "name": "disks",
                   "count": "[variables('diskCount')]",
                   "input": {
-                    "name": "[concat(variables('namespace'), '-datadisk', copyIndex('disks', 1))]",
+                    "name": "[concat(variables('namespace'), parameters('vm').id,'-datadisk', copyIndex('disks', 1))]",
                     "diskSizeGB": "[parameters('storageSettings').diskSize]",
                     "lun": "[copyIndex('disks')]",
                     "managedDisk": {
