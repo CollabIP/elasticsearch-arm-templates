@@ -29,36 +29,13 @@
   },
   "resources": [
     {
-      "apiVersion": "2017-03-30",
-      "type": "Microsoft.Compute/availabilitySets",
-      "name": "[concat(variables('namespace'), 'av-set')]",
-      "location": "[parameters('vm').shared.location]",
-      "tags": {
-        "provider": "[toUpper(parameters('elasticTags').provider)]"
-      },
-      "properties": {
-        "platformUpdateDomainCount": 20,
-        "platformFaultDomainCount": "[parameters('vm').platformFaultDomainCount]"
-      },
-      "sku": {
-        "name": "Aligned"
-      }
-    },
-    {
-      "name": "[concat(variables('namespace'), copyindex(), '-vm-creation')]",
+      "name": "[concat(variables('namespace'), parameters('vm').id, '-vm-creation')]",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2016-02-01",
-      "dependsOn": [
-        "[concat('Microsoft.Compute/availabilitySets/', variables('namespace'), 'av-set')]"
-      ],
-      "copy": {
-        "name": "[concat(variables('namespace'),'vm-creation-loop')]",
-        "count": "[parameters('vm').count]"
-      },
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "[concat(parameters('templateBaseUrl'), '/partials/vm-aset.json')]",
+          "uri": "[concat(parameters('templateBaseUrl'), '/partials/vm-azone.json')]",
           "contentVersion": "1.0.0.0"
         },
         "parameters": {
@@ -67,12 +44,6 @@
           },
           "vm": {
             "value": "[parameters('vm')]"
-          },
-          "availabilitySet": {
-            "value": "[concat(variables('namespace'), 'av-set')]"
-          },
-          "index": {
-            "value": "[copyindex()]"
           },
           "elasticTags": {
             "value": "[parameters('elasticTags')]"
