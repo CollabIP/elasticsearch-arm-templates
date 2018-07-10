@@ -6,6 +6,16 @@ For details on how to configure for test and debug
 
  TO DO:  Add support for Pester for better debugging. See URL above. Also see PS Invoke-Pester
 #>
+Param(
+    # Enter node type. Options: master, data, or client
+    [string]$nodetype,
+    # Enter a unique VM id number, e.g., 1,2,3...
+    [string]$vmid,
+    # Enter the Availability Zone number, e.g., 1, 2, or 3
+    [string]$zone,
+    # Install Kibana if needed.
+    [string]$kibanainstall = "No"
+)
 
 # Enable all debug output
 $DebugPreference = "Continue"
@@ -17,10 +27,10 @@ $clusterParameters = @{
     "vNetNewOrExisting" = "existing"
     "vNetExistingResourceGroup" = "estemplate-poc-rg"
     "loadBalancerType" = "internal"
-    "nodeType" = "data"
-    "vmId" = "2"
-    "zoneId" = @("3")
-    "kibana" = "No"
+    "nodeType" = "$nodetype"
+    "vmId" = "$vmid"
+    "zoneId" = @("$zone")
+    "kibana" = "$kibanainstall"
     "vmDataDiskCount" = 1
     "vmHostNamePrefix" = "ctesd"
     "adminUsername" = "russ"
@@ -31,8 +41,6 @@ $clusterParameters = @{
     "securityLogstashPassword" = "Password123"
     
 }
-
-
 # Capture all debug info in $output
 # Note that 5>&1 is a PS redirector operator. Required for capturing the debug output.
 $output = Test-AzureRmResourceGroupDeployment `
