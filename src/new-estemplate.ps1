@@ -25,6 +25,16 @@ For now, manually edit these parameters for the $clusterParameters array as need
     "kibana" = "No"
 
 #>
+Param(
+    # Enter node type. Options: master, data, or client
+    [string]$nodetype,`
+    # Enter a unique VM id number, e.g., 1,2,3...
+    [string]$vmid,
+    # Enter the Availability Zone number, e.g., 1, 2, or 3
+    [string]$zone,
+    # Install Kibana if needed.
+    [string]$kibanainstall = "No"
+)
 
 # Enable all debug output
 # $DebugPreference = "Continue"
@@ -36,10 +46,10 @@ $clusterParameters = @{
     "vNetNewOrExisting" = "existing"
     "vNetExistingResourceGroup" = "estemplate-poc-rg"
     "loadBalancerType" = "internal"
-    "nodeType" = "data"
-    "vmId" = "2"
-    "zoneId" = @("3")
-    "kibana" = "No"
+    "nodeType" = "$nodetype"
+    "vmId" = "$vmid"
+    "zoneId" = @("$zone")
+    "kibana" = "$kibanainstall"
     "vmDataDiskCount" = 1
     "vmHostNamePrefix" = "ctesd"
     "adminUsername" = "russ"
