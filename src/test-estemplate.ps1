@@ -6,6 +6,19 @@ For details on how to configure for test and debug
 
  TO DO:  Add support for Pester for better debugging. See URL above. Also see PS Invoke-Pester
 #>
+    Param
+    (
+        # Enter node type. master, data, client
+        [string]$nodetype,
+        # Enter a unique VM id number, e.g., 1,2,3...
+        [string]$vmid,
+        # Enter the Availability Zone number, e.g., 1, 2, or 3
+        [string]$zone,
+        # Install Kibana if needed.
+        [string]$kibanainst = "No"
+    )
+
+
 
 # Enable all debug output
 $DebugPreference = "Continue"
@@ -17,10 +30,10 @@ $clusterParameters = @{
     "vNetNewOrExisting" = "existing"
     "vNetExistingResourceGroup" = "estemplate-poc-rg"
     "loadBalancerType" = "internal"
-    "nodeType" = "data"
-    "vmId" = "0"
-    "zoneId" = @("1")
-    "kibana" = "No"
+    "nodeType" = "$nodetype"
+    "vmId" = "$vmid"
+    "zoneId" = @("$zone")
+    "kibana" = "$kibanainst"
     "vmDataDiskCount" = 2
     "vmHostNamePrefix" = "ctesd"
     "adminUsername" = "russ"
