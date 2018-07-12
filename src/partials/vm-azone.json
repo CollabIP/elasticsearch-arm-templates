@@ -123,7 +123,7 @@
         {
           "type": "Microsoft.Compute/virtualMachines/extensions",
           "name": "[concat(variables('namespace'), parameters('vm').id, '/script')]",
-          "apiVersion": "2017-12-01",
+          "apiVersion": "2017-10-01",
           "location": "[parameters('vm').shared.location]",
           "dependsOn": [
             "[concat('Microsoft.Compute/virtualMachines/', variables('namespace'), parameters('vm').id)]"
