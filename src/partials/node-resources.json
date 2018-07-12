@@ -274,8 +274,8 @@
               "id": "[parameters('topologySettings').vmId]",
               "zoneid": "[parameters('topologySettings').zoneId]",
               "storageAccountType": "Standard_LRS",
-              "useBackendPools": "No",
-              "backendPools": [],
+              "useBackendPools": "Yes",
+              "backendPools": "[parameters('topologySettings').loadBalancerBackEndPools]",
               "imageReference": "[parameters('osSettings').imageReference]",
               "platformFaultDomainCount": "[variables('platformFaultDomainCount')]"
             }
