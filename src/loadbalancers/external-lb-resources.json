@@ -127,6 +127,9 @@
       "tags": {
         "provider": "[toUpper(parameters('elasticTags').provider)]"
       },
+      "sku": {
+        "name": "Standard"
+      },
       "dependsOn": [
         "[concat('Microsoft.Network/publicIPAddresses/', 'es-external-lb-ip')]"
       ],
