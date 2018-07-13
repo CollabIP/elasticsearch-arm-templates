@@ -32,6 +32,8 @@ Param(
     [string]$vmid,
     # Enter the Availability Zone number, e.g., 1, 2, or 3
     [string]$zone,
+    # Enter the Load Balancers type, i.e., internal or external
+    [string]$LBtype,
     # Install Kibana if needed.
     [string]$kibanainstall = "No"
 )
