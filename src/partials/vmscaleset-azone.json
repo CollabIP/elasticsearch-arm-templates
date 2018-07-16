@@ -84,7 +84,7 @@
     },
     {
       "apiVersion": "2017-12-01",
-      "type": "Microsoft.Compute/virtualMachines",
+      "type": "Microsoft.Compute/virtualMachinesScaleSets",
       "name": "[concat(variables('namespace'), parameters('vm').id)]",
       "location": "[parameters('vm').shared.location]",
       "zones": "[parameters('vm').zoneid]",
@@ -121,12 +121,12 @@
       },
       "resources": [
         {
-          "type": "Microsoft.Compute/virtualMachines/extensions",
+          "type": "Microsoft.Compute/virtualMachinesScaleSets/extensions",
           "name": "[concat(variables('namespace'), parameters('vm').id, '/script')]",
           "apiVersion": "2017-12-01",
           "location": "[parameters('vm').shared.location]",
           "dependsOn": [
-            "[concat('Microsoft.Compute/virtualMachines/', variables('namespace'), parameters('vm').id)]"
+            "[concat('Microsoft.Compute/virtualMachinesScaleSets/', variables('namespace'), parameters('vm').id)]"
           ],
           "properties": "[parameters('vm').installScript]"
         }
