@@ -88,6 +88,10 @@
       "name": "[concat(variables('namespace'), parameters('vm').id)]",
       "location": "[parameters('vm').shared.location]",
       "zones": "[parameters('vm').zoneid]",
+      "sku": {
+        "name": "[parameters('vm').size]",
+        "capacity": "2"
+      },
       "tags": {
         "provider": "[toUpper(parameters('elasticTags').provider)]"
       },
@@ -95,28 +99,28 @@
         "[concat('Microsoft.Network/networkInterfaces/', variables('namespace'), parameters('vm').id, '-nic')]"
       ],
       "properties": {
-        "hardwareProfile": {
-          "vmSize": "[parameters('vm').size]"
-        },
-        "osProfile": "[variables('osProfile')]",
-        "storageProfile": {
-          "imageReference": "[parameters('vm').imageReference]",
-          "osDisk": {
-            "name": "[concat(variables('namespace'), parameters('vm').id, '-osdisk')]",
-            "managedDisk": {
-              "storageAccountType": "[parameters('vm').storageAccountType]"
+        "virtualMachineProfile": {
+          "osProfile": "[variables('osProfile')]",
+          "storageProfile": {
+            "imageReference": "[parameters('vm').imageReference]",
+            "osDisk": {
+              "name": "[concat(variables('namespace'), parameters('vm').id, '-osdisk')]",
+              "managedDisk": {
+                "storageAccountType": "[parameters('vm').storageAccountType]"
+              },
+              "caching": "ReadWrite",
+              "createOption": "FromImage"
             },
-            "caching": "ReadWrite",
-            "createOption": "FromImage"
+            "dataDisks": "[parameters('dataDisks').disks]"
           },
-          "dataDisks": "[parameters('dataDisks').disks]"
-        },
-        "networkProfile": {
-          "networkInterfaces": [
-            {
-              "id": "[resourceId('Microsoft.Network/networkInterfaces',concat(variables('namespace'), parameters('vm').id, '-nic'))]"
-            }
-          ]
+          "networkProfile": {
+            "networkInterfaceConfigurations": [
+              {
+                "id": "[resourceId('Microsoft.Network/networkInterfaces',concat(variables('namespace'), parameters('vm').id, '-nic'))]",
+                "name": "MyNetworkIFconfig"
+              }
+            ]
+          }
         }
       },
       "resources": [
