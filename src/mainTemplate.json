@@ -450,6 +450,12 @@
         "description": "Size of the Elasticsearch master nodes, if data nodes are not master eligible, 3 master nodes of this size will be provisioned"
       }
     },
+    "scaleSetInstanceCount": {
+      "type": "string",
+      "metadata": {
+        "description": "Number of Scale Set nodes to provision"
+      }
+    },
     "vmClientNodeCount": {
       "type": "int",
       "defaultValue": 0,
@@ -1116,6 +1122,7 @@
       "vmDataNodeStorageAccountType": "[variables('dataSkuSettings')[parameters('vmSizeDataNodes')].storageAccountType]",
       "vmHostNamePrefix": "[parameters('vmHostNamePrefix')]",
       "vmClientNodeCount": "[parameters('vmClientNodeCount')]",
+      "scaleSetInstanceCount": "[parameters('scaleSetInstanceCount')]",
       "vmSizeClientNodes": "[parameters('vmSizeClientNodes')]",
       "vNetLoadBalancerIp": "[parameters('vNetLoadBalancerIp')]",
       "vmSizeMasterNodes": "[parameters('vmSizeMasterNodes')]",

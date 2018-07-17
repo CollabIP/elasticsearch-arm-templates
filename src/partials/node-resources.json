@@ -271,6 +271,7 @@
               "installScript": "[parameters('osSettings').extensionSettings.client]",
               "size": "[parameters('topologySettings').vmSizeClientNodes]",
               "count": "[parameters('topologySettings').vmClientNodeCount]",
+              "instanceCount": "[parameters('topologySettings').scaleSetInstanceCount]",
               "id": "[parameters('topologySettings').vmId]",
               "zoneid": "[parameters('topologySettings').zoneId]",
               "storageAccountType": "Standard_LRS",
