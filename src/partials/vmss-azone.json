@@ -64,7 +64,11 @@
       "type": "Microsoft.Compute/virtualMachineScaleSets",
       "name": "[concat(variables('namespace'), parameters('vm').id)]",
       "location": "[parameters('vm').shared.location]",
-      "zones": "[parameters('vm').zoneid]",
+      "zones": [
+        "1",
+        "2",
+        "3"
+      ],
       "sku": {
         "name": "[parameters('vm').size]",
         "tier": "Standard",
