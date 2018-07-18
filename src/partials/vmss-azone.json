@@ -61,7 +61,7 @@
   "resources": [
     {
       "apiVersion": "2017-12-01",
-      "type": "Microsoft.Compute/virtualMachinesScaleSets",
+      "type": "Microsoft.Compute/virtualMachineScaleSets",
       "name": "[concat(variables('namespace'), parameters('vm').id)]",
       "location": "[parameters('vm').shared.location]",
       "zones": "[parameters('vm').zoneid]",
@@ -93,7 +93,7 @@
               {
                 "name": "MyNetworkIFconfig",
                 "properties":{
-                "primary": "true",
+                  "primary": "true",
                   "ipConfigurations":[
                     {
                       "name": "ipconfig1",
@@ -113,7 +113,7 @@
       },
       "resources": [
         {
-          "type": "Microsoft.Compute/virtualMachinesScaleSets/extensions",
+          "type": "Microsoft.Compute/virtualMachineScaleSets/extensions",
           "name": "[concat(variables('namespace'), parameters('vm').id, '/script')]",
           "apiVersion": "2017-12-01",
           "location": "[parameters('vm').shared.location]",
