@@ -78,15 +78,14 @@
         "provider": "[toUpper(parameters('elasticTags').provider)]"
       },
       "properties": {
+        "upgradePolicy": {
+          "mode": "Automatic"
+        },
         "virtualMachineProfile": {
           "osProfile": "[variables('osProfile')]",
           "storageProfile": {
             "imageReference": "[parameters('vm').imageReference]",
             "osDisk": {
-              "name": "[concat(variables('namespace'), parameters('vm').id, '-osdisk')]",
-              "managedDisk": {
-                "storageAccountType": "[parameters('vm').storageAccountType]"
-              },
               "caching": "ReadWrite",
               "createOption": "FromImage"
             },
@@ -97,7 +96,6 @@
               {
                 "name": "MyNetworkIFconfig",
                 "properties":{
-                  "primary": "true",
                   "ipConfigurations":[
                     {
                       "name": "ipconfig1",
