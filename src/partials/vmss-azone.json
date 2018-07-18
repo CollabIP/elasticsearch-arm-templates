@@ -110,19 +110,7 @@
             ]
           }
         }
-      },
-      "resources": [
-        {
-          "type": "Microsoft.Compute/virtualMachineScaleSets/extensions",
-          "name": "[concat(variables('namespace'), parameters('vm').id, '/script')]",
-          "apiVersion": "2017-12-01",
-          "location": "[parameters('vm').shared.location]",
-          "dependsOn": [
-            "[concat('Microsoft.Compute/virtualMachinesScaleSets/', variables('namespace'), parameters('vm').id)]"
-          ],
-          "properties": "[parameters('vm').installScript]"
-        }
-      ]
+      }
     }
   ],
   "outputs": {}
