@@ -96,6 +96,7 @@
               {
                 "name": "MyNetworkIFconfig",
                 "properties":{
+                  "primary": "true",
                   "ipConfigurations":[
                     {
                       "name": "ipconfig1",
