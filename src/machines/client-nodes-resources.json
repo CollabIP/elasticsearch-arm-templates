@@ -35,7 +35,7 @@
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "[concat(parameters('templateBaseUrl'), '/partials/vmscaleset-azone.json')]",
+          "uri": "[concat(parameters('templateBaseUrl'), '/partials/vmss-azone.json')]",
           "contentVersion": "1.0.0.0"
         },
         "parameters": {
