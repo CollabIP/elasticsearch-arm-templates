@@ -62,7 +62,7 @@
     {
       "apiVersion": "2017-12-01",
       "type": "Microsoft.Compute/virtualMachinesScaleSets",
-      "name": "[concat(variables('namespace'), parameters('vm').id), 'ss']",
+      "name": "[concat(variables('namespace'), parameters('vm').id)]",
       "location": "[parameters('vm').shared.location]",
       "zones": "[parameters('vm').zoneid]",
       "sku": {
