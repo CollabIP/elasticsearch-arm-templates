@@ -1,4 +1,10 @@
 # start-escluster
-get-azurermvm -Status | Where-Object -Property ResourceGroupName -eq estemplate-poc-rg | Start-AzureRmVM
+Param
+(
+    $rg = 'estemplate-poc-rg'
+)
+# start-escluster
+write-host "Starting all VMs in $rg"
+get-azurermvm -Status | Where-Object -Property ResourceGroupName -eq $rg | Start-AzureRmVM
 # confirm final status
-get-azurermvm -Status | Where-Object -Property ResourceGroupName -eq estemplate-poc-rg 
+get-azurermvm -Status | Where-Object -Property ResourceGroupName -eq $rg
