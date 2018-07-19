@@ -94,12 +94,12 @@
           "networkProfile": {
             "networkInterfaceConfigurations": [
               {
-                "name": "[concat(variables('namespace'), parameters('vm').id), 'Nic')]",
+                "name": "[concat(variables('namespace'), parameters('vm').id, 'Nic')]",
                 "properties":{
                   "primary": "true",
                   "ipConfigurations":[
                     {
-                      "name": "[concat(variables('namespace'), parameters('vm').id), 'IpConfig']",
+                      "name": "[concat(variables('namespace'), parameters('vm').id, 'IpConfig')]",
                       "properties": {
                         "subnet": {
                           "id": "[parameters('vm').shared.subnetId]"
