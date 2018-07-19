@@ -41,8 +41,7 @@ $clusterParameters = @{
     "securityReadPassword" = "Password123"
     "securityKibanaPassword" = "Password123"
     "securityLogstashPassword" = "Password123"
-    
-}
+    }
 # Capture all debug info in $output
 # Note that 5>&1 is a PS redirector operator. Required for capturing the debug output.
 $output = Test-AzureRmResourceGroupDeployment `
@@ -53,4 +52,4 @@ $output = Test-AzureRmResourceGroupDeployment `
     5>&1
 
 # Run the output for capture debug info
-$output | out-file .\test-estemplate.log
+$output | out-file .\logs\test-estemplate.log
