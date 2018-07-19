@@ -94,7 +94,7 @@
           "networkProfile": {
             "networkInterfaceConfigurations": [
               {
-                "name": "[concat(variables('namespace'), parameters('vm').id), 'Nic']",
+                "name": "[concat(variables('namespace'), parameters('vm').id), 'Nic')]",
                 "properties":{
                   "primary": "true",
                   "ipConfigurations":[
