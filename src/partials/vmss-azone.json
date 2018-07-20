@@ -111,8 +111,17 @@
                 }
               }
             ]
+          },
+          "extensionProfile": {
+            "extensions": [
+              {
+                "name": "[concat(variables('namespace'), parameters('vm').id, '/script')]",
+                "properties": "[parameters('vm').installScript]"
+              }
+            ]
           }
-        }
+        },
+        "overprovision": "true"      
       }
     }
   ],
