@@ -13,8 +13,9 @@ Param(
     [string]$vmid,
     # Enter the Availability Zone number, e.g., 1, 2, or 3
     [string]$zone,
-    # Enter the Load Balancers type, i.e., internal or external
-    [string]$LBtype,
+    # Enter the Load Balancers type, i.e., internal or external.
+    # Note: Only Client Node deploys will install/configure the LB.
+    [string]$LBtype ='external',
     # Install Kibana if needed.
     [string]$kibanainstall = "No"
 )
@@ -24,10 +25,10 @@ $DebugPreference = "Continue"
 
 $clusterParameters = @{
     "artifactsBaseUrl"="https://raw.githubusercontent.com/darrell-tethr/azure-marketplace/feature-deploy-single-node-type/src"
-    "esVersion" = "6.2.1"
+    "esVersion" = "6.2.4"
     "esClusterName" = "elasticsearch"
-    "vNetNewOrExisting" = "existing"
-    "vNetExistingResourceGroup" = "estemplate-poc-rg"
+    "vNetNewOrExisting" = "new"
+    "vNetExistingResourceGroup" = "estemplate-poc-rg2"
     "loadBalancerType" = "$LBtype"
     "nodeType" = "$nodetype"
     "vmId" = "$vmid"
@@ -45,7 +46,7 @@ $clusterParameters = @{
 # Capture all debug info in $output
 # Note that 5>&1 is a PS redirector operator. Required for capturing the debug output.
 $output = Test-AzureRmResourceGroupDeployment `
-    -ResourceGroupName "estemplate-poc-rg" `
+    -ResourceGroupName "estemplate-poc-rg2" `
     -TemplateUri "https://raw.githubusercontent.com/darrell-tethr/azure-marketplace/feature-deploy-single-node-type/src/mainTemplate.json" `
     -TemplateParameterObject $clusterParameters `
     -Verbose `
