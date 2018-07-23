@@ -14,7 +14,7 @@ Param(
     # Enter the Availability Zone number, e.g., 1, 2, or 3
     [string]$zone,
     # Enter the Load Balancers type, i.e., internal or external.
-    # Note: Only Client Node deploys will install/configure the LB.
+    # Note: Only Client Nodes will be configured for Backend LB pool.
     [string]$LBtype ='external',
     # Install Kibana if needed.
     [string]$kibanainstall = "No"
