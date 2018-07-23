@@ -27,7 +27,7 @@ For now, manually edit these parameters for the $clusterParameters array as need
 #>
 Param(
     # Enter node type. Options: master, data, or client
-    [string]$nodetype,`
+    [string]$nodetype,
     # Enter a unique VM id number, e.g., 1,2,3...
     [string]$vmid,
     # Enter the Availability Zone number, e.g., 1, 2, or 3
