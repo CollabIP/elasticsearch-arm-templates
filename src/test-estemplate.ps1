@@ -29,6 +29,7 @@ $clusterParameters = @{
     "esClusterName" = "elasticsearch"
     "vNetNewOrExisting" = "new"
     "vNetExistingResourceGroup" = "estemplate-poc-rg2"
+    "xpackPlugins" = "No"
     "loadBalancerType" = "$LBtype"
     "nodeType" = "$nodetype"
     "vmId" = "$vmid"
