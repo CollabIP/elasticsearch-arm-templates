@@ -73,11 +73,5 @@ $output = New-AzureRmResourceGroupDeployment `
     -TemplateParameterObject $clusterParameters `
     -DeploymentDebugLogLevel All
 
-# Examine the request content
-(Get-AzureRmResourceGroupDeploymentOperation `
--DeploymentName ctesdclient-0-vm-creation `
--ResourceGroupName estemplate-poc-rg).Properties.request `
-| ConvertTo-Json
-
 # Run the output for capture debug info
 $output | out-file .\logs\new-estemplate.log
