@@ -2,7 +2,7 @@
 # Specify the RG name
 Param
 (
-    $rg
+    $rg = 'estemplate-poc-rg'
 )
 # stop-escluster
 write-host "Stopping all VMs in $rg"
