@@ -7,6 +7,8 @@ For details on how to configure for test and debug
  TO DO:  Add support for Pester for better debugging. See URL above. Also see PS Invoke-Pester
 #>
 Param(
+    # Configure for vNet. If you want a new vNet created, enter 'new'; otherwise, enter 'existing'
+    [string]$vNet = 'existing',
     # Enter node type. Options: master, data, or client
     [string]$nodetype,
     # Enter a unique VM id number, e.g., 1,2,3...
@@ -27,7 +29,7 @@ $clusterParameters = @{
     "artifactsBaseUrl"="https://raw.githubusercontent.com/darrell-tethr/azure-marketplace/feature-deploy-single-node-type/src"
     "esVersion" = "6.2.4"
     "esClusterName" = "elasticsearch"
-    "vNetNewOrExisting" = "existing"
+    "vNetNewOrExisting" = "$vNet"
     "vNetExistingResourceGroup" = "estemplate-poc-rg"
     "xpackPlugins" = "Yes"
     "loadBalancerType" = "$LBtype"
