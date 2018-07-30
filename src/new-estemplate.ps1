@@ -26,6 +26,8 @@ For now, manually edit these parameters for the $clusterParameters array as need
 
 #>
 Param(
+    # Configure for vNet. If you want a new vNet created, enter 'new'; otherwise, enter 'existing'
+    [string]$vNetNewOrExist = 'existing',
     # Enter node type. Options: master, data, or client
     [string]$nodetype,
     # Enter a unique VM id number, e.g., 1,2,3...
@@ -46,7 +48,7 @@ $clusterParameters = @{
     "artifactsBaseUrl"="https://raw.githubusercontent.com/darrell-tethr/azure-marketplace/feature-deploy-single-node-type/src"
     "esVersion" = "6.2.4"
     "esClusterName" = "elasticsearch"
-    "vNetNewOrExisting" = "new"
+    "vNetNewOrExisting" = "$vNetNewOrExist"
     "vNetExistingResourceGroup" = "estemplate-poc-rg"
     "xpackPlugins" = "Yes"
     "loadBalancerType" = "$LBtype"
@@ -55,6 +57,7 @@ $clusterParameters = @{
     "zoneId" = @("$zone")
     "kibana" = "$kibanainstall"
     "vmDataDiskCount" = 1
+    "scaleSetInstanceCount" = "3"
     "vmHostNamePrefix" = "ctesd"
     "adminUsername" = "russ"
     "adminPassword" = "Password1234"
