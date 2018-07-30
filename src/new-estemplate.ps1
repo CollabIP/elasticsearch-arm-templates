@@ -61,6 +61,7 @@ $clusterParameters = @{
     "vmHostNamePrefix" = "ctesd"
     "adminUsername" = "russ"
     "adminPassword" = "Password1234"
+    "securityBootstrapPassword" = "Password123"
     "securityAdminPassword" = "Password123"
     "securityReadPassword" = "Password123"
     "securityKibanaPassword" = "Password123"
