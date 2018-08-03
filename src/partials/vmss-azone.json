@@ -127,6 +127,7 @@
     {
       "type": "Microsoft.Insights/autoscalesettings",
       "name": "Set Autoscale",
+      "apiVersion": "2015-04-01",
       "location": "[parameters('vm').shared.location]",
       "dependsOn": [
         "[concat(variables('namespace'), parameters('vm').id)]"
