@@ -123,69 +123,6 @@
         },
         "overprovision": "true"      
       }
-    },
-    {
-      "type": "Microsoft.Insights/autoscalesettings",
-      "name": "Set Autoscale",
-      "location": "[parameters('vm').shared.location]",
-      "dependsOn": [
-        "[concat(variables('namespace'), parameters('vm').id)]"
-      ],
-      "properties": {
-        "name": "Autoscale-clients",
-        "targetResourceUri": "[concat(variables('namespace'), parameters('vm').id)]",
-        "enabled": true,
-        "profiles": [
-          {
-            "name": "Autoscale by percentage based on CPU usage",
-            "capacity": {
-              "minimum": "3",
-              "maximum": "30",
-              "default": "3"
-            },
-            "rules": [
-              {
-                "metricTrigger": {
-                  "metricName": "Percentage CPU",
-                  "metricNamespace": "",
-                  "metricResourceUri": "[concat(variables('namespace'), parameters('vm').id)]",
-                  "timeGrain": "PT1M",
-                  "statistic": "Average",
-                  "timeWindow": "PT5M",
-                  "timeAggregation": "Average",
-                  "operator": "GreaterThan",
-                  "threshold": 70
-                },
-                "scaleAction": {
-                  "direction": "Increase",
-                  "type": "ChangeCount",
-                  "value": "1",
-                  "cooldown": "PT5M"
-                }
-              },
-              {
-                "metricTrigger": {
-                  "metricName": "Percentage CPU",
-                  "metricNamespace": "",
-                  "metricResourceUri": "[concat(variables('namespace'), parameters('vm').id)]",
-                  "timeGrain": "PT1M",
-                  "statistic": "Average",
-                  "timeWindow": "PT5M",
-                  "timeAggregation": "Average",
-                  "operator": "LessThan",
-                  "threshold": 30
-                },
-                "scaleAction": {
-                  "direction": "Decrease",
-                  "type": "ChangeCount",
-                  "value": "1",
-                  "cooldown": "PT5M"
-                }
-              }
-            ]
-          }
-        ]
-      }
     }
   ],
   "outputs": {}
