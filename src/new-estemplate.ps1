@@ -28,14 +28,14 @@ For now, manually edit these parameters for the $clusterParameters array as need
 Param(
     # Configure for vNet. If you want a new vNet created, enter 'new'; otherwise, enter 'existing'
     [string]$vNetNewOrExist = 'existing',
-    # Enter node type. Options: master, data, or client
+    # Enter node type. Options: master, data, or client. NOTE- clients deploys as a Scale Set.
     [string]$nodetype,
-    # Enter a unique VM id number, e.g., 1,2,3...
+    # Enter a unique VM id number, e.g., 1,2,3,
     [string]$vmid,
-    # Enter the Availability Zone number, e.g., 1, 2, or 3
+    # Enter the Availability Zone number, e.g., 1, 2, or 3. For Scale Sets, enter ss.
     [string]$zone,
     # Enter the Load Balancers type, i.e., internal or external.
-    # Note: Only Client Nodes will be configured for Backend LB pool.
+    # Note: Only Scale Sets will be configured for Backend LB pool.
     [string]$LBtype ='external',
     # Install Kibana if needed.
     [string]$kibanainstall = "No"
