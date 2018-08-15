@@ -27,7 +27,7 @@ $DebugPreference = "Continue"
 
 $clusterParameters = @{
     "artifactsBaseUrl"="https://raw.githubusercontent.com/darrell-tethr/azure-marketplace/feature-deploy-single-node-type/src"
-    "esVersion" = "6.2.4"
+    "esVersion" = "6.3.1"
     "esClusterName" = "elasticsearch"
     "vNetNewOrExisting" = "$vNetNewOrExist"
     "vNetExistingResourceGroup" = "estemplate-poc-rg"
