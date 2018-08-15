@@ -121,7 +121,8 @@
             ]
           }
         },
-        "overprovision": "true"      
+        "overprovision": true,
+        "singlePlacementGroup": true     
       }
     }
   ],
