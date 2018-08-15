@@ -30,7 +30,7 @@ $clusterParameters = @{
     "esVersion" = "6.3.1"
     "esClusterName" = "elasticsearch"
     "vNetNewOrExisting" = "$vNetNewOrExist"
-    "vNetExistingResourceGroup" = "estemplate-poc-rg"
+    "vNetExistingResourceGroup" = "estemplate-poc-rg2"
     "xpackPlugins" = "Yes"
     "loadBalancerType" = "$LBtype"
     "nodeType" = "$nodetype"
@@ -51,7 +51,7 @@ $clusterParameters = @{
 # Capture all debug info in $output
 # Note that 5>&1 is a PS redirector operator. Required for capturing the debug output.
 $output = Test-AzureRmResourceGroupDeployment `
-    -ResourceGroupName "estemplate-poc-rg" `
+    -ResourceGroupName "estemplate-poc-rg2" `
     -TemplateUri "https://raw.githubusercontent.com/darrell-tethr/azure-marketplace/feature-deploy-single-node-type/src/mainTemplate.json" `
     -TemplateParameterObject $clusterParameters `
     -Verbose `
