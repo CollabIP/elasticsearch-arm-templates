@@ -45,7 +45,7 @@ Param(
 # $DebugPreference = "Continue"
 
 $clusterParameters = @{
-    "artifactsBaseUrl"="https://raw.githubusercontent.com/darrell-tethr/azure-marketplace/feature-deploy-single-node-type/src"
+    "artifactsBaseUrl"="https://raw.githubusercontent.com/darrell-tethr/azure-marketplace/v6.3.1_feature-deploy-single-node-type/src"
     "esVersion" = "6.3.1"
     "esClusterName" = "elasticsearch"
     "vNetNewOrExisting" = "$vNetNewOrExist"
@@ -73,7 +73,7 @@ $clusterParameters = @{
 # Note that 5>&1 is a PS redirector operator. Required for capturing the debug output.
 $output = New-AzureRmResourceGroupDeployment `
     -ResourceGroupName "estemplate-poc-rg2" `
-    -TemplateUri "https://raw.githubusercontent.com/darrell-tethr/azure-marketplace/feature-deploy-single-node-type/src/mainTemplate.json" `
+    -TemplateUri "https://raw.githubusercontent.com/darrell-tethr/azure-marketplace/v6.3.1_feature-deploy-single-node-type/src/mainTemplate.json" `
     -TemplateParameterObject $clusterParameters `
     -DeploymentDebugLogLevel All
 
