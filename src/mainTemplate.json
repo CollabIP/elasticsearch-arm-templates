@@ -12,19 +12,17 @@
     "elasticTags": {
       "type": "object",
       "defaultValue": {
-        "provider": "648D2193-0CE0-4EFB-8A82-AF9792184FD9"
+        "provider": "648D2193-0CE0-4EFB-8A82-AF9792184FD9",
+        "tracking": "pid-B2C934E3-29F3-4194-BFD2-4F1370B78E0C"
       },
       "metadata": {
-        "description": "A unique identifier to allow the Azure Infrastructure to understand the origin of resources deployed to Azure. You do not need to supply a value for this."
+        "description": "Unique identifiers to allow the Azure Infrastructure to understand the origin of resources deployed to Azure. You do not need to supply a value for this."
       }
     },
     "esVersion": {
       "type": "string",
       "defaultValue": "6.3.1",
       "allowedValues": [
-        "5.0.2",
-        "5.1.2",
-        "5.2.2",
         "5.3.2",
         "5.4.0",
         "5.4.2",
@@ -38,6 +36,8 @@
         "5.6.6",
         "5.6.7",
         "5.6.8",
+        "5.6.9",
+        "5.6.10",
         "6.0.1",
         "6.1.3",
         "6.2.1",
@@ -80,21 +80,21 @@
         "ingest"
       ],
       "metadata": {
-        "description": "Define the ES Node type to deploy"
+        "description": "Tethr Custom. Define the ES Node type to deploy"
       }
     },
     "vmId": {
       "type": "string",
       "defaultValue": "",
       "metadata": {
-        "description": "Define a unique ID number for the VM and its assigned Nic"
+        "description": "Tethr Custom. Define a unique ID number for the VM and its assigned Nic"
       }
     },
     "zoneId": {
       "type": "array",
       "defaultValue": "",
       "metadata": {
-        "description": "Define the Availability Zone number for the VM and its assigned Nic"
+        "description": "Tethr Custom. Define the Availability Zone number for the VM and its assigned Nic"
       }
     },
     "azureCloudPlugin": {
@@ -105,7 +105,7 @@
       ],
       "defaultValue": "No",
       "metadata": {
-        "description": "Choose whether to install Azure Repository plugin. The plugin allows an existing Azure storage account to be used for snapshot and restore"
+        "description": "Choose whether to install Azure Repository plugin. The plugin allows a Azure storage account to be used for snapshot and restore. If azureCloudStorageAccountName and azureCloudStorageAccountKey are not supplied, will use the shared storage account deployed."
       }
     },
     "azureCloudStorageAccountName": {
@@ -145,7 +145,7 @@
       "type": "string",
       "defaultValue": "",
       "metadata": {
-        "description": "Additional Elasticsearch plugins to install.  Each plugin must be separated by a semicolon. e.g. analysis-icu;mapper-attachments"
+        "description": "Additional Elasticsearch plugins to install.  Each plugin must be separated by a semicolon. e.g. analysis-icu;ingest-geoip"
       }
     },
     "esAdditionalYaml": {
@@ -160,6 +160,69 @@
       "defaultValue": 0,
       "metadata": {
         "description": "The size, in megabytes, of memory to allocate on each Elasticsearch node for the JVM heap. If unspecified, 50% of the available memory will be allocated to Elasticsearch heap, up to a maximum of 31744MB (~32GB)."
+      }
+    },
+    "esHttpCertBlob": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "A Base-64 encoded form of the PKCS#12 archive (.p12/.pfx) containing the key and certificate used to secure HTTP layer of Elasticsearch"
+      }
+    },
+    "esHttpCertPassword": {
+      "type": "securestring",
+      "defaultValue": "",
+      "metadata": {
+        "description": "The password for the PKCS#12 archive (.p12/.pfx) containing the key and certificate used to secure HTTP layer of Elasticsearch"
+      }
+    },
+    "esHttpCaCertBlob": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "A Base-64 encoded form of the PKCS#12 archive (.p12/.pfx) containing the CA key and certificate used to secure HTTP layer of Elasticsearch"
+      }
+    },
+    "esHttpCaCertPassword": {
+      "type": "securestring",
+      "defaultValue": "",
+      "metadata": {
+        "description": "The password for the PKCS#12 archive (.p12/.pfx) containing the CA key and certificate used to secure HTTP layer of Elasticsearch"
+      }
+    },
+    "esTransportCaCertBlob": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "A Base-64 encoded form of the PKCS#12 archive (.p12/.pfx) containing the CA key and certificate used to secure Transport layer of Elasticsearch."
+      }
+    },
+    "esTransportCaCertPassword": {
+      "type": "securestring",
+      "defaultValue": "",
+      "metadata": {
+        "description": "The password for the PKCS#12 archive (.p12/.pfx) containing the CA key and certificate used to secure Transport layer of Elasticsearch"
+      }
+    },
+    "esTransportCertPassword": {
+      "type": "securestring",
+      "defaultValue": "",
+      "metadata": {
+        "description": "The password for the generated certificate used to secure Transport layer of Elasticsearch"
+      }
+    },
+    "samlMetadataUri": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "The URI from which the metadata file for the Identity Provider can be retrieved to configure SAML Single-Sign-On"
+      }
+    },
+    "samlServiceProviderUri": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "The public URI for the Service Provider to configure SAML Single-Sign-On. If samlMetadataUri is provided but a value is not provided for samlServiceProviderUri, the public domain name for the Kibana instance will be used"
       }
     },
     "kibana": {
@@ -183,6 +246,10 @@
         "Standard_A5",
         "Standard_A6",
         "Standard_A7",
+        "Standard_A8",
+        "Standard_A9",
+        "Standard_A10",
+        "Standard_A11",
         "Standard_D1",
         "Standard_D2",
         "Standard_D3",
@@ -219,6 +286,26 @@
         "Standard_DS13_v2",
         "Standard_DS14_v2",
         "Standard_DS15_v2",
+        "Standard_D2s_v3",
+        "Standard_D4s_v3",
+        "Standard_D8s_v3",
+        "Standard_D16s_v3",
+        "Standard_D32s_v3",
+        "Standard_D64s_v3",
+        "Standard_E2_v3",
+        "Standard_E4_v3",
+        "Standard_E8_v3",
+        "Standard_E16_v3",
+        "Standard_E32_v3",
+        "Standard_E64_v3",
+        "Standard_E64i_v3",
+        "Standard_E2s_v3",
+        "Standard_E4s_v3",
+        "Standard_E8s_v3",
+        "Standard_E16s_v3",
+        "Standard_E32s_v3",
+        "Standard_E64s_v3",
+        "Standard_E64is_v3",
         "Standard_F1",
         "Standard_F2",
         "Standard_F4",
@@ -228,7 +315,35 @@
         "Standard_F2s",
         "Standard_F4s",
         "Standard_F8s",
-        "Standard_F16s"
+        "Standard_F16s",
+        "Standard_G1",
+        "Standard_G2",
+        "Standard_G3",
+        "Standard_G4",
+        "Standard_G5",
+        "Standard_GS1",
+        "Standard_GS2",
+        "Standard_GS3",
+        "Standard_GS4",
+        "Standard_GS5",
+        "Standard_L4s",
+        "Standard_L8s",
+        "Standard_L16s",
+        "Standard_L32s",
+        "Standard_M8ms",
+        "Standard_M16ms",
+        "Standard_M32ts",
+        "Standard_M32ls",
+        "Standard_M32ms",
+        "Standard_M64s",
+        "Standard_M64ls",
+        "Standard_M64ms",
+        "Standard_M128s",
+        "Standard_M128ms",
+        "Standard_M64",
+        "Standard_M64m",
+        "Standard_M128",
+        "Standard_M128m"
       ],
       "metadata": {
         "description": "Size of the Kibana node"
@@ -238,21 +353,28 @@
       "type": "string",
       "defaultValue": "",
       "metadata": {
-        "description": "A Base-64 encoded form of the certificate (.crt) to secure HTTPS communications between the browser and Kibana."
+        "description": "A Base-64 encoded form of the PEM certificate (.crt) to secure HTTP communication between the browser and Kibana."
       }
     },
     "kibanaKeyBlob": {
       "type": "securestring",
       "defaultValue": "",
       "metadata": {
-        "description": "A Base-64 encoded form of the private key (.key) to secure HTTPS communications between the browser and Kibana."
+        "description": "A Base-64 encoded form of the PEM private key (.key) to secure HTTP communication between the browser and Kibana."
       }
     },
     "kibanaKeyPassphrase": {
       "type": "securestring",
       "defaultValue": "",
       "metadata": {
-        "description": "The passphrase to decrypt the private key. Optional as the key may not be encrypted. Supported only in 5.3.0+"
+        "description": "The passphrase to decrypt the private key. Optional as the key may not be encrypted."
+      }
+    },
+    "kibanaAdditionalYaml": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "Additional configuration for Kibana yaml configuration file. Each line must be separated by a newline character e.g. server.ssl.enabled: true\nkibana.defaultAppId: \"home\""
       }
     },
     "jumpbox": {
@@ -287,6 +409,10 @@
         "Standard_A5",
         "Standard_A6",
         "Standard_A7",
+        "Standard_A8",
+        "Standard_A9",
+        "Standard_A10",
+        "Standard_A11",
         "Standard_D1",
         "Standard_D2",
         "Standard_D3",
@@ -323,6 +449,26 @@
         "Standard_DS13_v2",
         "Standard_DS14_v2",
         "Standard_DS15_v2",
+        "Standard_D2s_v3",
+        "Standard_D4s_v3",
+        "Standard_D8s_v3",
+        "Standard_D16s_v3",
+        "Standard_D32s_v3",
+        "Standard_D64s_v3",
+        "Standard_E2_v3",
+        "Standard_E4_v3",
+        "Standard_E8_v3",
+        "Standard_E16_v3",
+        "Standard_E32_v3",
+        "Standard_E64_v3",
+        "Standard_E64i_v3",
+        "Standard_E2s_v3",
+        "Standard_E4s_v3",
+        "Standard_E8s_v3",
+        "Standard_E16s_v3",
+        "Standard_E32s_v3",
+        "Standard_E64s_v3",
+        "Standard_E64is_v3",
         "Standard_F1",
         "Standard_F2",
         "Standard_F4",
@@ -332,7 +478,35 @@
         "Standard_F2s",
         "Standard_F4s",
         "Standard_F8s",
-        "Standard_F16s"
+        "Standard_F16s",
+        "Standard_G1",
+        "Standard_G2",
+        "Standard_G3",
+        "Standard_G4",
+        "Standard_G5",
+        "Standard_GS1",
+        "Standard_GS2",
+        "Standard_GS3",
+        "Standard_GS4",
+        "Standard_GS5",
+        "Standard_L4s",
+        "Standard_L8s",
+        "Standard_L16s",
+        "Standard_L32s",
+        "Standard_M8ms",
+        "Standard_M16ms",
+        "Standard_M32ts",
+        "Standard_M32ls",
+        "Standard_M32ms",
+        "Standard_M64s",
+        "Standard_M64ls",
+        "Standard_M64ms",
+        "Standard_M128s",
+        "Standard_M128ms",
+        "Standard_M64",
+        "Standard_M64m",
+        "Standard_M128",
+        "Standard_M128m"
       ],
       "metadata": {
         "description": "Size of the Elasticsearch data nodes"
@@ -340,7 +514,7 @@
     },
     "vmDataDiskCount": {
       "type": "int",
-      "defaultValue": 40,
+      "defaultValue": 64,
       "minValue": 0,
       "metadata": {
         "description": "Number of disks to attach to each data node in RAID 0 setup. If the number of disks selected is more than can be attached to the data node VM size, the maximum number of disks that can be attached will be used. If 1 disk is selected, it is not RAIDed. If 0 disks are selected, the temporary disk will be used to store Elasticsearch data. IMPORTANT: The temporary disk is ephemeral in nature so be sure you know the trade-offs when choosing 0 disks."
@@ -352,10 +526,12 @@
       "allowedValues": [
         "Small",
         "Medium",
-        "Large"
+        "Large",
+        "XLarge",
+        "XXLarge"
       ],
       "metadata": {
-        "description": "The disk size of each attached disk, Small (128Gb), Medium (512Gb) or Large (1024Gb). For Premium Storage, this equates to P10, P20 and P30, respectively."
+        "description": "The disk size of each attached disk, Small (128Gb), Medium (512Gb), Large (1024Gb), XLarge (2048Gb) and XXLarge (4095Gb). For Premium Storage, this equates to P10, P20, P30, P40 and P50, respectively."
       }
     },
     "vmDataNodeCount": {
@@ -363,7 +539,7 @@
       "defaultValue": 1,
       "minValue": 1,
       "metadata": {
-        "description": "Tethr Dev note: This value is no longer used. Number of Elasticsearch data nodes. "
+        "description": "Tethr Custom. This value is no longer active. Number of Elasticsearch data nodes. "
       }
     },
     "storageAccountType": {
@@ -401,6 +577,10 @@
         "Standard_A5",
         "Standard_A6",
         "Standard_A7",
+        "Standard_A8",
+        "Standard_A9",
+        "Standard_A10",
+        "Standard_A11",
         "Standard_D1",
         "Standard_D2",
         "Standard_D3",
@@ -437,6 +617,26 @@
         "Standard_DS13_v2",
         "Standard_DS14_v2",
         "Standard_DS15_v2",
+        "Standard_D2s_v3",
+        "Standard_D4s_v3",
+        "Standard_D8s_v3",
+        "Standard_D16s_v3",
+        "Standard_D32s_v3",
+        "Standard_D64s_v3",
+        "Standard_E2_v3",
+        "Standard_E4_v3",
+        "Standard_E8_v3",
+        "Standard_E16_v3",
+        "Standard_E32_v3",
+        "Standard_E64_v3",
+        "Standard_E64i_v3",
+        "Standard_E2s_v3",
+        "Standard_E4s_v3",
+        "Standard_E8s_v3",
+        "Standard_E16s_v3",
+        "Standard_E32s_v3",
+        "Standard_E64s_v3",
+        "Standard_E64is_v3",
         "Standard_F1",
         "Standard_F2",
         "Standard_F4",
@@ -446,7 +646,35 @@
         "Standard_F2s",
         "Standard_F4s",
         "Standard_F8s",
-        "Standard_F16s"
+        "Standard_F16s",
+        "Standard_G1",
+        "Standard_G2",
+        "Standard_G3",
+        "Standard_G4",
+        "Standard_G5",
+        "Standard_GS1",
+        "Standard_GS2",
+        "Standard_GS3",
+        "Standard_GS4",
+        "Standard_GS5",
+        "Standard_L4s",
+        "Standard_L8s",
+        "Standard_L16s",
+        "Standard_L32s",
+        "Standard_M8ms",
+        "Standard_M16ms",
+        "Standard_M32ts",
+        "Standard_M32ls",
+        "Standard_M32ms",
+        "Standard_M64s",
+        "Standard_M64ls",
+        "Standard_M64ms",
+        "Standard_M128s",
+        "Standard_M128ms",
+        "Standard_M64",
+        "Standard_M64m",
+        "Standard_M128",
+        "Standard_M128m"
       ],
       "metadata": {
         "description": "Size of the Elasticsearch master nodes, if data nodes are not master eligible, 3 master nodes of this size will be provisioned"
@@ -455,7 +683,7 @@
     "scaleSetInstanceCount": {
       "type": "string",
       "metadata": {
-        "description": "Number of Scale Set nodes to provision"
+        "description": "Tethr Custom. Number of Scale Set nodes to provision"
       }
     },
     "vmClientNodeCount": {
@@ -479,6 +707,10 @@
         "Standard_A5",
         "Standard_A6",
         "Standard_A7",
+        "Standard_A8",
+        "Standard_A9",
+        "Standard_A10",
+        "Standard_A11",
         "Standard_D1",
         "Standard_D2",
         "Standard_D3",
@@ -515,6 +747,26 @@
         "Standard_DS13_v2",
         "Standard_DS14_v2",
         "Standard_DS15_v2",
+        "Standard_D2s_v3",
+        "Standard_D4s_v3",
+        "Standard_D8s_v3",
+        "Standard_D16s_v3",
+        "Standard_D32s_v3",
+        "Standard_D64s_v3",
+        "Standard_E2_v3",
+        "Standard_E4_v3",
+        "Standard_E8_v3",
+        "Standard_E16_v3",
+        "Standard_E32_v3",
+        "Standard_E64_v3",
+        "Standard_E64i_v3",
+        "Standard_E2s_v3",
+        "Standard_E4s_v3",
+        "Standard_E8s_v3",
+        "Standard_E16s_v3",
+        "Standard_E32s_v3",
+        "Standard_E64s_v3",
+        "Standard_E64is_v3",
         "Standard_F1",
         "Standard_F2",
         "Standard_F4",
@@ -524,7 +776,35 @@
         "Standard_F2s",
         "Standard_F4s",
         "Standard_F8s",
-        "Standard_F16s"
+        "Standard_F16s",
+        "Standard_G1",
+        "Standard_G2",
+        "Standard_G3",
+        "Standard_G4",
+        "Standard_G5",
+        "Standard_GS1",
+        "Standard_GS2",
+        "Standard_GS3",
+        "Standard_GS4",
+        "Standard_GS5",
+        "Standard_L4s",
+        "Standard_L8s",
+        "Standard_L16s",
+        "Standard_L32s",
+        "Standard_M8ms",
+        "Standard_M16ms",
+        "Standard_M32ts",
+        "Standard_M32ls",
+        "Standard_M32ms",
+        "Standard_M64s",
+        "Standard_M64ls",
+        "Standard_M64ms",
+        "Standard_M128s",
+        "Standard_M128ms",
+        "Standard_M64",
+        "Standard_M64m",
+        "Standard_M128",
+        "Standard_M128m"
       ],
       "metadata": {
         "description": "Size of the Elasticsearch client nodes"
@@ -588,7 +868,7 @@
     "securityLogstashPassword": {
       "type": "securestring",
       "metadata": {
-        "description": "Password for the 'logstash_system' user in 5.2.0 and up. Must be > 6 characters"
+        "description": "Password for the 'logstash_system' user. Must be > 6 characters"
       }
     },
     "location": {
@@ -691,18 +971,8 @@
     "appGatewayCount": {
       "type": "int",
       "defaultValue": 2,
-      "allowedValues": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
-        8,
-        9,
-        10
-      ],
+      "minValue": 1,
+      "maxValue": 10,
       "metadata": {
         "description": "The number of instances of the Application Gateway. A minimum of 2 is recommended for Production clusters. Required when selecting Application Gateway for load balancing"
       }
@@ -711,14 +981,14 @@
       "type": "string",
       "defaultValue": "",
       "metadata": {
-        "description": "A Base-64 encoded form of the PFX certificate for the Application Gateway. This certificate is used to secure HTTPS connections to the Application Gateway"
+        "description": "A Base-64 encoded form of the PKCS#12 archive (.p12/.pfx) containing the key and certificate for the Application Gateway. This certificate is used to secure HTTPS connections to the Application Gateway"
       }
     },
     "appGatewayCertPassword": {
       "type": "securestring",
       "defaultValue": "",
       "metadata": {
-        "description": "The password for the PFX certificate for the Application Gateway."
+        "description": "The password for the PKCS#12 archive (.p12/.pfx) containing the key and certificate for the Application Gateway."
       }
     },
     "appGatewayWafStatus": {
@@ -743,67 +1013,18 @@
         "description": "The firewall mode of the Application Gateway. Required when selecting Application Gateway for load balancing and using WAF tier."
       }
     },
-    "userCompany": {
+    "appGatewayEsHttpCertBlob": {
       "type": "string",
       "defaultValue": "",
       "metadata": {
-        "description": "Name of your company"
-      }
-    },
-    "userEmail": {
-      "type": "string",
-      "defaultValue": "",
-      "metadata": {
-        "description": "Your email address"
-      }
-    },
-    "userFirstName": {
-      "type": "string",
-      "defaultValue": "",
-      "metadata": {
-        "description": "Your first name"
-      }
-    },
-    "userLastName": {
-      "type": "string",
-      "defaultValue": "",
-      "metadata": {
-        "description": "Your last name"
-      }
-    },
-    "userJobTitle": {
-      "type": "string",
-      "defaultValue": "Other",
-      "allowedValues": [
-        "IT Executive (CIO, CTO, VP Engineering, etc.)",
-        "Business Executive (CEO, COO, CMO, etc.)",
-        "Architect",
-        "Business Development/Alliance Manager",
-        "DBA",
-        "Technical Operations",
-        "Director / Development Manager",
-        "Product / Project Manager",
-        "Software Developer / Engineer",
-        "Consultant",
-        "Student",
-        "Other"
-      ],
-      "metadata": {
-        "description": "Your job title. Pick the nearest description that matches"
-      }
-    },
-    "userCountry": {
-      "type": "string",
-      "defaultValue": "",
-      "metadata": {
-        "description": "The country in which you are based"
+        "description": "The Base-64 encoded certificate (.cer) used to secure the HTTP layer of Elasticsearch. Used by the Application Gateway to whitelist certificates used by the backend pool. Must be set if using esHttpCertBlob to secure the HTTP layer of Elasticsearch"
       }
     }
   },
   "variables": {
     "templateBaseUrl": "[concat(parameters('artifactsBaseUrl'), '/')]",
     "sharedTemplateUrl": "[concat(variables('templateBaseUrl'), 'partials/shared-resources.json')]",
-    "networkTemplateUrl": "[concat(variables('templateBaseUrl'), 'networks/', if(equals(parameters('vNetNewOrExisting'), 'new'), if(equals(parameters('loadBalancerType'), 'gateway'), 'new-virtual-network-with-gateway', 'new-virtual-network'), 'existing-virtual-network'), '.json')]",
+    "networkTemplateUrl": "[concat(variables('templateBaseUrl'), 'networks/virtual-network-resources.json')]",
     "loadBalancerOptions": {
       "internal": "internal-lb-resources",
       "external": "external-lb-resources",
@@ -825,20 +1046,20 @@
       "installAdditionalPlugins": "[parameters('esAdditionalPlugins')]",
       "yamlConfiguration": "[parameters('esAdditionalYaml')]",
       "heapSize": "[parameters('esHeapSize')]",
+      "httpCertBlob": "[parameters('esHttpCertBlob')]",
+      "httpCertPassword": "[parameters('esHttpCertPassword')]",
+      "httpCaCertBlob": "[parameters('esHttpCaCertBlob')]",
+      "httpCaCertPassword": "[parameters('esHttpCaCertPassword')]",
+      "transportCaCertBlob": "[parameters('esTransportCaCertBlob')]",
+      "transportCaCertPassword": "[parameters('esTransportCaCertPassword')]",
+      "transportCertPassword": "[parameters('esTransportCertPassword')]",
       "securityAdminPwd": "[parameters('securityAdminPassword')]",
       "securityReadPwd": "[parameters('securityReadPassword')]",
       "securityKibanaPwd": "[parameters('securityKibanaPassword')]",
       "securityLogstashPwd": "[parameters('securityLogstashPassword')]",
-      "securityBootstrapPwd": "[if(not(empty(parameters('securityBootstrapPassword'))),parameters('securityBootstrapPassword'),uniqueString(resourceGroup().id, deployment().name, parameters('securityAdminPassword')))]"
-    },
-    "phoneHomeSettings": {
-      "email": "[parameters('userEmail')]",
-      "firstName": "[parameters('userFirstName')]",
-      "lastName": "[parameters('userLastName')]",
-      "jobTitle": "[parameters('userJobTitle')]",
-      "company": "[parameters('userCompany')]",
-      "country": "[parameters('userCountry')]",
-      "topology": "[concat('m=', if(equals(parameters('dataNodesAreMasterEligible'), 'No'), '3', '0'), ' ', parameters('vmSizeMasterNodes'), ',d=', parameters('vmDataNodeCount'), ' ', parameters('vmSizeDataNodes'), ',c=', parameters('vmClientNodeCount'), ' ', parameters('vmSizeClientNodes'), ',k=', if(equals(parameters('kibana'), 'Yes'), '1', '0'), ' ', parameters('vmSizeKibana'), ',j=', if(equals(parameters('jumpbox'), 'Yes'), '1', '0'), ' Standard_A0', ',l=', parameters('loadBalancerType'))]"
+      "securityBootstrapPwd": "[if(not(empty(parameters('securityBootstrapPassword'))),parameters('securityBootstrapPassword'),uniqueString(resourceGroup().id, deployment().name, parameters('securityAdminPassword')))]",
+      "samlMetadataUri": "[parameters('samlMetadataUri')]",
+      "samlServiceProviderUri": "[parameters('samlServiceProviderUri')]"
     },
     "networkResourceGroupMap": {
       "new": "[resourceGroup().name]",
@@ -881,36 +1102,52 @@
         "dataDisks": 16,
         "storageAccountType": "Standard_LRS"
       },
+      "Standard_A8": {
+        "dataDisks": 32,
+        "storageAccountType": "Standard_LRS"
+      },
+      "Standard_A9": {
+        "dataDisks": 64,
+        "storageAccountType": "Standard_LRS"
+      },
+      "Standard_A10": {
+        "dataDisks": 32,
+        "storageAccountType": "Standard_LRS"
+      },
+      "Standard_A11": {
+        "dataDisks": 64,
+        "storageAccountType": "Standard_LRS"
+      },
       "Standard_D1": {
-        "dataDisks": 2,
+        "dataDisks": 4,
         "storageAccountType": "Standard_LRS"
       },
       "Standard_D2": {
-        "dataDisks": 4,
+        "dataDisks": 8,
         "storageAccountType": "Standard_LRS"
       },
       "Standard_D3": {
-        "dataDisks": 8,
+        "dataDisks": 16,
         "storageAccountType": "Standard_LRS"
       },
       "Standard_D4": {
-        "dataDisks": 16,
+        "dataDisks": 32,
         "storageAccountType": "Standard_LRS"
       },
       "Standard_D11": {
-        "dataDisks": 4,
-        "storageAccountType": "Standard_LRS"
-      },
-      "Standard_D12": {
         "dataDisks": 8,
         "storageAccountType": "Standard_LRS"
       },
-      "Standard_D13": {
+      "Standard_D12": {
         "dataDisks": 16,
         "storageAccountType": "Standard_LRS"
       },
-      "Standard_D14": {
+      "Standard_D13": {
         "dataDisks": 32,
+        "storageAccountType": "Standard_LRS"
+      },
+      "Standard_D14": {
+        "dataDisks": 64,
         "storageAccountType": "Standard_LRS"
       },
       "Standard_D1_v2": {
@@ -934,55 +1171,55 @@
         "storageAccountType": "Standard_LRS"
       },
       "Standard_D11_v2": {
-        "dataDisks": 4,
+        "dataDisks": 8,
         "storageAccountType": "Standard_LRS"
       },
       "Standard_D12_v2": {
-        "dataDisks": 8,
+        "dataDisks": 16,
         "storageAccountType": "Standard_LRS"
       },
       "Standard_D13_v2": {
-        "dataDisks": 16,
+        "dataDisks": 32,
         "storageAccountType": "Standard_LRS"
       },
       "Standard_D14_v2": {
-        "dataDisks": 32,
+        "dataDisks": 64,
         "storageAccountType": "Standard_LRS"
       },
       "Standard_D15_v2": {
-        "dataDisks": 40,
+        "dataDisks": 64,
         "storageAccountType": "Standard_LRS"
       },
       "Standard_DS1": {
-        "dataDisks": 2,
+        "dataDisks": 4,
         "storageAccountType": "Premium_LRS"
       },
       "Standard_DS2": {
-        "dataDisks": 4,
+        "dataDisks": 8,
         "storageAccountType": "Premium_LRS"
       },
       "Standard_DS3": {
-        "dataDisks": 8,
+        "dataDisks": 16,
         "storageAccountType": "Premium_LRS"
       },
       "Standard_DS4": {
-        "dataDisks": 16,
+        "dataDisks": 32,
         "storageAccountType": "Premium_LRS"
       },
       "Standard_DS11": {
-        "dataDisks": 4,
-        "storageAccountType": "Premium_LRS"
-      },
-      "Standard_DS12": {
         "dataDisks": 8,
         "storageAccountType": "Premium_LRS"
       },
-      "Standard_DS13": {
+      "Standard_DS12": {
         "dataDisks": 16,
         "storageAccountType": "Premium_LRS"
       },
-      "Standard_DS14": {
+      "Standard_DS13": {
         "dataDisks": 32,
+        "storageAccountType": "Premium_LRS"
+      },
+      "Standard_DS14": {
+        "dataDisks": 64,
         "storageAccountType": "Premium_LRS"
       },
       "Standard_DS1_v2": {
@@ -1006,23 +1243,103 @@
         "storageAccountType": "Premium_LRS"
       },
       "Standard_DS11_v2": {
-        "dataDisks": 4,
-        "storageAccountType": "Premium_LRS"
-      },
-      "Standard_DS12_v2": {
         "dataDisks": 8,
         "storageAccountType": "Premium_LRS"
       },
-      "Standard_DS13_v2": {
+      "Standard_DS12_v2": {
         "dataDisks": 16,
         "storageAccountType": "Premium_LRS"
       },
-      "Standard_DS14_v2": {
+      "Standard_DS13_v2": {
         "dataDisks": 32,
         "storageAccountType": "Premium_LRS"
       },
+      "Standard_DS14_v2": {
+        "dataDisks": 64,
+        "storageAccountType": "Premium_LRS"
+      },
       "Standard_DS15_v2": {
-        "dataDisks": 40,
+        "dataDisks": 64,
+        "storageAccountType": "Premium_LRS"
+      },
+      "Standard_D2s_v3": {
+        "dataDisks": 4,
+        "storageAccountType": "Premium_LRS"
+      },
+      "Standard_D4s_v3": {
+        "dataDisks": 8,
+        "storageAccountType": "Premium_LRS"
+      },
+      "Standard_D8s_v3": {
+        "dataDisks": 16,
+        "storageAccountType": "Premium_LRS"
+      },
+      "Standard_D16s_v3": {
+        "dataDisks": 32,
+        "storageAccountType": "Premium_LRS"
+      },
+      "Standard_D32s_v3": {
+        "dataDisks": 32,
+        "storageAccountType": "Premium_LRS"
+      },
+      "Standard_D64s_v3": {
+        "dataDisks": 32,
+        "storageAccountType": "Premium_LRS"
+      },
+      "Standard_E2_v3": {
+        "dataDisks": 4,
+        "storageAccountType": "Standard_LRS"
+      },
+      "Standard_E4_v3": {
+        "dataDisks": 8,
+        "storageAccountType": "Standard_LRS"
+      },
+      "Standard_E8_v3": {
+        "dataDisks": 16,
+        "storageAccountType": "Standard_LRS"
+      },
+      "Standard_E16_v3": {
+        "dataDisks": 32,
+        "storageAccountType": "Standard_LRS"
+      },
+      "Standard_E32_v3": {
+        "dataDisks": 32,
+        "storageAccountType": "Standard_LRS"
+      },
+      "Standard_E64_v3": {
+        "dataDisks": 32,
+        "storageAccountType": "Standard_LRS"
+      },
+      "Standard_E64i_v3": {
+        "dataDisks": 32,
+        "storageAccountType": "Standard_LRS"
+      },
+      "Standard_E2s_v3": {
+        "dataDisks": 4,
+        "storageAccountType": "Premium_LRS"
+      },
+      "Standard_E4s_v3": {
+        "dataDisks": 8,
+        "storageAccountType": "Premium_LRS"
+      },
+      "Standard_E8s_v3": {
+        "dataDisks": 16,
+        "storageAccountType": "Premium_LRS"
+      },
+      "Standard_E16s_v3": {
+        "dataDisks": 32,
+        "storageAccountType": "Premium_LRS"
+      },
+      "Standard_E32s_v3": {
+        "dataDisks": 32,
+        "storageAccountType": "Premium_LRS"
+      },
+      "Standard_E64s_v3": {
+        "dataDisks": 32,
+        "storageAccountType": "Premium_LRS"
+      },
+      "Standard_E64is_v3": {
+        "dataDisks": 32,
         "storageAccountType": "Premium_LRS"
       },
       "Standard_F1": {
@@ -1064,10 +1381,124 @@
       "Standard_F16s": {
         "dataDisks": 32,
         "storageAccountType": "Premium_LRS"
+      },
+      "Standard_G1": {
+        "dataDisks": 8,
+        "storageAccountType": "Standard_LRS"
+      },
+      "Standard_G2": {
+        "dataDisks": 16,
+        "storageAccountType": "Standard_LRS"
+      },
+      "Standard_G3": {
+        "dataDisks": 32,
+        "storageAccountType": "Standard_LRS"
+      },
+      "Standard_G4": {
+        "dataDisks": 64,
+        "storageAccountType": "Standard_LRS"
+      },
+      "Standard_G5": {
+        "dataDisks": 64,
+        "storageAccountType": "Standard_LRS"
+      },
+      "Standard_GS1": {
+        "dataDisks": 8,
+        "storageAccountType": "Premium_LRS"
+      },
+      "Standard_GS2": {
+        "dataDisks": 16,
+        "storageAccountType": "Premium_LRS"
+      },
+      "Standard_GS3": {
+        "dataDisks": 32,
+        "storageAccountType": "Premium_LRS"
+      },
+      "Standard_GS4": {
+        "dataDisks": 64,
+        "storageAccountType": "Premium_LRS"
+      },
+      "Standard_GS5": {
+        "dataDisks": 64,
+        "storageAccountType": "Premium_LRS"
+      },
+      "Standard_L4s": {
+        "dataDisks": 16,
+        "storageAccountType": "Premium_LRS"
+      },
+      "Standard_L8s": {
+        "dataDisks": 32,
+        "storageAccountType": "Premium_LRS"
+      },
+      "Standard_L16s": {
+        "dataDisks": 64,
+        "storageAccountType": "Premium_LRS"
+      },
+      "Standard_L32s": {
+        "dataDisks": 64,
+        "storageAccountType": "Premium_LRS"
+      },
+      "Standard_M8ms": {
+        "dataDisks": 8,
+        "storageAccountType": "Premium_LRS"
+      },
+      "Standard_M16ms": {
+        "dataDisks": 16,
+        "storageAccountType": "Premium_LRS"
+      },
+      "Standard_M32ts": {
+        "dataDisks": 32,
+        "storageAccountType": "Premium_LRS"
+      },
+      "Standard_M32ls": {
+        "dataDisks": 32,
+        "storageAccountType": "Premium_LRS"
+      },
+      "Standard_M32ms": {
+        "dataDisks": 32,
+        "storageAccountType": "Premium_LRS"
+      },
+      "Standard_M64s": {
+        "dataDisks": 64,
+        "storageAccountType": "Premium_LRS"
+      },
+      "Standard_M64ls": {
+        "dataDisks": 64,
+        "storageAccountType": "Premium_LRS"
+      },
+      "Standard_M64ms": {
+        "dataDisks": 64,
+        "storageAccountType": "Premium_LRS"
+      },
+      "Standard_M128s": {
+        "dataDisks": 64,
+        "storageAccountType": "Premium_LRS"
+      },
+      "Standard_M128ms": {
+        "dataDisks": 64,
+        "storageAccountType": "Premium_LRS"
+      },
+      "Standard_M64": {
+        "dataDisks": 64,
+        "storageAccountType": "Premium_LRS"
+      },
+      "Standard_M64m": {
+        "dataDisks": 64,
+        "storageAccountType": "Premium_LRS"
+      },
+      "Standard_M128": {
+        "dataDisks": 64,
+        "storageAccountType": "Premium_LRS"
+      },
+      "Standard_M128m": {
+        "dataDisks": 64,
+        "storageAccountType": "Premium_LRS"
       }
     },
     "dataDiskSizes": {
-      "Large": 1023,
+      "XXLarge": 4095,
+      "XLarge": 2048,
+      "Large": 1024,
       "Medium": 512,
       "Small": 128
     },
@@ -1134,6 +1565,7 @@
       "kibanaKeyPassphrase": "[parameters('kibanaKeyPassphrase')]",
       "kibanaCertBlob": "[parameters('kibanaCertBlob')]",
       "kibanaHttps": "[variables('kibanaHttps')]",
+      "kibanaYaml": "[parameters('kibanaAdditionalYaml')]",
       "jumpbox": "[parameters('jumpbox')]",
       "dataNodeStorageSettings": {
         "accountType": "[variables('resolvedStorageAccountType')]",
@@ -1141,14 +1573,14 @@
         "dataDisks": "[variables('resolvedDataDiskCount')]"
       },
       "dataLoadBalancerBackEndPools": "[variables('dataLoadBalancerOptions')[variables('clientResourceIndex')].backendPools]",
-      "loadBalancerBackEndPools": "[variables('lbBackEndPoolsAdded').backendPools]",
-      "enableAnonymousAccess": "[if(and(equals(parameters('loadBalancerType'), 'gateway'), equals(parameters('xpackPlugins'), 'Yes')), 'Yes', 'No')]"
+      "loadBalancerBackEndPools": "[variables('lbBackEndPoolsAdded').backendPools]"
     },
     "networkSettings": {
       "name": "[parameters('vNetName')]",
       "resourceGroup": "[variables('networkResourceGroupMap')[parameters('vNetNewOrExisting')]]",
       "location": "[variables('location')]",
       "addressPrefix": "[parameters('vNetNewAddressPrefix')]",
+      "https": "[if(and(or(greater(length(parameters('esHttpCertBlob')), 0), greater(length(parameters('esHttpCaCertBlob')), 0)), equals(parameters('xpackPlugins'), 'Yes')), 'Yes', 'No')]",
       "subnet": {
         "name": "[parameters('vNetClusterSubnetName')]",
         "addressPrefix": "[parameters('vNetNewClusterSubnetAddressPrefix')]",
@@ -1179,14 +1611,34 @@
       "certBlob": "[parameters('appGatewayCertBlob')]",
       "certPassword": "[parameters('appGatewayCertPassword')]",
       "firewallStatus": "[parameters('appGatewayWafStatus')]",
-      "firewallMode": "[parameters('appGatewayWafMode')]"
-    }
+      "firewallMode": "[parameters('appGatewayWafMode')]",
+      "backendCert": "[parameters('appGatewayEsHttpCertBlob')]",
+      "backendProtocol": "[if(or(greater(length(parameters('esHttpCertBlob')), 0), greater(length(parameters('esHttpCaCertBlob')), 0)), 'Https', 'Http')]"
+    },
+    "kibanaIpTemplates": {
+      "No": "empty/empty-kibana-ip-resources.json",
+      "Yes": "ips/kibana-ip-resources.json"
+    },
+    "kibanaIpTemplateUrl": "[concat(variables('templateBaseUrl'), variables('kibanaIpTemplates')[variables('topologySettings').kibana])]"
   },
   "resources": [
     {
+      "name": "[parameters('elasticTags').tracking]",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2017-05-10",
+      "properties": {
+        "mode": "Incremental",
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "resources": []
+        }
+      }
+    },
+    {
       "name": "shared",
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2016-02-01",
+      "apiVersion": "2017-05-10",
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -1210,7 +1662,7 @@
       "condition": "[equals(parameters('vNetNewOrExisting'), 'new')]",
       "name": "network",
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2016-02-01",
+      "apiVersion": "2017-05-10",
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -1221,6 +1673,35 @@
           "networkSettings": {
             "value": "[variables('networkSettings')]"
           },
+          "loadBalancerType": {
+            "value": "[parameters('loadBalancerType')]"
+          },
+          "elasticTags": {
+            "value": "[parameters('elasticTags')]"
+          }
+        }
+      }
+    },
+    {
+      "name": "kibana-ip",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2017-05-10",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('kibanaIpTemplateUrl')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "location": {
+            "value": "[variables('commonVmSettings').location]"
+          },
+          "namespace": {
+            "value": "[concat(variables('commonVmSettings').namespacePrefix, 'kibana')]"
+          },
+          "https": {
+            "value": "[variables('topologySettings').kibanaHttps]"
+          },
           "elasticTags": {
             "value": "[parameters('elasticTags')]"
           }
@@ -1230,7 +1711,7 @@
     {
       "name": "loadbalancer",
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2016-02-01",
+      "apiVersion": "2017-05-10",
       "dependsOn": [
         "[concat('Microsoft.Resources/deployments/', 'shared')]",
         "[concat('Microsoft.Resources/deployments/', 'network')]"
@@ -1257,9 +1738,10 @@
     {
       "name": "virtual-machines",
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2016-02-01",
+      "apiVersion": "2017-05-10",
       "dependsOn": [
-        "[concat('Microsoft.Resources/deployments/', 'loadbalancer')]"
+        "[concat('Microsoft.Resources/deployments/', 'loadbalancer')]",
+        "[concat('Microsoft.Resources/deployments/', 'kibana-ip')]"
       ],
       "properties": {
         "mode": "Incremental",
@@ -1277,9 +1759,6 @@
           "commonVmSettings": {
             "value": "[variables('commonVmSettings')]"
           },
-          "phoneHomeSettings": {
-            "value": "[variables('phoneHomeSettings')]"
-          },
           "topologySettings": {
             "value": "[variables('topologySettings')]"
           },
@@ -1288,6 +1767,16 @@
           },
           "azureCloudStorageAccount": {
             "value": "[variables('azureCloudStorageAccount')]"
+          },
+          "kibanaIp": {
+            "value": "[reference('kibana-ip').outputs.fqdn.value]"
+          },
+          "sharedStorageAccount": {
+            "value": {
+              "name": "[variables('commonVmSettings').storageAccountName]",
+              "key": "[reference('shared').outputs.sharedStorageAccountKey.value]",
+              "suffix": "[reference('shared').outputs.sharedStorageAccountSuffix.value]"
+            }
           },
           "elasticTags": {
             "value": "[parameters('elasticTags')]"
@@ -1302,7 +1791,7 @@
       "type": "string"
     },
     "kibana": {
-      "value": "[reference('virtual-machines').outputs.kibana.value]",
+      "value": "[reference('kibana-ip').outputs.fqdn.value]",
       "type": "string"
     },
     "jumpboxssh": {
