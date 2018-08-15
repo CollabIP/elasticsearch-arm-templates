@@ -38,7 +38,7 @@
         "provider": "648D2193-0CE0-4EFB-8A82-AF9792184FD9"
       },
       "metadata": {
-        "description": "A unique identifier to allow the Azure Infrastructure to understand the origin of resources deployed to Azure. You do not need to supply a value for this."
+        "description": "Unique identifiers to allow the Azure Infrastructure to understand the origin of resources deployed to Azure. You do not need to supply a value for this."
       }
     }
   },
@@ -214,7 +214,7 @@
       "condition": "[equals(parameters('topologySettings').nodeType, 'master')]",
       "name": "master-nodes",
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2016-02-01",
+      "apiVersion": "2017-05-10",
       "dependsOn": [],
       "properties": {
         "mode": "Incremental",
@@ -252,7 +252,7 @@
       "condition": "[equals(parameters('topologySettings').nodeType, 'client')]",
       "name": "client-nodes",
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2016-02-01",
+      "apiVersion": "2017-05-10",
       "dependsOn": [],
       "properties": {
         "mode": "Incremental",
@@ -291,7 +291,7 @@
       "condition": "[equals(parameters('topologySettings').nodeType, 'data')]",
       "name": "data-nodes",
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2016-02-01",
+      "apiVersion": "2017-05-10",
       "dependsOn": [],
       "properties": {
         "mode": "Incremental",
@@ -331,7 +331,7 @@
     {
       "name": "jumpbox",
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2016-02-01",
+      "apiVersion": "2017-05-10",
       "dependsOn": [],
       "properties": {
         "mode": "Incremental",
@@ -370,7 +370,7 @@
     {
       "name": "kibana",
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2016-02-01",
+      "apiVersion": "2017-05-10",
       "dependsOn": [],
       "properties": {
         "mode": "Incremental",
@@ -403,9 +403,6 @@
           "vmSize": {
             "value": "[parameters('topologySettings').vmSizeKibana]"
           },
-          "https": {
-            "value": "[parameters('topologySettings').kibanaHttps]"
-          },
           "elasticTags": {
             "value": "[parameters('elasticTags')]"
           }
@@ -414,10 +411,6 @@
     }
   ],
   "outputs": {
-    "kibana": {
-      "value": "[reference('kibana').outputs.fqdn.value]",
-      "type": "string"
-    },
     "jumpboxssh": {
       "value": "[reference('jumpbox').outputs.ssh.value]",
       "type": "string"
