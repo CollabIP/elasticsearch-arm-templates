@@ -1296,11 +1296,12 @@ port_forward
 
 start_monit
 
+# 8.15.18 Tethr Custom. Disabled.
 # patch roles and users through the REST API which is a tad trickier
-if [[ ${INSTALL_XPACK} -ne 0 ]]; then
-  wait_for_started
-  apply_security_settings
-fi
+# if [[ ${INSTALL_XPACK} -ne 0 ]]; then
+#  wait_for_started
+#  apply_security_settings
+# fi
 
 ELAPSED_TIME=$(($SECONDS - $START_TIME))
 PRETTY=$(printf '%dh:%dm:%ds\n' $(($ELAPSED_TIME/3600)) $(($ELAPSED_TIME%3600/60)) $(($ELAPSED_TIME%60)))
