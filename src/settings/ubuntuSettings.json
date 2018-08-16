@@ -132,6 +132,18 @@
             "commandToExecute": "[concat('bash elasticsearch-ubuntu-install.sh -y', variables('commonShortOpts'), variables('commonInstallParams'))]"
           }
         },
+        "ingest": {
+          "publisher": "Microsoft.Azure.Extensions",
+          "type": "CustomScript",
+          "typeHandlerVersion": "2.0",
+          "autoUpgradeMinorVersion": true,
+          "settings": {
+            "fileUris": "[variables('ubuntuScripts')]"
+          },
+          "protectedSettings": {
+            "commandToExecute": "[concat('bash elasticsearch-ubuntu-install.sh -y', variables('commonShortOpts'), variables('commonInstallParams'))]"
+          }
+        },
         "data": {
           "publisher": "Microsoft.Azure.Extensions",
           "type": "CustomScript",

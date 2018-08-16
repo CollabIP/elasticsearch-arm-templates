@@ -97,7 +97,7 @@ fi
 
 CLUSTER_NAME="elasticsearch"
 NAMESPACE_PREFIX=""
-ES_VERSION="6.2.4"
+ES_VERSION="6.3.1"
 ES_HEAP=0
 INSTALL_XPACK=0
 INSTALL_ADDITIONAL_PLUGINS=""
@@ -285,6 +285,8 @@ format_data_disks()
         log "[format_data_disks] master node, no data disks attached"
     elif [ ${CLIENT_ONLY_NODE} -eq 1 ]; then
         log "[format_data_disks] client node, no data disks attached"
+        elif [ ${INGEST_ONLY_NODE} -eq 1 ]; then
+        log "[format_data_disks] ingest node, no data disks attached"
     else
         log "[format_data_disks] data node, data disks may be attached"
         log "[format_data_disks] starting partition and format attached disks"
@@ -983,6 +985,11 @@ configure_elasticsearch_yaml()
         log "[configure_elasticsearch_yaml] configure node as client only"
         echo "node.master: false" >> $ES_CONF
         echo "node.data: false" >> $ES_CONF
+    elif [ ${INGEST_ONLY_NODE} -ne 0 ]; then
+        log "[configure_elasticsearch_yaml] configure node as ingest only"
+        echo "node.master: false" >> $ES_CONF
+        echo "node.data: false" >> $ES_CONF
+        echo "node.ingest: true" >> $ES_CONF
     else
         log "[configure_elasticsearch_yaml] configure node as master and data"
         echo "node.master: true" >> $ES_CONF

@@ -288,6 +288,44 @@
       }
     },
     {
+      "condition": "[equals(parameters('topologySettings').nodeType, 'ingest')]",
+      "name": "ingest-nodes",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2017-05-10",
+      "dependsOn": [],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[concat(parameters('templateBaseUrl'), 'machines/ingest-nodes-resources.json')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "templateBaseUrl": {
+            "value": "[parameters('templateBaseUrl')]"
+          },
+          "vm": {
+            "value": {
+              "shared": "[parameters('commonVmSettings')]",
+              "namespace": "[concat(parameters('commonVmSettings').namespacePrefix, 'ingest-')]",
+              "installScript": "[parameters('osSettings').extensionSettings.ingest]",
+              "size": "[parameters('topologySettings').vmSizeingestNodes]",
+              "instanceCount": "[parameters('topologySettings').scaleSetInstanceCount]",
+              "id": "[parameters('topologySettings').vmId]",
+              "zoneid": "[parameters('topologySettings').zoneId]",
+              "storageAccountType": "Standard_LRS",
+              "useBackendPools": "Yes",
+              "backendPools": "[parameters('topologySettings').loadBalancerBackEndPools]",
+              "imageReference": "[parameters('osSettings').imageReference]",
+              "platformFaultDomainCount": "[variables('platformFaultDomainCount')]"
+            }
+          },
+          "elasticTags": {
+            "value": "[parameters('elasticTags')]"
+          }
+        }
+      }
+    },
+    {
       "condition": "[equals(parameters('topologySettings').nodeType, 'data')]",
       "name": "data-nodes",
       "type": "Microsoft.Resources/deployments",
