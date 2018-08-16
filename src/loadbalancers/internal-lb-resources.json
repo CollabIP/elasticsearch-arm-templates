@@ -20,7 +20,7 @@
         "provider": "648D2193-0CE0-4EFB-8A82-AF9792184FD9"
       },
       "metadata": {
-        "description": "Unique identifiers to allow the Azure Infrastructure to understand the origin of resources deployed to Azure. You do not need to supply a value for this."
+        "description": "A unique identifier to allow the Azure Infrastructure to understand the origin of resources deployed to Azure. You do not need to supply a value for this."
       }
     }
   },
@@ -32,6 +32,9 @@
       "location": "[parameters('networkSettings').location]",
       "tags": {
         "provider": "[toUpper(parameters('elasticTags').provider)]"
+      },
+      "sku": {
+        "name": "Standard"
       },
       "properties": {
         "frontendIPConfigurations": [
