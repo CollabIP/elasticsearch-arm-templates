@@ -34,6 +34,7 @@ help()
     echo "-x configure as a dedicated master node"
     echo "-y configure as client only node (no master, no data)"
     echo "-z configure as data node (no master)"
+    echo "-w configure as ingest only node (no master, no data). Tethr Custom"
     echo "-l install plugins"
     echo "-L <plugin;plugin> install additional plugins"
     echo "-C <yaml\nyaml> additional yaml configuration"
@@ -141,7 +142,7 @@ SAML_METADATA_URI=""
 SAML_SP_URI=""
 
 #Loop through options passed
-while getopts :n:m:v:A:R:K:S:Z:p:a:k:L:C:B:E:H:G:T:W:V:J:N:D:O:P:xyzldjh optname; do
+while getopts :n:m:v:A:R:K:S:Z:p:a:k:L:C:B:E:H:G:T:W:V:J:N:D:O:P:xyzwldjh optname; do
   log "Option $optname set"
   case $optname in
     n) #set cluster name
@@ -179,6 +180,9 @@ while getopts :n:m:v:A:R:K:S:Z:p:a:k:L:C:B:E:H:G:T:W:V:J:N:D:O:P:xyzldjh optname
       ;;
     z) #data node
       DATA_ONLY_NODE=1
+      ;;
+    w) #ingest node. Tethr custom
+      INGEST_ONLY_NODE=1
       ;;
     l) #install X-Pack
       INSTALL_XPACK=1
@@ -286,7 +290,7 @@ format_data_disks()
         log "[format_data_disks] master node, no data disks attached"
     elif [ ${CLIENT_ONLY_NODE} -eq 1 ]; then
         log "[format_data_disks] client node, no data disks attached"
-        elif [ ${INGEST_ONLY_NODE} -eq 1 ]; then
+    elif [ ${INGEST_ONLY_NODE} -eq 1 ]; then
         log "[format_data_disks] ingest node, no data disks attached"
     else
         log "[format_data_disks] data node, data disks may be attached"
@@ -978,14 +982,17 @@ configure_elasticsearch_yaml()
         log "[configure_elasticsearch_yaml] configure node as master only"
         echo "node.master: true" >> $ES_CONF
         echo "node.data: false" >> $ES_CONF
+        echo "node.ingest: false" >> $ES_CONF
     elif [ ${DATA_ONLY_NODE} -ne 0 ]; then
         log "[configure_elasticsearch_yaml] configure node as data only"
         echo "node.master: false" >> $ES_CONF
         echo "node.data: true" >> $ES_CONF
+        echo "node.ingest: false" >> $ES_CONF
     elif [ ${CLIENT_ONLY_NODE} -ne 0 ]; then
         log "[configure_elasticsearch_yaml] configure node as client only"
         echo "node.master: false" >> $ES_CONF
         echo "node.data: false" >> $ES_CONF
+        echo "node.ingest: false" >> $ES_CONF
     elif [ ${INGEST_ONLY_NODE} -ne 0 ]; then
         log "[configure_elasticsearch_yaml] configure node as ingest only"
         echo "node.master: false" >> $ES_CONF

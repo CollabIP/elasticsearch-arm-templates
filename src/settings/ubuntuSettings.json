@@ -141,7 +141,7 @@
             "fileUris": "[variables('ubuntuScripts')]"
           },
           "protectedSettings": {
-            "commandToExecute": "[concat('bash elasticsearch-ubuntu-install.sh -y', variables('commonShortOpts'), variables('commonInstallParams'))]"
+            "commandToExecute": "[concat('bash elasticsearch-ubuntu-install.sh -w', variables('commonShortOpts'), variables('commonInstallParams'))]"
           }
         },
         "data": {
