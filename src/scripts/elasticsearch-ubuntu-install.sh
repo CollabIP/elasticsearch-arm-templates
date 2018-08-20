@@ -1004,6 +1004,12 @@ configure_elasticsearch_yaml()
         echo "node.master: false" >> $ES_CONF
         echo "node.data: false" >> $ES_CONF
         echo "node.ingest: true" >> $ES_CONF
+        echo "# Enable CORS.  Needed for allowing elasticsearch-head to access this node" >> $ES_CONF
+        echo "http.cors.enabled: true" >> $ES_CONF
+        echo "# Set the origin to allow only the elasticsearch-head webapp URL to access" >> $ES_CONF
+        echo "http.cors.allow-origin: http://ctesdkibana:9100" >> $ES_CONF
+        echo "# Add header Authorization, in additional to the regular default values." >> $ES_CONF
+        echo "http.cors.allow-headers: Authorization, X-Requested-With, Content-Type, Content-Length" >> $ES_CONF
     else
         log "[configure_elasticsearch_yaml] configure node as master and data"
         echo "node.master: true" >> $ES_CONF
