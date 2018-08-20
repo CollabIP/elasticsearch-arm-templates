@@ -964,7 +964,7 @@ configure_elasticsearch_yaml()
     local DATAPATH_CONFIG=/var/lib/elasticsearch
     if [ -d /datadisks ]; then
         DATAPATH_CONFIG=/datadisks/disk1/elasticsearch/data
-    elif [ ${MASTER_ONLY_NODE} -eq 0 -a ${CLIENT_ONLY_NODE} -eq 0 ]; then
+    elif [ ${MASTER_ONLY_NODE} -eq 0 -a ${CLIENT_ONLY_NODE} -eq 0 -a ${INGEST_ONLY_NODE} -eq 0 ]; then
         DATAPATH_CONFIG=/mnt/elasticsearch/data
     fi
 
