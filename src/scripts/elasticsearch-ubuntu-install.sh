@@ -315,7 +315,7 @@ setup_data_disk()
         mkdir -p "$RAIDDISK/elasticsearch/data"
         chown -R elasticsearch:elasticsearch "$RAIDDISK/elasticsearch"
         chmod 755 "$RAIDDISK/elasticsearch"
-    elif [ ${MASTER_ONLY_NODE} -eq 0 -a ${CLIENT_ONLY_NODE} -eq 0 ]; then
+    elif [ ${MASTER_ONLY_NODE} -eq 0 -a ${CLIENT_ONLY_NODE} -eq 0 -a ${INGEST_ONLY_NODE} -eq 0  ]; then
         local TEMPDISK="/mnt"
         log "[setup_data_disk] Configuring disk $TEMPDISK/elasticsearch/data"
         mkdir -p "$TEMPDISK/elasticsearch/data"
@@ -330,7 +330,7 @@ setup_data_disk()
 # Check Data Disk Folder and Permissions
 check_data_disk()
 {
-    if [ ${MASTER_ONLY_NODE} -eq 0 -a ${CLIENT_ONLY_NODE} -eq 0 ]; then
+    if [ ${MASTER_ONLY_NODE} -eq 0 -a ${CLIENT_ONLY_NODE} -eq 0 -a ${INGEST_ONLY_NODE} -eq 0  ]; then
         log "[check_data_disk] data node checking data directory"
         if [ -d "/datadisks" ]; then
             log "[check_data_disk] data disks attached and mounted at /datadisks"
