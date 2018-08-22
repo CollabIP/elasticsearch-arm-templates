@@ -32,9 +32,11 @@ Param(
     [string]$sourceUrl = 'https://raw.githubusercontent.com/darrell-tethr/azure-marketplace/v6.3.1_feature-deploy-single-node-type/src',
     # Configure for vNet. If you want a new vNet created, enter 'new'; otherwise, enter 'existing'
     [string]$vNetNewOrExist = 'existing',
+    # Enter Resource Group name.
+    [string]$rg = 'estemplate-poc-rg'
     # Enter node type. Options: master, data, or client
     [string]$nodetype,
-    # Enter a unique VM id number, e.g., 1,2,3...
+    # Enter a unique VM id number, e.g., 1,2,3. Not used for VM Scale Set deploys
     [string]$vmid,
     # Enter the Availability Zone number, e.g., 1, 2, or 3. For Scale Sets, enter ss.
     [string]$zone,
@@ -53,7 +55,7 @@ $clusterParameters = @{
     "esVersion" = "6.3.1"
     "esClusterName" = "elasticsearch"
     "vNetNewOrExisting" = "$vNetNewOrExist"
-    "vNetExistingResourceGroup" = "estemplate-poc-rg2"
+    "vNetExistingResourceGroup" = "$rg"
     "xpackPlugins" = "Yes"
     "loadBalancerType" = "$LBtype"
     "nodeType" = "$nodetype"
@@ -78,7 +80,7 @@ $clusterParameters = @{
 # Capture all debug info in $output
 # Note that 5>&1 is a PS redirector operator. Required for capturing the debug output.
 $output = Test-AzureRmResourceGroupDeployment `
-    -ResourceGroupName "estemplate-poc-rg2" `
+    -ResourceGroupName "$rg" `
     -TemplateUri "$sourceUrl/mainTemplate.json" `
     -TemplateParameterObject $clusterParameters `
     -Verbose `
