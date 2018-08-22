@@ -983,6 +983,7 @@ configure_elasticsearch_yaml()
         echo "node.master: true" >> $ES_CONF
         echo "node.data: false" >> $ES_CONF
         echo "node.ingest: false" >> $ES_CONF
+        echo "xpack.ml.enabled: false" >>$ES_CONF
     elif [ ${DATA_ONLY_NODE} -ne 0 ]; then
         log "[configure_elasticsearch_yaml] configure node as data only"
         echo "node.master: false" >> $ES_CONF
