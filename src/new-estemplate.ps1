@@ -23,18 +23,22 @@ Example: Sample values for first master creation VM: ctesdmaster-0
     "kibana" = "No"
 #>
 Param(
+    # Enter the Github base URL
+    [string]$sourceUrl = 'https://raw.githubusercontent.com/darrell-tethr/azure-marketplace/v6.3.1_feature-deploy-single-node-type/src',
     # Configure for vNet. If you want a new vNet created, enter 'new'; otherwise, enter 'existing'
     [string]$vNetNewOrExist = 'existing',
-    # Enter node type. Options: master, data, or client. NOTE- clients deploys as a Scale Set.
+    # Enter Resource Group name.
+    [string]$rg = 'estemplate-poc-rg',
+    # Enter node type. Options: master, data, or client
     [string]$nodetype,
     # Enter a unique VM id number, e.g., 1,2,3,
     [string]$vmid,
     # Enter the Availability Zone number, e.g., 1, 2, or 3. For Scale Sets, enter ss.
     [string]$zone,
     # Enter the Load Balancers type, i.e., internal or external.
-    # Note: Only Scale Sets will be configured for Backend LB pool.
+    # Note: Only Client Nodes will be configured for Backend LB pool.
     [string]$LBtype ='external',
-    # Install Kibana if needed.
+    # Install Kibana if needed. IMPORTANT! Do not install with Master Node deploys. Options: Yes, No
     [string]$kibanainstall = "No"
 )
 
@@ -42,11 +46,11 @@ Param(
 # $DebugPreference = "Continue"
 
 $clusterParameters = @{
-    "artifactsBaseUrl"="https://raw.githubusercontent.com/darrell-tethr/azure-marketplace/v6.3.1_feature-deploy-single-node-type/src"
+    "artifactsBaseUrl"="$sourceUrl"
     "esVersion" = "6.3.1"
     "esClusterName" = "elasticsearch"
     "vNetNewOrExisting" = "$vNetNewOrExist"
-    "vNetExistingResourceGroup" = "estemplate-poc-rg"
+    "vNetExistingResourceGroup" = "$rg"
     "xpackPlugins" = "Yes"
     "loadBalancerType" = "$LBtype"
     "nodeType" = "$nodetype"
@@ -70,9 +74,9 @@ $clusterParameters = @{
     }
 # Capture all debug info in $output
 # Note that 5>&1 is a PS redirector operator. Required for capturing the debug output.
-$output = New-AzureRmResourceGroupDeployment `
-    -ResourceGroupName "estemplate-poc-rg" `
-    -TemplateUri "https://raw.githubusercontent.com/darrell-tethr/azure-marketplace/v6.3.1_feature-deploy-single-node-type/src/mainTemplate.json" `
+$output = Test-AzureRmResourceGroupDeployment `
+    -ResourceGroupName "$rg" `
+    -TemplateUri "$sourceUrl/mainTemplate.json" `
     -TemplateParameterObject $clusterParameters `
     -DeploymentDebugLogLevel All
 
