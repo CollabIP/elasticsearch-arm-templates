@@ -33,7 +33,7 @@ Param(
     # Configure for vNet. If you want a new vNet created, enter 'new'; otherwise, enter 'existing'
     [string]$vNetNewOrExist = 'existing',
     # Enter Resource Group name.
-    [string]$rg = 'estemplate-poc-rg'
+    [string]$rg = 'estemplate-poc-rg',
     # Enter node type. Options: master, data, or client
     [string]$nodetype,
     # Enter a unique VM id number, e.g., 1,2,3. Not used for VM Scale Set deploys
