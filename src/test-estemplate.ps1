@@ -28,6 +28,8 @@ Example: Sample values for first master creation VM: ctesdmaster-0
 #>
 
 Param(
+    # Enter the Github base URL
+    [string]$sourceUrl = 'https://raw.githubusercontent.com/darrell-tethr/azure-marketplace/v6.3.1_feature-deploy-single-node-type/src',
     # Configure for vNet. If you want a new vNet created, enter 'new'; otherwise, enter 'existing'
     [string]$vNetNewOrExist = 'existing',
     # Enter node type. Options: master, data, or client
@@ -47,7 +49,7 @@ Param(
 $DebugPreference = "Continue"
 
 $clusterParameters = @{
-    "artifactsBaseUrl"="https://raw.githubusercontent.com/darrell-tethr/azure-marketplace/v6.3.1_feature-deploy-single-node-type/src"
+    "artifactsBaseUrl"="$sourceUrl"
     "esVersion" = "6.3.1"
     "esClusterName" = "elasticsearch"
     "vNetNewOrExisting" = "$vNetNewOrExist"
@@ -77,7 +79,7 @@ $clusterParameters = @{
 # Note that 5>&1 is a PS redirector operator. Required for capturing the debug output.
 $output = Test-AzureRmResourceGroupDeployment `
     -ResourceGroupName "estemplate-poc-rg2" `
-    -TemplateUri "https://raw.githubusercontent.com/darrell-tethr/azure-marketplace/v6.3.1_feature-deploy-single-node-type/src/mainTemplate.json" `
+    -TemplateUri "$sourceUrl/mainTemplate.json" `
     -TemplateParameterObject $clusterParameters `
     -Verbose `
     5>&1
