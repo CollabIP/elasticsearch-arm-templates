@@ -26,12 +26,8 @@ For now, manually edit these parameters for the $clusterParameters array as need
 
 #>
 Param(
-    # Configure for correct base URL for github repo/branch'
-    [string]$sourceBaseUrl = 'https://raw.githubusercontent.com/darrell-tethr/azure-marketplace/v6.3.1_feature-deploy-single-node-type/src',
     # Configure for vNet. If you want a new vNet created, enter 'new'; otherwise, enter 'existing'
     [string]$vNetNewOrExist = 'existing',
-    # Enter the Resource Group name
-    [string]$rg,
     # Enter node type. Options: master, data, or client. NOTE- clients deploys as a Scale Set.
     [string]$nodetype,
     # Enter a unique VM id number, e.g., 1,2,3,
@@ -49,11 +45,11 @@ Param(
 # $DebugPreference = "Continue"
 
 $clusterParameters = @{
-    "artifactsBaseUrl"="$sourceBaseUrl"
+    "artifactsBaseUrl"="https://raw.githubusercontent.com/darrell-tethr/azure-marketplace/v6.3.1_feature-deploy-single-node-type/src"
     "esVersion" = "6.3.1"
     "esClusterName" = "elasticsearch"
     "vNetNewOrExisting" = "$vNetNewOrExist"
-    "vNetExistingResourceGroup" = "$rg"
+    "vNetExistingResourceGroup" = "estemplate-poc-rg"
     "xpackPlugins" = "Yes"
     "loadBalancerType" = "$LBtype"
     "nodeType" = "$nodetype"
@@ -80,8 +76,8 @@ $clusterParameters = @{
 # Capture all debug info in $output
 # Note that 5>&1 is a PS redirector operator. Required for capturing the debug output.
 $output = New-AzureRmResourceGroupDeployment `
-    -ResourceGroupName "$rg" `
-    -TemplateUri "$sourceBaseUrl" `
+    -ResourceGroupName "estemplate-poc-rg" `
+    -TemplateUri "https://raw.githubusercontent.com/darrell-tethr/azure-marketplace/v6.3.1_feature-deploy-single-node-type/src/mainTemplate.json" `
     -TemplateParameterObject $clusterParameters `
     -DeploymentDebugLogLevel All
 
