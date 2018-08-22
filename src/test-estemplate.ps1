@@ -5,7 +5,28 @@ For details on how to configure for test and debug
  see https://blog.mexia.com.au/testing-arm-templates-with-pester
 
  TO DO:  Add support for Pester for better debugging. See URL above. Also see PS Invoke-Pester
+
+Example: Sample values for first master creation VM: ctesdmaster-0
+
+    "vNetNewOrExisting" = "new"
+    "vNetExistingResourceGroup" = "estemplate-poc-rg"
+    "loadBalancerType" = "internal"
+    "nodeType" = "master"
+    "vmId" = "0"
+    "zoneId" = @("1")
+    "kibana" = "Yes"
+
+    Update values for second master creation VM: ctesdmaster-1
+
+    "vNetNewOrExisting" = "existing"
+    "vNetExistingResourceGroup" = "estemplate-poc-rg"
+    "loadBalancerType" = "internal"
+    "nodeType" = "master"
+    "vmId" = "1"
+    "zoneId" = @("2")
+    "kibana" = "No"
 #>
+
 Param(
     # Configure for vNet. If you want a new vNet created, enter 'new'; otherwise, enter 'existing'
     [string]$vNetNewOrExist = 'existing',
@@ -13,12 +34,12 @@ Param(
     [string]$nodetype,
     # Enter a unique VM id number, e.g., 1,2,3...
     [string]$vmid,
-    # Enter the Availability Zone number, e.g., 1, 2, or 3
+    # Enter the Availability Zone number, e.g., 1, 2, or 3. For Scale Sets, enter ss.
     [string]$zone,
     # Enter the Load Balancers type, i.e., internal or external.
     # Note: Only Client Nodes will be configured for Backend LB pool.
     [string]$LBtype ='external',
-    # Install Kibana if needed.
+    # Install Kibana if needed. IMPORTANT! Do not install with Master Node deploys. Options: Yes, No
     [string]$kibanainstall = "No"
 )
 

@@ -2,9 +2,7 @@
 
 Deploys single ES node.
 
-For now, manually edit these parameters for the $clusterParameters array as needed.
-
-    Initial settings for first master creation VM: ctesdmaster-0
+Example: Sample values for first master creation VM: ctesdmaster-0
 
     "vNetNewOrExisting" = "new"
     "vNetExistingResourceGroup" = "estemplate-poc-rg"
@@ -23,7 +21,6 @@ For now, manually edit these parameters for the $clusterParameters array as need
     "vmId" = "1"
     "zoneId" = @("2")
     "kibana" = "No"
-
 #>
 Param(
     # Configure for vNet. If you want a new vNet created, enter 'new'; otherwise, enter 'existing'
@@ -70,9 +67,7 @@ $clusterParameters = @{
     "securityReadPassword" = "Password123"
     "securityKibanaPassword" = "Password123"
     "securityLogstashPassword" = "Password123"
-}
-
-
+    }
 # Capture all debug info in $output
 # Note that 5>&1 is a PS redirector operator. Required for capturing the debug output.
 $output = New-AzureRmResourceGroupDeployment `
