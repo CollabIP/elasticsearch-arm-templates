@@ -74,7 +74,7 @@ $clusterParameters = @{
     }
 # Capture all debug info in $output
 # Note that 5>&1 is a PS redirector operator. Required for capturing the debug output.
-$output = Test-AzureRmResourceGroupDeployment `
+$output = New-AzureRmResourceGroupDeployment `
     -ResourceGroupName "$rg" `
     -TemplateUri "$sourceUrl/mainTemplate.json" `
     -TemplateParameterObject $clusterParameters `
