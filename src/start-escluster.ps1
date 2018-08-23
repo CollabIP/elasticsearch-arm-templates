@@ -9,5 +9,6 @@ get-azurermvm -Status | Where-Object -Property ResourceGroupName -eq $rg | Start
 write-host "Starting all VM Scale Sets in $rg..."
 get-azurermvmss | Where-Object -Property ResourceGroupName -eq $rg | Start-AzureRmVmss
 # confirm final status
-get-azurermvm -status | Where-Object -Property ResourceGroupName -eq $rg | Format-Table
-get-azurermvmss | Where-Object -Property ResourceGroupName -eq $rg | Format-Table
+get-azurermvm -status | Where-Object -Property ResourceGroupName -eq $rg | Format-Table -AutoSize
+# get-azurermvmss | Where-Object -Property ResourceGroupName -eq $rg | Format-Table -AutoSize
+get-azurermvmss | Where-Object -Property ResourceGroupName -eq $rg | Select-Object -Property *
