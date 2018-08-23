@@ -8,7 +8,7 @@
 # To install
 #
 #  Login as root
-#  Copy file to Linux directory or copy/paste entire contents to new file named eshead-install.sh
+#  Copy file to a Linux directory or copy/paste entire contents to new file named eshead-install.sh
 #  Run in bash
 #
 #    Example
@@ -28,13 +28,13 @@ apt install nodejs-legacy
 # Install ES-head app
 ############
 
-# Go to /usr/share
+echo "Go to /usr/share"
 cd /usr/share
 
 echo "Clone the es-head repo"
 git clone git://github.com/mobz/elasticsearch-head.git
 
-# Go to cloned folder
+echo "Go to cloned repo folder"
 cd elasticsearch-head
 		
 echo "Installing npm" 
