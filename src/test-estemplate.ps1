@@ -36,9 +36,9 @@ Param(
     [string]$rg = 'estemplate-poc-rg',
     # Enter node type. Options: master, data, or client
     [string]$nodetype,
-    # Enter a unique VM id number, e.g., 1,2,3. Not used for VM Scale Set deploys
+    # Enter a unique VM id number, e.g., 1,2,3. For Scale Sets, enter ss for ID purposes.
     [string]$vmid,
-    # Enter the Availability Zone number, e.g., 1, 2, or 3. For Scale Sets, enter ss.
+    # Enter the Availability Zone number, e.g., 1, 2, or 3. Note: Scale Sets automatically deploy to all 3 zones.
     [string]$zone,
     # Enter the Load Balancers type, i.e., internal or external.
     # Note: Only Client Nodes will be configured for Backend LB pool.
