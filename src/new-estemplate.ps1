@@ -36,7 +36,7 @@ Param(
     # Enter the Availability Zone number, e.g., 1, 2, or 3. Note: Scale Sets automatically deploy to all 3 zones.
     [string]$zone,
     # Enter the Load Balancers type, i.e., internal or external.
-    # Note: Only Client Nodes will be configured for Backend LB pool.
+    # Note: Only scale sets will be configured for Backend LB pool.
     [string]$LBtype ='external',
     # Install Kibana if needed. IMPORTANT! Do not install with Master Node deploys. Options: Yes, No
     [string]$kibanainstall = "No"
