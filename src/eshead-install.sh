@@ -23,7 +23,7 @@ apt-get update
 
 echo "Install node.js"
 apt install nodejs-legacy
-	
+
 ############	
 # Install ES-head app
 ############
@@ -33,10 +33,10 @@ git clone git://github.com/mobz/elasticsearch-head.git
 
 echo "Go to cloned repo folder"
 cd elasticsearch-head
-		
+
 echo "Installing npm" 
 apt install npm
-		
+
 # Install eshead (It finds the packages in the current directory)
 echo "Installing Elasticsearch Head"
 npm install
