@@ -398,7 +398,7 @@
     },
     "vmSizeDataNodes": {
       "type": "string",
-      "defaultValue": "Standard_B2ms",
+      "defaultValue": "Standard_DS2_v2",
       "allowedValues": [
         "Standard_B2ms",
         "Standard_A0",
@@ -566,7 +566,7 @@
     },
     "vmSizeMasterNodes": {
       "type": "string",
-      "defaultValue": "Standard_B2ms",
+      "defaultValue": "Standard_DS2_v2",
       "allowedValues": [
         "Standard_B2ms",
         "Standard_A0",
@@ -696,7 +696,7 @@
     },
     "vmSizeClientNodes": {
       "type": "string",
-      "defaultValue": "Standard_B2ms",
+      "defaultValue": "Standard_DS2_v2",
       "allowedValues": [
         "Standard_B2ms",
         "Standard_A0",
@@ -812,7 +812,7 @@
     },
     "vmSizeIngestNodes": {
       "type": "string",
-      "defaultValue": "Standard_B2ms",
+      "defaultValue": "Standard_DS2_v2",
       "allowedValues": [
         "Standard_B2ms",
         "Standard_A0",
