@@ -28,7 +28,7 @@ Param(
     # Configure for vNet. If you want a new vNet created, enter 'new'; otherwise, enter 'existing'
     [string]$vNetNewOrExist = 'existing',
     # Enter Resource Group name.
-    [string]$rg = 'estemplate-poc-rg',
+    [string]$rg = 'estemplate-poc-rg2',
     # Enter node type. Options: master, data, or client
     [string]$nodetype,
     # Enter a unique VM id number, e.g., 1,2,3. For Scale Sets, enter ss for ID purposes.
@@ -78,7 +78,8 @@ $output = New-AzureRmResourceGroupDeployment `
     -ResourceGroupName "$rg" `
     -TemplateUri "$sourceUrl/mainTemplate.json" `
     -TemplateParameterObject $clusterParameters `
-    -DeploymentDebugLogLevel All
+    -DeploymentDebugLogLevel All `
+    -Verbose
 
 # Run the output for capture debug info
 $output | out-file .\logs\new-estemplate.log
