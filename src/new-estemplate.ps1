@@ -47,7 +47,7 @@ Param(
 
 $clusterParameters = @{
     "artifactsBaseUrl"="$sourceUrl"
-    "esVersion" = "6.3.1"
+    "esVersion" = "6.4.0"
     "esClusterName" = "elasticsearch"
     "vNetNewOrExisting" = "$vNetNewOrExist"
     "vNetExistingResourceGroup" = "$rg"
