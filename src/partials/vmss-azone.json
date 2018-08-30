@@ -116,8 +116,7 @@
             "extensions": [
               {
                 "name": "[concat(variables('namespace'), parameters('vm').id, 'script')]",
-                "properties": "[parameters('vm').installScript]",
-                "forceUpgradeTag": "[parameters('vm').esVersion]"
+                "properties": "[parameters('vm').installScript]"               
               }
             ]
           }

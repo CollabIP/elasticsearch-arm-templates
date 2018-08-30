@@ -109,6 +109,7 @@
       "managementPort": 22,
       "extensionSettings": {
         "master": {
+          "forceUpdateTag": "[parameters('topologySettings').esVersion]",
           "publisher": "Microsoft.Azure.Extensions",
           "type": "CustomScript",
           "typeHandlerVersion": "2.0",
@@ -121,6 +122,7 @@
           }
         },
         "client": {
+          "forceUpdateTag": "[parameters('topologySettings').esVersion]",
           "publisher": "Microsoft.Azure.Extensions",
           "type": "CustomScript",
           "typeHandlerVersion": "2.0",
@@ -133,6 +135,7 @@
           }
         },
         "ingest": {
+          "forceUpdateTag": "[parameters('topologySettings').esVersion]",
           "publisher": "Microsoft.Azure.Extensions",
           "type": "CustomScript",
           "typeHandlerVersion": "2.0",
@@ -145,6 +148,7 @@
           }
         },
         "data": {
+          "forceUpdateTag": "[parameters('topologySettings').esVersion]",
           "publisher": "Microsoft.Azure.Extensions",
           "type": "CustomScript",
           "typeHandlerVersion": "2.0",
@@ -157,6 +161,7 @@
           }
         },
         "kibana": {
+          "forceUpdateTag": "[parameters('topologySettings').esVersion]",
           "publisher": "Microsoft.Azure.Extensions",
           "type": "CustomScript",
           "typeHandlerVersion": "2.0",
