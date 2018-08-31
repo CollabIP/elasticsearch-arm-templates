@@ -31,7 +31,7 @@ Param(
     # Enter the Github base URL
     [string]$sourceUrl = 'https://raw.githubusercontent.com/darrell-tethr/azure-marketplace/v6.3.1_feature-deploy-single-node-type/src',
     # Enter Elasticsearch version
-    [string]$esVersion = '6.4.0'
+    [string]$esVersion = '6.4.0',
     # Configure for vNet. If you want a new vNet created, enter 'new'; otherwise, enter 'existing'
     [string]$vNetNewOrExist = 'existing',
     # Enter Resource Group name.
