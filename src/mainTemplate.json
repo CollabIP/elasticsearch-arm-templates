@@ -1667,7 +1667,6 @@
       "nodeType": "[parameters('nodeType')]",
       "vmId": "[parameters('vmId')]",
       "zoneId": "[parameters('zoneId')]",
-      "esVersion": "[parameters('esVersion')]",
       "vmDataNodeCount": "[parameters('vmDataNodeCount')]",
       "vmSizeDataNodes": "[parameters('vmSizeDataNodes')]",
       "vmDataNodeStorageAccountType": "[variables('dataSkuSettings')[parameters('vmSizeDataNodes')].storageAccountType]",
