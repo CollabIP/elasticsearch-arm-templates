@@ -79,7 +79,7 @@
       },
       "properties": {
         "upgradePolicy": {
-          "mode": "Manual"
+          "mode": "Automatic"
         },
         "virtualMachineProfile": {
           "osProfile": "[variables('osProfile')]",
