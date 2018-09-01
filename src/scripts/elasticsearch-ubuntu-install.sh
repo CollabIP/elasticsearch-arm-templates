@@ -1270,8 +1270,12 @@ port_forward()
 # change yaml configuration and only restart the server when needed
 if monit status elasticsearch >& /dev/null; then
 
-  configure_elasticsearch_yaml
+  # Tethr custom - Upgrade elasticsearch. Only runs when newer version is specified.
+  # Runs install_es in order to upgrade to newer version when specified.
+  install_es
 
+  configure_elasticsearch_yaml
+  
   # if this is a data node using temp disk, check existence and permissions
   check_data_disk
 
