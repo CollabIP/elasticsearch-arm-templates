@@ -1270,8 +1270,9 @@ port_forward()
 # change yaml configuration and only restart the server when needed
 if monit status elasticsearch >& /dev/null; then
 
-  # Tethr custom - Upgrade elasticsearch. Only runs when newer version is specified.
-  # Runs install_es in order to upgrade to newer version when specified.
+  # Tethr custom - Upgrade elasticsearch
+  # Redeploys es deb package. Will upgrade to newer version if specified in deploy parameters.
+  monit stop elasticsearch
   install_es
 
   configure_elasticsearch_yaml
@@ -1282,6 +1283,9 @@ if monit status elasticsearch >& /dev/null; then
   # restart elasticsearch if the configuration has changed
   cmp --silent /etc/elasticsearch/elasticsearch.yml /etc/elasticsearch/elasticsearch.bak \
     || monit restart elasticsearch
+
+  # Tethr custom- Start elasticsearch
+  monit start elasticsearch
 
   exit 0
 fi
