@@ -20,6 +20,9 @@ param(
                    Position=1)]
     $password
 )
+write-host 'Download shakesspeare_6.0.json data from ES website'
+invoke-webrequest https://download.elastic.co/demos/kibana/gettingstarted/shakespeare_6.0.json
+
 write-host 'Load shakesspeare_6.0.json data into ES cluster'
 cd C:\Users\tethradmin\Downloads
 $base64AuthInfo = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes(("{0}:{1}" -f $username,$password)))
