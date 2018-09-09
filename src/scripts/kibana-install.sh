@@ -59,6 +59,13 @@ fi
 
 if service --status-all | grep -Fq 'kibana'; then
   log "Kibana already installed."
+
+  # Tethr Custom. Upgrade the Kibana version by calling the download_kibana function.
+  log "Download latest Kibana version"
+  download_kibana
+  log "Restart Kibana service"
+  service kibana restart
+
   exit 0
 fi
 
