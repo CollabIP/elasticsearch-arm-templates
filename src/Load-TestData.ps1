@@ -4,9 +4,10 @@
 
 To run...
 
-Download shakespeare_6.0.json file from https://www.elastic.co/guide/en/kibana/6.x/tutorial-load-dataset.html
+1. Copy this PS script into your local Documents folder in Windows.
+2. Run script from PS.
 
-Save file in C:\Users\tethradmin\Downloads\shakespeare_6.0.json"
+    .\Load-TestData.ps1
 
 #>
 param(
@@ -20,8 +21,8 @@ param(
                    Position=1)]
     $password
 )
-write-host 'Download shakesspeare_6.0.json data from ES website'
-invoke-webrequest https://download.elastic.co/demos/kibana/gettingstarted/shakespeare_6.0.json
+write-host 'Download shakesspeare_6.0.json data from ES website into user Download folder'
+invoke-webrequest https://download.elastic.co/demos/kibana/gettingstarted/shakespeare_6.0.json -outfile "~\downloads\shakesspeare_6.0.json"
 
 write-host 'Load shakesspeare_6.0.json data into ES cluster'
 cd C:\Users\tethradmin\Downloads
