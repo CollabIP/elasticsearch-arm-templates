@@ -135,6 +135,7 @@ posts for further information
     <br />
     The ES node type to be deployed.
     <br />
+    <br />
     <ul>
     <li><code>master</code> Deploys a single Master node</li>
     <li><code>data</code> Deploys a single Data node.</li>
@@ -167,8 +168,9 @@ posts for further information
   <tr><td>scaleSetInstanceCount</td><td>string</td>
     <td><strong>Tethr CUSTOM</strong>
     <br />
+    Number of Scale Set nodes to provision.
     <br />
-    Number of Scale Set nodes to provision. By default, 3 VMs will deploy, each to a different Availability Zone.
+     By default, 3 VMs will deploy, each to a different Availability Zone.
     </td><td><code>3</code></td></tr>
 
   <tr><td>azureCloudPlugin</td><td>string</td>
