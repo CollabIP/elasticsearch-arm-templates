@@ -1,17 +1,16 @@
-# ATTENTION! Tethr CUSTOM
+# ATTENTION! Tethr Custom ARM Templates
 
-This forked repo version has been highly-customized to support the following:
+This forked repo version has been highly-customized. Though much 
 
-* Availability Zones - The templates have been designed to allow for the deployment of Elasticsearch nodes to Zones 1, 2, and 3.
+* <strong>Availability Zones</strong> - The templates have been designed to allow for the deployment of Elasticsearch nodes to Zones 1, 2, and 3.
 
-* VM Scale Sets - The templates have been designed to allow for the deployment of dedicated Client (Coordinating) nodes and Ingest nodes as VM Scale Sets.
+* <strong>VM Scale Sets</strong> - The templates have been designed to allow for the deployment of dedicated Client (Coordinating) nodes and Ingest nodes as VM Scale Sets.
 
-* Ingest nodes - Dedicated Ingest nodes can be deployed as a VM Scale Set.
+* <strong>Ingest nodes</strong> - Dedicated Ingest nodes can be deployed as a VM Scale Set.
 
+To support these new features, many changes have been made.
 
-To support these new features, many changes have been made:
-
-## Important Changes
+## Deploy the ES cluster
 
 New parameters have been added to support the new features.
 
@@ -24,15 +23,18 @@ New parameters have been added to support the new features.
 
 New Deploy scripts
 
+To deploy, use the Powershell script \src\new-estemplate.ps1
+
 
 
 
 # Elasticsearch Azure Marketplace offering
+WARNING! 
 
 This repository consists of:
 
 * [src/mainTemplate.json](src/mainTemplate.json) - The main Azure Resource Management (ARM) template. The template itself is composed of many nested linked templates with the main template acting as the entry point.
-* [src/createUiDefinition](src/createUiDefinition.json) - UI definition file for our Azure Marketplace offering. This file produces an output JSON that the ARM template can accept as input parameters.
+* [src/createUiDefinition](src/createUiDefinition.json) - DEPRECATED! NOT SUPPORTED. UI definition file for our Azure Marketplace offering. This file produces an output JSON that the ARM template can accept as input parameters.
 
 ## Building
 
@@ -98,7 +100,7 @@ posts for further information
 * [Spinning up a cluster with Elastic's Azure Marketplace template](https://www.elastic.co/blog/spinning-up-a-cluster-with-elastics-azure-marketplace-template)
 * [Elasticsearch and Kibana deployments on Azure](https://www.elastic.co/blog/elasticsearch-and-kibana-deployments-on-azure)
 
-### Parameters (Note: Tethr CUSTOM)
+### Parameters (Note: Tethr custom parameters have been added)
 
 <table>
   <tr><th>Parameter</td><th>Type</th><th>Description</th><th>Default Value</th></tr>
