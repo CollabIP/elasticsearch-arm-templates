@@ -9,6 +9,24 @@ This forked repo version has been highly-customized to support the following:
 * Ingest nodes - Dedicated Ingest nodes can be deployed as a VM Scale Set.
 
 
+To support these new features, many changes have been made:
+
+## Important Changes
+
+New parameters have been added to support the new features.
+
+  * nodeType
+  * vmId
+  * zoneId
+  * scaleSetInstanceCount
+
+ See full details in table below.
+
+New Deploy scripts
+
+
+
+
 # Elasticsearch Azure Marketplace offering
 
 This repository consists of:
@@ -111,6 +129,20 @@ posts for further information
     <p><strong>If you are setting up Elasticsearch or Kibana on a publicly available IP address, it is highly recommended to secure access to the cluster with a product like 
     <a href="https://www.elastic.co/products/x-pack/security">Elastic's Security</a>, in addition to configuring transport layer security.</strong></p>
     </td><td><code>internal</code></td></tr>
+
+  <tr><td>nodeType</td><td>string</td>
+    <td> <strong>CUSTOM</strong> The ES node type to be deployed. Options
+    <code>master</code> Deploys a Master node
+    <code>data</code> Deploys a Data node.
+    <code>client</code> Deploys a Client VM Scale Set.
+    <code>ingest</code> Deploys an Ingest VM Scale Set. 
+    </td><td><code>""</code></td></tr>
+
+  <tr><td>vmId</td><td>string</td>
+    <td> <strong>CUSTOM</strong> A unique VM identifier.
+    For Master or Data nodes, enter a number, e.g., <code>1</code>, <code>2</code>, <code>3</code> 
+    For Client or Ingest VM Scale Sets, enter <code>ss</code>
+    </td><td><code>""</code></td></tr> 
 
   <tr><td>azureCloudPlugin</td><td>string</td>
     <td>Either <code>Yes</code> or <code>No</code> to install the Azure Cloud plugin for snapshot/restore. 
