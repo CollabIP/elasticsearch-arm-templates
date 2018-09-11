@@ -1,6 +1,6 @@
 # ATTENTION! Tethr Custom ARM Templates
 
-This forked repo version has been highly-customized. Though much 
+This forked repo version has been highly-customized. 
 
 * <strong>Availability Zones</strong> - The templates have been designed to allow for the deployment of Elasticsearch nodes to Zones 1, 2, and 3.
 
@@ -10,7 +10,7 @@ This forked repo version has been highly-customized. Though much
 
 To support these new features, many changes have been made.
 
-## Deploy the ES cluster
+## Deploy the Tethr custom ARM templates
 
 New parameters have been added to support the new features.
 
@@ -29,7 +29,7 @@ To deploy, use the Powershell script \src\new-estemplate.ps1
 
 
 # Elasticsearch Azure Marketplace offering
-WARNING! 
+<strong>DISCLAINER</strong> Though much of the functionality of the original MarketPlace template remain intact, much has changed; therefore, not all of the original README text below is still accurate.
 
 This repository consists of:
 
