@@ -1,6 +1,6 @@
-# ATTENTION! Tethr Custom ARM Templates
+# ATTENTION! Tethr Custom ARM Templates for Elasticsearch Azure MarketPlace 
 
-This forked repo version has been highly-customized. 
+This forked repo has been highly-customized in order to support the following items--
 
 * <strong>Availability Zones</strong> - The templates have been designed to allow for the deployment of Elasticsearch nodes to Zones 1, 2, and 3.
 
@@ -10,7 +10,9 @@ This forked repo version has been highly-customized.
 
 To support these new features, many changes have been made.
 
-## Deploy the Tethr custom ARM templates
+## Deploying the Tethr custom ARM templates
+
+To deploy, use the Powershell script \src\new-estemplate.ps1.
 
 New parameters have been added to support the new features.
 
@@ -19,17 +21,10 @@ New parameters have been added to support the new features.
   * zoneId
   * scaleSetInstanceCount
 
- See full details in table below. Each is labeled as Tethr CUSTOM
+See full details in Parameters table below. Each is labeled as Tethr CUSTOM
 
-New Deploy scripts
-
-To deploy, use the Powershell script \src\new-estemplate.ps1
-
-
-
-
-# Elasticsearch Azure Marketplace offering
-<strong>DISCLAINER</strong> Though much of the functionality of the original MarketPlace template remain intact, much has changed; therefore, not all of the original README text below is still accurate.
+# Elasticsearch Azure Marketplace offering (Includes Tethr custom templates)
+<strong>WARNING</strong> Though much of the functionality of the original MarketPlace templates remain intact, much has changed; therefore, not all of the original README text below is still accurate.
 
 This repository consists of:
 
@@ -42,7 +37,7 @@ After pulling the source, call `npm install` once to pull in all devDependencies
 
 You may edit [build/allowedValues.json](build/allowedValues.json), which the build will use to patch the ARM template and Marketplace UI definition.
 
-Run `npm run build`; this will validate EditorConfig settings, JSON files, patch the allowedValues and create a zip in the `dist` folder.
+Run `npm run build`; this will validate EditorConfig settings, JSON files, patch the allowedValues and create a zip in the `dist` folder. 
 
 For more details around developing the template, take a look at the [Development README](build/README.md)
 
