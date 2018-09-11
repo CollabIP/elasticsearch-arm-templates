@@ -31,7 +31,7 @@ Param(
     [string]$vNetNewOrExist = 'existing',
     # Enter Resource Group name.
     [string]$rg = 'estemplate-poc-rg2',
-    # Enter node type. Options: master, data, or client
+    # Enter node type. Options: master, data, client, or ingest
     [string]$nodetype,
     # Enter a unique VM id number, e.g., 1,2,3. For Scale Sets, enter ss for ID purposes.
     [string]$vmid,
