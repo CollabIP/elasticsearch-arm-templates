@@ -98,7 +98,7 @@ posts for further information
 * [Spinning up a cluster with Elastic's Azure Marketplace template](https://www.elastic.co/blog/spinning-up-a-cluster-with-elastics-azure-marketplace-template)
 * [Elasticsearch and Kibana deployments on Azure](https://www.elastic.co/blog/elasticsearch-and-kibana-deployments-on-azure)
 
-### Parameters
+### Parameters (Tethr CUSTOM)
 
 <table>
   <tr><th>Parameter</td><th>Type</th><th>Description</th><th>Default Value</th></tr>
@@ -133,10 +133,11 @@ posts for further information
   <tr><td>nodeType</td><td>string</td>
     <td> <strong>Tethr CUSTOM</strong>
     <br />
-    The ES node type to be deployed. Options
+    The ES node type to be deployed.
+    <br />
     <ul>
-    <li><code>master</code> Deploys a Master node</li>
-    <li><code>data</code> Deploys a Data node.</li>
+    <li><code>master</code> Deploys a single Master node</li>
+    <li><code>data</code> Deploys a single Data node.</li>
     <li><code>client</code> Deploys a Client VM Scale Set.</li>
     <li><code>ingest</code> Deploys an Ingest VM Scale Set.</li>
     </ul>
@@ -150,21 +151,24 @@ posts for further information
     <br />
     For Master or Data nodes, enter a number, e.g., <code>1</code>, <code>2</code>, <code>3</code>
     <br />
+    <br />
     For Client or Ingest VM Scale Sets, enter <code>ss</code>
     </td><td><code>""</code></td></tr>
 
   <tr><td>zoneId</td><td>array</td>
     <td><strong>Tethr CUSTOM</strong>
     <br />
+    Enter the Availability Zone number to deploy, i.e., <code>1</code>, <code>2</code>, <code>3</code>.
     <br />
-    Enter the Availability Zone number, i.e., <code>1</code>, <code>2</code>, <code>3</code>
+    <br />
+    NOTE: For Client and Ingest VM Scale Sets, simply enter <code>1</code>. By default, 1 VM will deploy to each Zone.
     </td><td><code>""</code></td></tr>
   
   <tr><td>scaleSetInstanceCount</td><td>string</td>
     <td><strong>Tethr CUSTOM</strong>
     <br />
     <br />
-    Number of Scale Set nodes to provision. By default, <code>3</code> VMs will deploy, each to a different Availability Zone.
+    Number of Scale Set nodes to provision. By default, 3 VMs will deploy, each to a different Availability Zone.
     </td><td><code>3</code></td></tr>
 
   <tr><td>azureCloudPlugin</td><td>string</td>
