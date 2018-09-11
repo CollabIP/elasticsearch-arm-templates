@@ -1,4 +1,4 @@
-# ATTENTION!
+# ATTENTION! Tethr CUSTOM
 
 This forked repo version has been highly-customized to support the following:
 
@@ -20,7 +20,7 @@ New parameters have been added to support the new features.
   * zoneId
   * scaleSetInstanceCount
 
- See full details in table below.
+ See full details in table below. Each is labeled as Tethr CUSTOM
 
 New Deploy scripts
 
@@ -98,7 +98,7 @@ posts for further information
 * [Spinning up a cluster with Elastic's Azure Marketplace template](https://www.elastic.co/blog/spinning-up-a-cluster-with-elastics-azure-marketplace-template)
 * [Elasticsearch and Kibana deployments on Azure](https://www.elastic.co/blog/elasticsearch-and-kibana-deployments-on-azure)
 
-### Parameters (Tethr CUSTOM)
+### Parameters (Note: Tethr CUSTOM)
 
 <table>
   <tr><th>Parameter</td><th>Type</th><th>Description</th><th>Default Value</th></tr>
