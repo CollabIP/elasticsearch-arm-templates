@@ -21,6 +21,11 @@ Example: Sample values for first master creation VM: ctesdmaster-0
     "vmId" = "1"
     "zoneId" = @("2")
     "kibana" = "No"
+
+    Many of the these parameters have been added to the Powershell Parameter block for
+    convenience.
+
+    
 #>
 Param(
     # Enter the Github base URL
@@ -59,7 +64,7 @@ $clusterParameters = @{
     "vmId" = "$vmid"
     "zoneId" = @("$zone")
     "kibana" = "$kibanainstall"
-    "vmDataDiskCount" = 1
+    "vmDataDiskCount" = 5
     "scaleSetInstanceCount" = "3"
     "vmHostNamePrefix" = "ctesd"
     "vmSizeMasterNodes" ="Standard_DS1_v2"
@@ -80,7 +85,7 @@ $output = New-AzureRmResourceGroupDeployment `
     -ResourceGroupName "$rg" `
     -TemplateUri "$sourceUrl/mainTemplate.json" `
     -TemplateParameterObject $clusterParameters `
-    -DeploymentDebugLogLevel All `
+    # -DeploymentDebugLogLevel All `
     -Verbose
 
 # Run the output for capture debug info
