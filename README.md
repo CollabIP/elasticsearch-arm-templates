@@ -1,3 +1,14 @@
+# ATTENTION
+
+This forked repo version has been highly-customized to support the following:
+
+* Availability Zones - The templates have been designed to allow for the deployment of Elasticsearch nodes to Zones 1, 2, and 3.
+
+* VM Scale Sets - The templates have been designed to allow for the deployment of dedicated Client (Coordinating) nodes and Ingest nodes as VM Scale Sets.
+
+* Ingest nodes - Dedicated Ingest nodes can be deployed as a VM Scale Set.
+
+
 # Elasticsearch Azure Marketplace offering
 
 This repository consists of:
