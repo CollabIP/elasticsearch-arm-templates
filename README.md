@@ -131,18 +131,41 @@ posts for further information
     </td><td><code>internal</code></td></tr>
 
   <tr><td>nodeType</td><td>string</td>
-    <td> <strong>CUSTOM</strong> The ES node type to be deployed. Options
-    <code>master</code> Deploys a Master node
-    <code>data</code> Deploys a Data node.
-    <code>client</code> Deploys a Client VM Scale Set.
-    <code>ingest</code> Deploys an Ingest VM Scale Set. 
+    <td> <strong>Tethr CUSTOM</strong>
+    <br />
+    The ES node type to be deployed. Options
+    <ul>
+    <li><code>master</code> Deploys a Master node</li>
+    <li><code>data</code> Deploys a Data node.</li>
+    <li><code>client</code> Deploys a Client VM Scale Set.</li>
+    <li><code>ingest</code> Deploys an Ingest VM Scale Set.</li>
+    </ul>
     </td><td><code>""</code></td></tr>
 
   <tr><td>vmId</td><td>string</td>
-    <td> <strong>CUSTOM</strong> A unique VM identifier.
-    For Master or Data nodes, enter a number, e.g., <code>1</code>, <code>2</code>, <code>3</code> 
+    <td><strong>Tethr CUSTOM</strong>
+    <br />
+    A unique VM identifier.
+    <br />
+    <br />
+    For Master or Data nodes, enter a number, e.g., <code>1</code>, <code>2</code>, <code>3</code>
+    <br />
     For Client or Ingest VM Scale Sets, enter <code>ss</code>
-    </td><td><code>""</code></td></tr> 
+    </td><td><code>""</code></td></tr>
+
+  <tr><td>zoneId</td><td>array</td>
+    <td><strong>Tethr CUSTOM</strong>
+    <br />
+    <br />
+    Enter the Availability Zone number, i.e., <code>1</code>, <code>2</code>, <code>3</code>
+    </td><td><code>""</code></td></tr>
+  
+  <tr><td>scaleSetInstanceCount</td><td>string</td>
+    <td><strong>Tethr CUSTOM</strong>
+    <br />
+    <br />
+    Number of Scale Set nodes to provision. By default, <code>3</code> VMs will deploy, each to a different Availability Zone.
+    </td><td><code>3</code></td></tr>
 
   <tr><td>azureCloudPlugin</td><td>string</td>
     <td>Either <code>Yes</code> or <code>No</code> to install the Azure Cloud plugin for snapshot/restore. 
