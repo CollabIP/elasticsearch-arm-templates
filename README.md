@@ -1,4 +1,4 @@
-# ATTENTION! Tethr Custom ARM Templates for Elasticsearch Azure MarketPlace 
+# Tethr Custom ARM Templates for Elasticsearch cluster (forked from elastic/azure-marketplace) 
 
 This forked repo has been highly-customized in order to support the following items--
 
@@ -8,7 +8,7 @@ This forked repo has been highly-customized in order to support the following it
 
 * <strong>Ingest nodes</strong> - Dedicated Ingest nodes can be deployed as a VM Scale Set.
 
-To support these new features, many changes have been made.
+
 
 ## Deploying the Tethr custom ARM templates
 
@@ -23,13 +23,13 @@ New parameters have been added to support the new features.
 
 See full details in Parameters table below. Each is labeled as Tethr CUSTOM
 
-# Elasticsearch Azure Marketplace offering (Includes Tethr custom templates)
+# Elasticsearch Azure Marketplace offering (Original description from forked repo. Includes Tethr custom templates)
 <strong>WARNING</strong> Though much of the functionality of the original MarketPlace templates remain intact, much has changed; therefore, not all of the original README text below is still accurate.
 
 This repository consists of:
 
 * [src/mainTemplate.json](src/mainTemplate.json) - The main Azure Resource Management (ARM) template. The template itself is composed of many nested linked templates with the main template acting as the entry point.
-* [src/createUiDefinition](src/createUiDefinition.json) - DEPRECATED! NOT SUPPORTED. UI definition file for our Azure Marketplace offering. This file produces an output JSON that the ARM template can accept as input parameters.
+* [src/createUiDefinition](src/createUiDefinition.json) - <strong>Not supported for Tethr Custom</strong>. UI definition file for our Azure Marketplace offering. This file produces an output JSON that the ARM template can accept as input parameters.
 
 ## Building
 
