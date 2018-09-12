@@ -262,7 +262,10 @@ posts for further information
   </td><td><code>Large</code></td></tr>
 
   <tr><td>vmDataNodeCount</td><td>int</td>
-    <td>The number of data nodes you wish to deploy. Must be greater than 0. 
+    <td><strong>Tethr CUSTOM</strong>
+    <br />Deprecated. No longer active.
+    <br />
+    <br />The number of data nodes you wish to deploy. Must be greater than 0. 
     </td><td><code>3</code></td></tr>
 
   <tr><td>storageAccountType</td><td>string</td>
@@ -282,7 +285,11 @@ posts for further information
     </td><td><code>Standard_D1</code></td></tr>
 
   <tr><td>vmClientNodeCount</td><td>int</td>
-    <td> The number of client nodes to provision. Must be a positive integer. By default, the data nodes are added to the backendpool of the loadbalancer but
+  <td> <strong>Tethr CUSTOM</strong>
+    <br />Deprecated. No longer active.
+    <br />
+    <br />
+    The number of client nodes to provision. Must be a positive integer. By default, the data nodes are added to the backendpool of the loadbalancer but
     if you provision client nodes, these will be added to the loadbalancer instead. Client nodes can be useful in offloading the <em>gather</em> process from data nodes and are necessary to scale an Elasticsearch cluster deployed with this template beyond 100 data nodes (the maximum number of VMs that can be added to a load balancer backendpool).
     </td><td><code>0</code></td></tr>
 
