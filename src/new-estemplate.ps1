@@ -1,36 +1,17 @@
 <#new-estemplate.ps
 
-Deploys single ES node.
+Deploys and upgrades the Elasticsearch node.
+
+For Master and Data Nodes - Deploys single ES node to a specific Availability Zone.
+For Client and Ingest Nodes - Deploys a VM Scale Set. By d
 
 Example: Sample values for first master creation VM: ctesdmaster-0
 
-    "vNetNewOrExisting" = "new"
-    "vNetExistingResourceGroup" = "estemplate-poc-rg"
-    "loadBalancerType" = "internal"
-    "nodeType" = "master"
-    "vmId" = "0"
-    "zoneId" = @("1")
-    "kibana" = "Yes"
-
-    Update values for second master creation VM: ctesdmaster-1
-
-    "vNetNewOrExisting" = "existing"
-    "vNetExistingResourceGroup" = "estemplate-poc-rg"
-    "loadBalancerType" = "internal"
-    "nodeType" = "master"
-    "vmId" = "1"
-    "zoneId" = @("2")
-    "kibana" = "No"
-
-    Many of the these parameters have been added to the Powershell Parameter block for
-    convenience.
-
-    
 #>
 Param(
     # Enter the Github base URL
     [string]$sourceUrl = 'https://raw.githubusercontent.com/darrell-tethr/azure-marketplace/v6.3.1_feature-deploy-single-node-type/src',
-    # Enter Elasticsearch version
+    # Enter the Elasticsearch version to be deployed. 
     [string]$esVersion = '6.4.0',
     # Configure for vNet. If you want a new vNet created, enter 'new'; otherwise, enter 'existing'
     [string]$vNetNewOrExist = 'existing',
@@ -85,7 +66,7 @@ $output = New-AzureRmResourceGroupDeployment `
     -ResourceGroupName "$rg" `
     -TemplateUri "$sourceUrl/mainTemplate.json" `
     -TemplateParameterObject $clusterParameters `
-    # -DeploymentDebugLogLevel All `
+    -DeploymentDebugLogLevel All `
     -Verbose
 
 # Run the output for capture debug info
