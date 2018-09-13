@@ -61,10 +61,11 @@ if service --status-all | grep -Fq 'kibana'; then
   log "Kibana already installed."
 
   # Tethr Custom. Upgrade the Kibana version by calling the download_kibana function.
-  log "Download latest Kibana version"
-  download_kibana
-  log "Restart Kibana service"
-  service kibana restart
+  # Experimental! 9.13.18 Currently does not work. Commented out.
+  # log "Download latest Kibana version"
+  # download_kibana
+  # log "Restart Kibana service"
+  # service kibana restart
 
   exit 0
 fi
@@ -364,6 +365,10 @@ install_start_service()
 {
     log "[install_start_service] Configuring service for kibana to run at start"
     update-rc.d kibana defaults 95 10
+    # Tethr custom. Adding systemctl enable to configure to run at start
+    # For some reason, the update-rc.d command above does not work. 
+    systemctl enable kibana
+
     log "[install_start_service] Starting kibana!"
     service kibana start
 }
