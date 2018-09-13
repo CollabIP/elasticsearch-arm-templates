@@ -1,12 +1,32 @@
 <# test-estemplate.ps
-Runs the test cmdlet only.  See output in start-estemplate.log
+Tests the Tethr custom ARM Templates for Elasticsearch nodes.
+  Runs Azure Test-AzureRmResourceGroupDeployment to validate the templates.
+  See output in start-estemplate.log
 
-For details on how to configure for test and debug
- see https://blog.mexia.com.au/testing-arm-templates-with-pester
+For more details on how to configure for test and debug
+ See https://blog.mexia.com.au/testing-arm-templates-with-pester
+ Add support for Pester for better debugging. See URL above. Also see PS Invoke-Pester
 
- TO DO:  Add support for Pester for better debugging. See URL above. Also see PS Invoke-Pester
 
-Example: Sample values for first master creation VM: ctesdmaster-0
+IMPORTANT! Before running, note there are two parameter sections - Powershell and Cluster
+
+  Powershell script parameters
+
+    - Allows custom param values to be entered when running this script.
+
+        Example: .\new-estemplate.ps1 -nodetype master -vmid 2 -zone 3 -esversion 6.3.1 -rg estemplate-poc-rg
+    
+    - Includes common default values. These can be overridden at runtime if desired.
+
+  
+  Cluster parameters
+
+    These values are either hardcoded or replaced by the Powershell parameter values.
+    Ensure that hardcoded values are properly set
+    
+    Note case-sensitivity!
+
+    Sample of actual values for first master creation VM: ctesdmaster-0
 
     "vNetNewOrExisting" = "new"
     "vNetExistingResourceGroup" = "estemplate-poc-rg"
@@ -14,9 +34,9 @@ Example: Sample values for first master creation VM: ctesdmaster-0
     "nodeType" = "master"
     "vmId" = "0"
     "zoneId" = @("1")
-    "kibana" = "Yes"
+    "kibana" = "No"
 
-    Update values for second master creation VM: ctesdmaster-1
+    Sample of actual values for second master creation VM: ctesdmaster-1
 
     "vNetNewOrExisting" = "existing"
     "vNetExistingResourceGroup" = "estemplate-poc-rg"
@@ -27,6 +47,7 @@ Example: Sample values for first master creation VM: ctesdmaster-0
     "kibana" = "No"
 #>
 
+# Powershell parameters section
 Param(
     # Enter the Github base URL
     [string]$sourceUrl = 'https://raw.githubusercontent.com/darrell-tethr/azure-marketplace/v6.3.1_feature-deploy-single-node-type/src',
@@ -36,6 +57,12 @@ Param(
     [string]$vNetNewOrExist = 'existing',
     # Enter Resource Group name.
     [string]$rg = 'estemplate-poc-rg',
+    # Enter Ubuntu admin user
+    [string]$ubuntuAdmin = 'russ',
+    # Enter Ubuntu admin password
+    [string]$ubuntuPw = 'Password1234',
+    # Enter the password for Elasticsearch super user 'elastic'
+    [string]$esPw = 'Password123',
     # Enter node type. Options: master, data, or client
     [string]$nodetype,
     # Enter a unique VM id number, e.g., 1,2,3. For Scale Sets, enter ss for ID purposes.
@@ -52,6 +79,7 @@ Param(
 # Enable all debug output
 $DebugPreference = "Continue"
 
+# Cluster parameters section
 $clusterParameters = @{
     "artifactsBaseUrl"="$sourceUrl"
     "esVersion" = "$esVersion"
@@ -64,20 +92,20 @@ $clusterParameters = @{
     "vmId" = "$vmid"
     "zoneId" = @("$zone")
     "kibana" = "$kibanainstall"
-    "vmDataDiskCount" = 1
+    "vmDataDiskCount" = 5
     "scaleSetInstanceCount" = "3"
     "vmHostNamePrefix" = "ctesd"
     "vmSizeMasterNodes" ="Standard_DS1_v2"
     "vmSizeDataNodes" = "Standard_DS1_v2"
     "vmSizeClientNodes" = "Standard_DS1_v2"
     "vmSizeIngestNodes" = "Standard_DS1_v2"
-    "adminUsername" = "russ"
-    "adminPassword" = "Password1234"
-    "securityBootstrapPassword" = "Password123"
-    "securityAdminPassword" = "Password123"
-    "securityReadPassword" = "Password123"
-    "securityKibanaPassword" = "Password123"
-    "securityLogstashPassword" = "Password123"
+    "adminUsername" = "$ubuntuAdmin"
+    "adminPassword" = "$ubuntuPw"
+    "securityBootstrapPassword" = "$esPw"
+    "securityAdminPassword" = "$esPw"
+    "securityReadPassword" = "$esPw"
+    "securityKibanaPassword" = "$esPw"
+    "securityLogstashPassword" = "$esPw"
     }
 # Capture all debug info in $output
 # Note that 5>&1 is a PS redirector operator. Required for capturing the debug output.
