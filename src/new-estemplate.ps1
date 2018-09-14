@@ -52,10 +52,16 @@ Param(
     [string]$sourceUrl = 'https://raw.githubusercontent.com/darrell-tethr/azure-marketplace/v6.3.1_feature-deploy-single-node-type/src',
     # Enter the Elasticsearch version to be deployed. 
     [string]$esVersion = '6.4.0',
-    # Configure for vNet. If you want a new vNet created, enter 'new'; otherwise, enter 'existing'
+    # Configure for new or existing vNet. An existing Virtual Network in another Resource Group in the same Location can be used.
     [string]$vNetNewOrExist = 'existing',
-    # Enter Resource Group name.
+    # Enter the vNetName. The Virtual Network must already exist when using an 'existing' Virtual Network
+    [string]$vNetName = 'es-net',
+    # Enter the name of the Resource Group in which the Virtual Network resides when using an 'existing' Virtual Network. Required when using an 'existing' Virtual Network
     [string]$rg = 'estemplate-poc-rg',
+    # Enter the internal static IP address to use when configuring the internal load balancer
+    [string]$vNetLoadBalancerIp = '10.0.0.4',
+    # The name of the subnet to which Elasticsearch nodes will be attached. The subnet must already exist when using an existing Virtual Network.
+    [string]$vNetClusterSubnetName = 'es-subnet',
     # Enter Ubuntu admin user
     [string]$ubuntuAdmin = 'russ',
     # Enter Ubuntu admin password
@@ -83,7 +89,10 @@ $clusterParameters = @{
     "esVersion" = "$esVersion"
     "esClusterName" = "elasticsearch"
     "vNetNewOrExisting" = "$vNetNewOrExist"
+    "vNetName" = "$vNetName"
     "vNetExistingResourceGroup" = "$rg"
+    "vNetLoadBalancerIp" = "$vNetLoadBalancerIp"
+    "vNetClusterSubnetName" = "$vNetClusterSubnetName"
     "xpackPlugins" = "Yes"
     "loadBalancerType" = "$LBtype"
     "nodeType" = "$nodetype"
