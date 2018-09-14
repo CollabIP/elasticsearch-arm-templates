@@ -8,7 +8,7 @@ For Client and Ingest Nodes - Deploys a VM Scale Set. 3 nodes total. 1 node to e
 IMPORTANT! Before initial deployment
 
     The targeted Azure Resource Group must pre-exist.
-    The Determine if new or existing vNet
+    Determine if new or existing vNet
     Verify all parameter default values below are correct
 
 
@@ -24,7 +24,7 @@ For upgrades, define the new -esversion
 
 Data nodes
 Kibana should be installed during at least 1 data node deploy.
-For upgrades, define the new -esversion
+For upgrades, define the new -esversion. Note: Upgrades to Kibana must be done manually.
 
 .\new-estemplate.ps1 -nodetype data -vmid 0 -zone 1  -esversion 6.3.1 -rg estemplate-poc-rg; `
 .\new-estemplate.ps1 -nodetype data -vmid 1  -zone 2 -esversion 6.3.1 -rg estemplate-poc-rg; `
