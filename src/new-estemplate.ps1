@@ -1,11 +1,50 @@
 <#new-estemplate.ps
+Deploys or upgrades the Elasticsearch cluster nodes.
+See Github repo Wiki for full deploy instructions.
 
-Deploys and upgrades the Elasticsearch node.
+For Master and Data Nodes - Deploys a single ES node to a specific Availability Zone.
+For Client and Ingest Nodes - Deploys a VM Scale Set. 3 nodes total. 1 node to each Availability Zone 1, 2, and 3.
 
-For Master and Data Nodes - Deploys single ES node to a specific Availability Zone.
-For Client and Ingest Nodes - Deploys a VM Scale Set. By d
+IMPORTANT! Before initial deployment
 
-Example: Sample values for first master creation VM: ctesdmaster-0
+    The targeted Azure Resource Group must pre-exist.
+    The Determine if new or existing vNet
+    Verify all parameter default values below are correct
+
+
+Sample deploy command lines
+
+Master nodes
+For upgrades, define the new -esversion
+
+.\new-estemplate.ps1 -vNetNewOrExist new -nodetype master -vmid 0 -zone 1 -esversion 6.3.1 -rg estemplate-poc-rg; `
+.\new-estemplate.ps1 -nodetype master -vmid 1 -zone 2 -esversion 6.3.1 -rg estemplate-poc-rg; `
+.\new-estemplate.ps1 -nodetype master -vmid 2 -zone 3 -esversion 6.3.1 -rg estemplate-poc-rg
+
+
+Data nodes
+Kibana should be installed during at least 1 data node deploy.
+For upgrades, define the new -esversion
+
+.\new-estemplate.ps1 -nodetype data -vmid 0 -zone 1  -esversion 6.3.1 -rg estemplate-poc-rg; `
+.\new-estemplate.ps1 -nodetype data -vmid 1  -zone 2 -esversion 6.3.1 -rg estemplate-poc-rg; `
+.\new-estemplate.ps1 -nodetype data -vmid 2 -zone 3 -esversion 6.3.1 -rg estemplate-poc-rg -kibanainstall Yes
+
+
+Client nodes
+Deploys as VM Scale Set. 3 nodes total. 1 node to each Zone (1, 2, and 3).
+Autoscaling is not enabled. Must enable manually in Azure Portal after deploy completes
+For upgrades, define the new -esversion
+
+.\new-estemplate.ps1 -nodetype client -vmid ss -zone 1 -esversion 6.3.1 -rg estemplate-poc-rg
+
+
+Ingest nodes
+Deploys as VM Scale Set. 3 nodes total. 1 node to each Zones (1, 2, and 3).
+Autoscaling is not enabled. Must enable manually in Azure Portal after deploy completes
+For upgrades, define the new -esversion
+
+.\new-estemplate.ps1 -nodetype ingest -vmid ss -zone 1 -esversion 6.3.1 -rg estemplate-poc-rg
 
 #>
 Param(
