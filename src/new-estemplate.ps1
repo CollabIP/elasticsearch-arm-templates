@@ -16,8 +16,14 @@ Param(
     # Configure for vNet. If you want a new vNet created, enter 'new'; otherwise, enter 'existing'
     [string]$vNetNewOrExist = 'existing',
     # Enter Resource Group name.
-    [string]$rg = 'estemplate-poc-rg2',
-    # Enter node type. Options: master, data, client, or ingest
+    [string]$rg = 'estemplate-poc-rg',
+    # Enter Ubuntu admin user
+    [string]$ubuntuAdmin = 'russ',
+    # Enter Ubuntu admin password
+    [string]$ubuntuPw = 'Password1234',
+    # Enter the password for Elasticsearch superuser 'elastic'
+    [string]$esPw = 'Password123',
+    # Enter node type. Options: master, data, or client
     [string]$nodetype,
     # Enter a unique VM id number, e.g., 1,2,3. For Scale Sets, enter ss for ID purposes.
     [string]$vmid,
@@ -52,13 +58,13 @@ $clusterParameters = @{
     "vmSizeDataNodes" = "Standard_DS1_v2"
     "vmSizeClientNodes" = "Standard_DS1_v2"
     "vmSizeIngestNodes" = "Standard_DS1_v2"
-    "adminUsername" = "russ"
-    "adminPassword" = "Password1234"
-    "securityBootstrapPassword" = "Password123"
-    "securityAdminPassword" = "Password123"
-    "securityReadPassword" = "Password123"
-    "securityKibanaPassword" = "Password123"
-    "securityLogstashPassword" = "Password123"
+    "adminUsername" = "$ubuntuAdmin"
+    "adminPassword" = "$ubuntuPw"
+    "securityBootstrapPassword" = "$esPw"
+    "securityAdminPassword" = "$esPw"
+    "securityReadPassword" = "$esPw"
+    "securityKibanaPassword" = "$esPw"
+    "securityLogstashPassword" = "$esPw"
     }
 # Capture all debug info in $output
 # Note that 5>&1 is a PS redirector operator. Required for capturing the debug output.
