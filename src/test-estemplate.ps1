@@ -7,14 +7,13 @@ For more details on how to configure for test and debug
  See https://blog.mexia.com.au/testing-arm-templates-with-pester
  Add support for Pester for better debugging. See URL above. Also see PS Invoke-Pester
 
-
 IMPORTANT! Before running, note there are two parameter sections - Powershell and Cluster
 
   Powershell script parameters
 
     - Allows custom param values to be entered when running this script.
 
-        Example: .\new-estemplate.ps1 -nodetype master -vmid 2 -zone 3 -esversion 6.3.1 -rg estemplate-poc-rg
+        Example: .\new-estemplate.ps1 -nodetype master -vmid 0 -zone 1 -esversion 6.4.0 -rg estemplate-poc-rg
     
     - Includes common default values. These can be overridden at runtime if desired.
 
@@ -24,7 +23,7 @@ IMPORTANT! Before running, note there are two parameter sections - Powershell an
     These values are either hardcoded or replaced by the Powershell parameter values.
     Ensure that hardcoded values are properly set
     
-    Note case-sensitivity!
+    IMPORTANT!  Note case-sensitivity.
 
     Sample of actual values for first master creation VM: ctesdmaster-0
 
@@ -61,7 +60,7 @@ Param(
     [string]$ubuntuAdmin = 'russ',
     # Enter Ubuntu admin password
     [string]$ubuntuPw = 'Password1234',
-    # Enter the password for Elasticsearch super user 'elastic'
+    # Enter the password for Elasticsearch superuser 'elastic'
     [string]$esPw = 'Password123',
     # Enter node type. Options: master, data, or client
     [string]$nodetype,
