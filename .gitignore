@@ -51,3 +51,4 @@ parameters/test*.parameters.json
 .idea/
 
 .vscode/
+src/Restore-VMfromSnapshot.ps1
