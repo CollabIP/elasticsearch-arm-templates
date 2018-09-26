@@ -60,7 +60,7 @@ Param(
     [string]$rg = 'estemplate-poc-rg',
     # Enter the internal static IP address to use when configuring the internal load balancer
     [string]$vNetLoadBalancerIp = '10.0.0.4',
-    # The name of the subnet to which Elasticsearch nodes will be attached. The subnet must already exist when using an existing Virtual Network.
+    # The name of the subnet to which Elasticsearch nodes will be attached. The subnet must already exist when using an existing Virtual Network.
     [string]$vNetClusterSubnetName = 'es-subnet',
     # Enter Ubuntu admin user
     [string]$ubuntuAdmin = 'russ',
@@ -103,7 +103,7 @@ $clusterParameters = @{
     "scaleSetInstanceCount" = "3"
     "vmHostNamePrefix" = "ctesd"
     "vmSizeMasterNodes" ="Standard_DS1_v2"
-    "vmSizeDataNodes" = "Standard_DS1_v2"
+    "vmSizeDataNodes" = "Standard_DS2_v3"
     "vmSizeClientNodes" = "Standard_DS1_v2"
     "vmSizeIngestNodes" = "Standard_DS1_v2"
     "adminUsername" = "$ubuntuAdmin"
