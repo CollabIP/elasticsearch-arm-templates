@@ -113,7 +113,7 @@ CLUSTER_USES_DEDICATED_MASTERS=0
 DATANODE_COUNT=0
 
 MINIMUM_MASTER_NODES=3
-UNICAST_HOSTS='["'"$NAMESPACE_PREFIX"'master-0:9300","'"$NAMESPACE_PREFIX"'master-1:9300","'"$NAMESPACE_PREFIX"'master-2:9300"]'
+UNICAST_HOSTS='["'"$NAMESPACE_PREFIX"'esm01:9300","'"$NAMESPACE_PREFIX"'esm02:9300","'"$NAMESPACE_PREFIX"'esm03:9300"]'
 
 USER_ADMIN_PWD="changeme"
 USER_READ_PWD="changeme"
@@ -259,7 +259,7 @@ done
 
 if [ ${CLUSTER_USES_DEDICATED_MASTERS} -ne 0 ]; then
     MINIMUM_MASTER_NODES=2
-    UNICAST_HOSTS='["'"$NAMESPACE_PREFIX"'master-0:9300","'"$NAMESPACE_PREFIX"'master-1:9300","'"$NAMESPACE_PREFIX"'master-2:9300"]'
+    UNICAST_HOSTS='["'"$NAMESPACE_PREFIX"'esm01:9300","'"$NAMESPACE_PREFIX"'esm02:9300","'"$NAMESPACE_PREFIX"'esm03:9300"]'
 else
     MINIMUM_MASTER_NODES=$(((DATANODE_COUNT/2)+1))
     UNICAST_HOSTS='['
@@ -998,7 +998,7 @@ configure_elasticsearch_yaml()
         echo "# Tethr custom. Enable CORS.  Needed for allowing elasticsearch-head to access this node" >> $ES_CONF
         echo "http.cors.enabled: true" >> $ES_CONF
         echo "# Tethr custom. Set the origin to allow only the elasticsearch-head webapp URL to access" >> $ES_CONF
-        echo "http.cors.allow-origin: http://${NAMESPACE_PREFIX}kibana:9100" >> $ES_CONF
+        echo "http.cors.allow-origin: http://${NAMESPACE_PREFIX}esk:9100" >> $ES_CONF
         echo "# Tethr custom. Add header Authorization, in additional to the regular default values." >> $ES_CONF
         echo "http.cors.allow-headers: Authorization, X-Requested-With, Content-Type, Content-Length" >> $ES_CONF
     elif [ ${INGEST_ONLY_NODE} -ne 0 ]; then
@@ -1010,7 +1010,7 @@ configure_elasticsearch_yaml()
         echo "# Tethr custom. Enable CORS.  Needed for allowing elasticsearch-head to access this node" >> $ES_CONF
         echo "http.cors.enabled: true" >> $ES_CONF
         echo "# Tethr custom. Set the origin to allow only the elasticsearch-head webapp URL to access" >> $ES_CONF
-        echo "http.cors.allow-origin: http://${NAMESPACE_PREFIX}kibana:9100" >> $ES_CONF
+        echo "http.cors.allow-origin: http://${NAMESPACE_PREFIX}esk:9100" >> $ES_CONF
         echo "# Tethr custom. Add header Authorization, in additional to the regular default values." >> $ES_CONF
         echo "http.cors.allow-headers: Authorization, X-Requested-With, Content-Type, Content-Length" >> $ES_CONF
     else
