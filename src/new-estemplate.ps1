@@ -62,7 +62,7 @@ Param(
     [string]$sourceUrl = 'https://raw.githubusercontent.com/darrell-tethr/azure-marketplace/master/src',
     
     # Enter the Elasticsearch version to be deployed. 
-    [string]$esVersion = '6.4.0',
+    [string]$esVersion = '6.4.2',
     
     # Configure for new or existing vNet. An existing Virtual Network in another Resource Group in the same Location can be used.
     [string]$vNetNewOrExist = 'existing',
