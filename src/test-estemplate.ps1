@@ -49,7 +49,7 @@ IMPORTANT! Before running, note there are two parameter sections - Powershell an
 # Powershell parameters section
 Param(
     # Enter the Github base URL
-    [string]$sourceUrl = 'https://raw.githubusercontent.com/darrell-tethr/azure-marketplace/v6.3.1_feature-deploy-single-node-type/src',
+    [string]$sourceUrl = 'https://raw.githubusercontent.com/darrell-tethr/azure-marketplace/master/src',
     # Enter the Elasticsearch version to be deployed. 
     [string]$esVersion = '6.4.0',
     # Configure for new or existing vNet. An existing Virtual Network in another Resource Group in the same Location can be used.
