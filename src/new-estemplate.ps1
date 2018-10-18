@@ -80,15 +80,19 @@ Param(
     [string]$vNetClusterSubnetName = 'es-subnet',
     
     # Enter Ubuntu admin user
+    [Parameter(Mandatory=$true)]
     [string]$ubuntuAdmin = 'russ',
     
     # Enter Ubuntu admin password
+    [Parameter(Mandatory=$true)]
     [string]$ubuntuPw = 'Password1234',
     
     # Enter the password for built-in Elasticsearch superuser 'elastic'
+    [Parameter(Mandatory=$true)]
     [string]$elasticPw = 'Password123',
     
     # Enter the password for built-in Elasticsearch regular users
+    [Parameter(Mandatory=$true)]
     [string]$esUserPw = 'Password123',
     
     # Enter node type. Options: master, data, or client
@@ -130,13 +134,13 @@ $clusterParameters = @{
     "vmDataDiskSize" = "Small"   # Small (128Gb), Medium (512GB), Large (1024GB)
     "scaleSetInstanceCount" = "3"
     "vmHostNamePrefix" = "ctedeu2d01"  # NOTE: Change as needed. Use d for dev, p for prod
-    "vmSizeMasterNodes" ="Standard_DS1_v2"
+    "vmSizeMasterNodes" ="Standard_DS2_v2"
     "vmSizeDataNodes" = "Standard_DS2_v2"  # Increased size to support disk encryption
-    "vmSizeClientNodes" = "Standard_DS1_v2"
-    "vmSizeIngestNodes" = "Standard_DS1_v2"
+    "vmSizeClientNodes" = "Standard_DS2_v2"
+    "vmSizeIngestNodes" = "Standard_DS2_v2"
     "adminUsername" = "$ubuntuAdmin"
     "adminPassword" = "$ubuntuPw"
-    # "securityBootstrapPassword" = "$elasticPw"  DISABLED. Will be auto generated. Enter empty space when prompted.
+    "securityBootstrapPassword" = "" # Leave empty. Will be auto generated.
     "securityAdminPassword" = "$elasticPw"  # The password for built-in Elasticsearch superuser 'elastic'
     "securityReadPassword" = "$esUserPw"
     "securityKibanaPassword" = "$esUserPw"
