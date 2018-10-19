@@ -1816,7 +1816,7 @@
             "value": "[variables('commonVmSettings').location]"
           },
           "namespace": {
-            "value": "[concat(variables('commonVmSettings').namespacePrefix, 'kibana')]"
+            "value": "[concat(variables('commonVmSettings').namespacePrefix, 'esk')]"
           },
           "https": {
             "value": "[variables('topologySettings').kibanaHttps]"
