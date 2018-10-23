@@ -1001,8 +1001,6 @@ configure_elasticsearch_yaml()
         echo "http.cors.allow-origin: http://${NAMESPACE_PREFIX}esk:9100" >> $ES_CONF
         echo "# Tethr custom. Add header Authorization, in additional to the regular default values." >> $ES_CONF
         echo "http.cors.allow-headers: Authorization, X-Requested-With, Content-Type, Content-Length" >> $ES_CONF
-        echo "# Tethr custom. Add lines to support reindexing from a remote cluster" >> $ES_CONF
-        echo "reindex.remote.whitelist: "*:9200"" >> $ES_CONF
     elif [ ${INGEST_ONLY_NODE} -ne 0 ]; then
         log "[configure_elasticsearch_yaml] configure node as ingest only"
         echo "node.master: false" >> $ES_CONF
