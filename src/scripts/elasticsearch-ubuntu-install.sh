@@ -982,18 +982,15 @@ configure_elasticsearch_yaml()
         log "[configure_elasticsearch_yaml] configure node as master only"
         echo "node.master: true" >> $ES_CONF
         echo "node.data: false" >> $ES_CONF
-        echo "node.ingest: false" >> $ES_CONF
         echo "xpack.ml.enabled: false" >>$ES_CONF
     elif [ ${DATA_ONLY_NODE} -ne 0 ]; then
         log "[configure_elasticsearch_yaml] configure node as data only"
         echo "node.master: false" >> $ES_CONF
         echo "node.data: true" >> $ES_CONF
-        echo "node.ingest: false" >> $ES_CONF
     elif [ ${CLIENT_ONLY_NODE} -ne 0 ]; then
         log "[configure_elasticsearch_yaml] configure node as client only"
         echo "node.master: false" >> $ES_CONF
         echo "node.data: false" >> $ES_CONF
-        echo "node.ingest: false" >> $ES_CONF
         # Tethr custom. Add lines to support elasticsearch-head. Allows es-head to connect to es cluster
         echo "# Tethr custom. Enable CORS.  Needed for allowing elasticsearch-head to access this node" >> $ES_CONF
         echo "http.cors.enabled: true" >> $ES_CONF
