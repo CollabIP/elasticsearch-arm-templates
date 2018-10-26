@@ -51,23 +51,34 @@ Param(
     # Enter the Github base URL
     [string]$sourceUrl = 'https://raw.githubusercontent.com/darrell-tethr/azure-marketplace/master/src',
     # Enter the Elasticsearch version to be deployed. 
-    [string]$esVersion = '6.4.0',
+    [string]$esVersion = '6.4.2',
+    
     # Configure for new or existing vNet. An existing Virtual Network in another Resource Group in the same Location can be used.
     [string]$vNetNewOrExist = 'existing',
     # Enter the vNetName. The Virtual Network must already exist when using an 'existing' Virtual Network
     [string]$vNetName = 'es-net',
     # Enter the name of the Resource Group in which the Virtual Network resides when using an 'existing' Virtual Network. Required when using an 'existing' Virtual Network
-    [string]$rg = 'estemplate-poc-rg',
+    [string]$vNetExistingRG = 'estemplate-poc-rg',
+    
     # Enter the internal static IP address to use when configuring the internal load balancer
     [string]$vNetLoadBalancerIp = '10.0.0.4',
     # The name of the subnet to which Elasticsearch nodes will be attached. The subnet must already exist when using an existing Virtual Network.
     [string]$vNetClusterSubnetName = 'es-subnet',
     # Enter Ubuntu admin user
+    [Parameter(Mandatory=$true)]
     [string]$ubuntuAdmin = 'russ',
     # Enter Ubuntu admin password
+    [Parameter(Mandatory=$true)]
     [string]$ubuntuPw = 'Password1234',
-    # Enter the password for Elasticsearch superuser 'elastic'
-    [string]$esPw = 'Password123',
+    
+    # Enter the password for built-in Elasticsearch superuser 'elastic'
+    [Parameter(Mandatory=$true)]
+    [string]$elasticPw = 'Password123',
+    
+    # Enter the password for built-in Elasticsearch regular users
+    [Parameter(Mandatory=$true)]
+    [string]$esUserPw = 'Password123',
+    
     # Enter node type. Options: master, data, or client
     [string]$nodetype,
     # Enter a unique VM id number, e.g., 1,2,3. For Scale Sets, enter ss for ID purposes.
@@ -91,7 +102,7 @@ $clusterParameters = @{
     "esClusterName" = "elasticsearch"
     "vNetNewOrExisting" = "$vNetNewOrExist"
     "vNetName" = "$vNetName"
-    "vNetExistingResourceGroup" = "$rg"
+    "vNetExistingResourceGroup" = "$vNetExistingRG"
     "vNetLoadBalancerIp" = "$vNetLoadBalancerIp"
     "vNetClusterSubnetName" = "$vNetClusterSubnetName"
     "xpackPlugins" = "Yes"
@@ -100,25 +111,26 @@ $clusterParameters = @{
     "vmId" = "$vmid"
     "zoneId" = @("$zone")
     "kibana" = "$kibanainstall"
-    "vmDataDiskCount" = 5
+    "vmDataDiskCount" = 1
+    "vmDataDiskSize" = "Small"   # Small (128Gb), Medium (512GB), Large (1024GB)
     "scaleSetInstanceCount" = "3"
-    "vmHostNamePrefix" = "ctedeu2d01"
-    "vmSizeMasterNodes" ="Standard_DS1_v2"
-    "vmSizeDataNodes" = "Standard_DS1_v2"
-    "vmSizeClientNodes" = "Standard_DS1_v2"
-    "vmSizeIngestNodes" = "Standard_DS1_v2"
+    "vmHostNamePrefix" = "ctedeu2d01"  # NOTE: Change as needed. Use d for dev, p for prod
+    "vmSizeMasterNodes" ="Standard_DS2_v2"
+    "vmSizeDataNodes" = "Standard_DS2_v2"  # Increased size to support disk encryption
+    "vmSizeClientNodes" = "Standard_DS2_v2"
+    "vmSizeIngestNodes" = "Standard_DS2_v2"
     "adminUsername" = "$ubuntuAdmin"
     "adminPassword" = "$ubuntuPw"
-    "securityBootstrapPassword" = "$esPw"
-    "securityAdminPassword" = "$esPw"
-    "securityReadPassword" = "$esPw"
-    "securityKibanaPassword" = "$esPw"
-    "securityLogstashPassword" = "$esPw"
+    "securityBootstrapPassword" = "" # Leave empty. Will be auto generated.
+    "securityAdminPassword" = "$elasticPw"  # The password for built-in Elasticsearch superuser 'elastic'
+    "securityReadPassword" = "$esUserPw"
+    "securityKibanaPassword" = "$esUserPw"
+    "securityLogstashPassword" = "$esUserPw"
     }
 # Capture all debug info in $output
 # Note that 5>&1 is a PS redirector operator. Required for capturing the debug output.
 $output = Test-AzureRmResourceGroupDeployment `
-    -ResourceGroupName "$rg" `
+    -ResourceGroupName "$vNetExistingRG" `
     -TemplateUri "$sourceUrl/mainTemplate.json" `
     -TemplateParameterObject $clusterParameters `
     -Verbose `
