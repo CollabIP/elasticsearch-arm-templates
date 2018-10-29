@@ -63,6 +63,9 @@ Param(
     
     # Enter the Elasticsearch version to be deployed. 
     [string]$esVersion = '6.4.2',
+
+    # Enter the ES cluster name
+    [string]$EsClusterName = 'elasticsearch',
     
     # Configure for new or existing vNet. An existing Virtual Network in another Resource Group in the same Location can be used.
     [string]$vNetNewOrExist = 'existing',
@@ -118,7 +121,7 @@ Param(
 $clusterParameters = @{
     "artifactsBaseUrl"="$sourceUrl"
     "esVersion" = "$esVersion"
-    "esClusterName" = "elasticsearch"
+    "esClusterName" = "$EsClusterName"
     "vNetNewOrExisting" = "$vNetNewOrExist"
     "vNetName" = "$vNetName"
     "vNetExistingResourceGroup" = "$vNetExistingRG"
