@@ -109,12 +109,6 @@
             "caching": "ReadWrite",
             "createOption": "FromImage",
             "encryptionSettings": {
-              "diskEncryptionKey": {
-                "secretUrl": "https://es-dev-kv.vault.azure.net/secrets/29f3dab9-9623-435f-ae5a-ddf7d3d94576/d763be213a0148faaa45cae76901a17d",
-                "sourceVault": {
-                  "id": "/subscriptions/98696c29-2ed1-4a19-9a9b-e8957224bd14/resourceGroups/estemplate-poc-rg3/providers/Microsoft.KeyVault/vaults/es-dev-kv"
-                }
-              },
               "keyEncryptionKey": {
                 "keyUrl": "https://es-dev-kv.vault.azure.net/keys/disk-key/6841993234b34f059fd8dacf19fda074",
                 "sourceVault": {
