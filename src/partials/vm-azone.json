@@ -107,16 +107,7 @@
               "storageAccountType": "[parameters('vm').storageAccountType]"
             },
             "caching": "ReadWrite",
-            "createOption": "FromImage",
-            "encryptionSettings": {
-              "keyEncryptionKey": {
-                "keyUrl": "https://es-dev-kv.vault.azure.net/keys/disk-key/6841993234b34f059fd8dacf19fda074",
-                "sourceVault": {
-                  "id": "/subscriptions/98696c29-2ed1-4a19-9a9b-e8957224bd14/resourceGroups/estemplate-poc-rg3/providers/Microsoft.KeyVault/vaults/es-dev-kv"
-                }
-              },
-              "enabled": true
-            }
+            "createOption": "FromImage"
           },
           "dataDisks": "[parameters('dataDisks').disks]"
         },
