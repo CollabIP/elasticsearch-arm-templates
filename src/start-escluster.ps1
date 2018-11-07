@@ -4,7 +4,7 @@ Param
     $rg = 'estemplate-poc-rg'
 )
 # start-escluster
-write-host "Starting all VMs in $rg..."
+write-host "Starting all VMs in $rg..." -foregroundcolor green
 get-azurermvm -Status | Where-Object -Property ResourceGroupName -eq $rg | Start-AzureRmVM
 write-host "Starting all VM Scale Sets in $rg..."
 get-azurermvmss | Where-Object -Property ResourceGroupName -eq $rg | Start-AzureRmVmss
