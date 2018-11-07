@@ -145,6 +145,9 @@ $clusterParameters = @{
     "securityReadPassword" = "$esUserPw"
     "securityKibanaPassword" = "$esUserPw"
     "securityLogstashPassword" = "$esUserPw"
+    "esTransportCaCertBlob" = "" # Enter CA cert and key. From node to node SSL communications
+    "esTransportCaCertPassword" = ""
+    "esTransportCertPassword" = ""
     }
 # Capture all debug info in $output
 # Note that 5>&1 is a PS redirector operator. Required for capturing the debug output.
