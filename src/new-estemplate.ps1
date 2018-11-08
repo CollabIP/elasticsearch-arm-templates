@@ -94,6 +94,9 @@ Param(
     # Enter the password for built-in Elasticsearch regular users
     [Parameter(Mandatory=$true)]
     [string]$esUserPw = 'Password123',
+
+    # Enter the Transport SSL Cert string
+    [string]$TransportCert = [Convert]::ToBase64String([IO.File]::ReadAllBytes("c:\sslcert\elastic-certificates.p12"))
     
     # Enter node type. Options: master, data, or client
     [string]$nodetype,
@@ -149,7 +152,7 @@ $clusterParameters = @{
     "esHttpCertPassword" = ""
     "esHttpCaCertBlob" = ""
     "esHttpCaCertPassword" = ""
-    "esTransportCaCertBlob" = "" # Enter CA cert and key. From node to node SSL communications
+    "esTransportCaCertBlob" = "$TransportCert" # Enter CA cert and key. From node to node SSL communications
     "esTransportCaCertPassword" = ""
     "esTransportCertPassword" = ""
     }
