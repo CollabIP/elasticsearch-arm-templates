@@ -96,7 +96,7 @@ Param(
     [string]$esUserPw = 'Password123',
 
     # Enter the Transport SSL Cert string
-    [string]$TransportCert = [Convert]::ToBase64String([IO.File]::ReadAllBytes("c:\sslcert\elastic-certificates.p12"))
+    [string]$TransportCert = [Convert]::ToBase64String([IO.File]::ReadAllBytes("c:\sslcert\elastic-certificates.p12")),
     
     # Enter node type. Options: master, data, or client
     [string]$nodetype,
