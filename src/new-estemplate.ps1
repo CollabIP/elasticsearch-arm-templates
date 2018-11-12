@@ -81,22 +81,28 @@ Param(
     
     # Enter Ubuntu admin user
     [Parameter(Mandatory=$true)]
-    [string]$ubuntuAdmin = 'russ',
+    [string]$ubuntuAdmin,
     
     # Enter Ubuntu admin password
     [Parameter(Mandatory=$true)]
-    [string]$ubuntuPw = 'Password1234',
+    [string]$ubuntuPw,
     
     # Enter the password for built-in Elasticsearch superuser 'elastic'
     [Parameter(Mandatory=$true)]
-    [string]$elasticPw = 'Password123',
+    [string]$elasticPw,
     
     # Enter the password for built-in Elasticsearch regular users
     [Parameter(Mandatory=$true)]
-    [string]$esUserPw = 'Password123',
+    [string]$esUserPw,
 
-    # Enter the Transport SSL Cert string
-    [string]$TransportCert = [Convert]::ToBase64String([IO.File]::ReadAllBytes("c:\sslcert\elastic-certificates.p12")),
+    # Enter the Transport SSL cert string.
+    # Note: The CA cert file must be first converted from binary to a Base64 string at runtime.
+    # The templates will then use the CA to generate and deploy a node cert for each node.
+    [string]$TransportCACert = [Convert]::ToBase64String([IO.File]::ReadAllBytes("c:\sslcert\elastic-stack-ca.p12")),
+
+    # Enter the Transport SSL CA file password. Only required if the CA .p12 file is secured by a pw. Otherwise, leave blank.
+    [Parameter(Mandatory=$true)]
+    [string]$TransportCACertPw,
     
     # Enter node type. Options: master, data, or client
     [string]$nodetype,
@@ -148,12 +154,12 @@ $clusterParameters = @{
     "securityReadPassword" = "$esUserPw"
     "securityKibanaPassword" = "$esUserPw"
     "securityLogstashPassword" = "$esUserPw"
-    "esHttpCertBlob" = "$TransportCert"
-    "esHttpCertPassword" = ""
+    "esHttpCertBlob" = "$TransportCACert"  # Enter the CA cert file. For Http SSL comm (Http to node)
+    "esHttpCertPassword" = "$TransportCACertPw"
     "esHttpCaCertBlob" = ""
     "esHttpCaCertPassword" = ""
-    "esTransportCaCertBlob" = "$TransportCert" # Enter CA cert and key. From node to node SSL communications
-    "esTransportCaCertPassword" = ""
+    "esTransportCaCertBlob" = "$TransportCACert"  # Enter the CA cert file. For Transport SSL comm (node to node)
+    "esTransportCaCertPassword" = "$TransportCACertPw"  # Enter the CA cert pw. Optional. Required if original CA file was given a pw during creation.
     "esTransportCertPassword" = ""
     }
 # Capture all debug info in $output
