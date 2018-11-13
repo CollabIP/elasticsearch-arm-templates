@@ -994,8 +994,10 @@ configure_elasticsearch_yaml()
         # Tethr custom. Add lines to support elasticsearch-head. Allows es-head to connect to es cluster
         echo "# Tethr custom. Enable CORS.  Needed for allowing elasticsearch-head to access this node" >> $ES_CONF
         echo "http.cors.enabled: true" >> $ES_CONF
-        echo "# Tethr custom. Set the origin to allow only the elasticsearch-head webapp URL to access" >> $ES_CONF
-        echo "http.cors.allow-origin: http://${NAMESPACE_PREFIX}esk:9100" >> $ES_CONF
+        echo "# Tethr custom. Set the origin to allow connect from ES Head Chrome extension" >> $ES_CONF
+        echo 'http.cors.allow-origin: "*"' >> $ES_CONF
+        # echo "# Tethr custom. DISABLED. Set the origin to allow only the elasticsearch-head webapp URL to access" >> $ES_CONF
+        # echo "http.cors.allow-origin: http://${NAMESPACE_PREFIX}esk:9100" >> $ES_CONF
         echo "# Tethr custom. Add header Authorization, in additional to the regular default values." >> $ES_CONF
         echo "http.cors.allow-headers: Authorization, X-Requested-With, Content-Type, Content-Length" >> $ES_CONF
         # Tethr custom. Add line to support reindexing from a remote cluster
@@ -1009,10 +1011,15 @@ configure_elasticsearch_yaml()
         # Tethr custom. Add lines to support elasticsearch-head. Allows es-head to connect to es cluster
         echo "# Tethr custom. Enable CORS.  Needed for allowing elasticsearch-head to access this node" >> $ES_CONF
         echo "http.cors.enabled: true" >> $ES_CONF
-        echo "# Tethr custom. Set the origin to allow only the elasticsearch-head webapp URL to access" >> $ES_CONF
-        echo "http.cors.allow-origin: http://${NAMESPACE_PREFIX}esk:9100" >> $ES_CONF
+        echo "# Tethr custom. Set the origin to allow connect from ES Head Chrome extension" >> $ES_CONF
+        echo 'http.cors.allow-origin: "*"' >> $ES_CONF
+        # echo "# Tethr custom. DISABLED. Set the origin to allow only the elasticsearch-head webapp URL to access" >> $ES_CONF
+        # echo "http.cors.allow-origin: http://${NAMESPACE_PREFIX}esk:9100" >> $ES_CONF
         echo "# Tethr custom. Add header Authorization, in additional to the regular default values." >> $ES_CONF
         echo "http.cors.allow-headers: Authorization, X-Requested-With, Content-Type, Content-Length" >> $ES_CONF
+        # Tethr custom. Add line to support reindexing from a remote cluster
+        echo "# Tethr custom. Add lines to support reindexing from a remote cluster" >> $ES_CONF
+        echo 'reindex.remote.whitelist: "*:9200"' >> $ES_CONF
     else
         log "[configure_elasticsearch_yaml] configure node as master and data"
         echo "node.master: true" >> $ES_CONF
