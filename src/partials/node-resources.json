@@ -229,7 +229,7 @@
           "vm": {
             "value": {
               "shared": "[parameters('commonVmSettings')]",
-              "namespace": "[concat(parameters('commonVmSettings').namespacePrefix, 'es')]",
+              "namespace": "[concat(parameters('commonVmSettings').namespacePrefix, 'esm')]",
               "installScript": "[parameters('osSettings').extensionSettings.master]",
               "size": "[parameters('topologySettings').vmSizeMasterNodes]",
               "storageAccountType": "Standard_LRS",
@@ -267,7 +267,7 @@
           "vm": {
             "value": {
               "shared": "[parameters('commonVmSettings')]",
-              "namespace": "[concat(parameters('commonVmSettings').namespacePrefix, 'es')]",
+              "namespace": "[concat(parameters('commonVmSettings').namespacePrefix, 'esc')]",
               "installScript": "[parameters('osSettings').extensionSettings.client]",
               "size": "[parameters('topologySettings').vmSizeClientNodes]",
               "count": "[parameters('topologySettings').vmClientNodeCount]",
@@ -306,7 +306,7 @@
           "vm": {
             "value": {
               "shared": "[parameters('commonVmSettings')]",
-              "namespace": "[concat(parameters('commonVmSettings').namespacePrefix, 'es')]",
+              "namespace": "[concat(parameters('commonVmSettings').namespacePrefix, 'esi')]",
               "installScript": "[parameters('osSettings').extensionSettings.ingest]",
               "size": "[parameters('topologySettings').vmSizeingestNodes]",
               "instanceCount": "[parameters('topologySettings').scaleSetInstanceCount]",
@@ -344,7 +344,7 @@
           "vm": {
             "value": {
               "shared": "[parameters('commonVmSettings')]",
-              "namespace": "[concat(parameters('commonVmSettings').namespacePrefix, 'es')]",
+              "namespace": "[concat(parameters('commonVmSettings').namespacePrefix, 'esd')]",
               "installScript": "[parameters('osSettings').extensionSettings.data]",
               "size": "[parameters('topologySettings').vmSizeDataNodes]",
               "storageAccountType": "[parameters('topologySettings').vmDataNodeStorageAccountType]",
