@@ -61,8 +61,14 @@ Param(
     # Enter the Github base URL
     [string]$sourceUrl = 'https://raw.githubusercontent.com/darrell-tethr/azure-marketplace/master/src',
     
+    # Enter the Elasticsearch cluster name. 
+    [string]$EsClusterName = 'elasticsearch',
+    
     # Enter the Elasticsearch version to be deployed. 
     [string]$esVersion = '6.4.2',
+
+    # Enter the Resource to deploy the ES cluster. Tethr custom. Match $vNetExistingRG value unless vNet is in different RG.
+    [string]$resourceGroup = 'estemplate-poc-rg',
     
     # Configure for new or existing vNet. An existing Virtual Network in another Resource Group in the same Location can be used.
     [string]$vNetNewOrExist = 'existing',
@@ -72,12 +78,15 @@ Param(
     
     # Enter the name of the Resource Group in which the Virtual Network resides when using an 'existing' Virtual Network. Required when using an 'existing' Virtual Network
     [string]$vNetExistingRG = 'estemplate-poc-rg',
-    
+        
     # Enter the internal static IP address to use when configuring the internal load balancer
     [string]$vNetLoadBalancerIp = '10.0.0.4',
     
     # The name of the subnet to which Elasticsearch nodes will be attached. The subnet must already exist when using an existing Virtual Network.
     [string]$vNetClusterSubnetName = 'es-subnet',
+
+    # Enter the host name prefix
+    [string]$VmHostNamePrefix = 'ctete2',
     
     # Enter Ubuntu admin user
     [Parameter(Mandatory=$true)]
@@ -127,7 +136,7 @@ Param(
 $clusterParameters = @{
     "artifactsBaseUrl"="$sourceUrl"
     "esVersion" = "$esVersion"
-    "esClusterName" = "elasticsearch"
+    "esClusterName" = "$EsClusterName"
     "vNetNewOrExisting" = "$vNetNewOrExist"
     "vNetName" = "$vNetName"
     "vNetExistingResourceGroup" = "$vNetExistingRG"
@@ -139,14 +148,14 @@ $clusterParameters = @{
     "vmId" = "$vmid"
     "zoneId" = @("$zone")
     "kibana" = "$kibanainstall"
-    "vmDataDiskCount" = 1
+    "vmDataDiskCount" = 4
     "vmDataDiskSize" = "Small"   # Small (128Gb), Medium (512GB), Large (1024GB)
     "scaleSetInstanceCount" = "3"
-    "vmHostNamePrefix" = "ctedeu2d01"  # NOTE: Change as needed. Use d for dev, p for prod
+    "vmHostNamePrefix" = "$VmHostNamePrefix" 
     "vmSizeMasterNodes" ="Standard_DS2_v2"
-    "vmSizeDataNodes" = "Standard_DS2_v2"  # Increased size to support disk encryption
-    "vmSizeClientNodes" = "Standard_DS2_v2"
-    "vmSizeIngestNodes" = "Standard_DS2_v2"
+    "vmSizeDataNodes" = "Standard_DS3_v2"  # Increased size to support disk encryption
+    "vmSizeClientNodes" = "Standard_DS3_v2"
+    "vmSizeIngestNodes" = "Standard_DS3_v2"
     "adminUsername" = "$ubuntuAdmin"
     "adminPassword" = "$ubuntuPw"
     "securityBootstrapPassword" = "" # Leave empty. Will be auto generated.
@@ -155,7 +164,7 @@ $clusterParameters = @{
     "securityKibanaPassword" = "$esUserPw"
     "securityLogstashPassword" = "$esUserPw"
     "esHttpCertBlob" = "$TransportCACert"  # Enter the CA cert file. For Http SSL comm (Http to node)
-    "esHttpCertPassword" = "$TransportCACertPw"
+    "esHttpCertPassword" = "$TransportCACertPw"  # Enter the CA cert pw. Optional. Required if original CA file was given a pw during creation.
     "esHttpCaCertBlob" = ""
     "esHttpCaCertPassword" = ""
     "esTransportCaCertBlob" = "$TransportCACert"  # Enter the CA cert file. For Transport SSL comm (node to node)
@@ -165,7 +174,7 @@ $clusterParameters = @{
 # Capture all debug info in $output
 # Note that 5>&1 is a PS redirector operator. Required for capturing the debug output.
 $output = New-AzureRmResourceGroupDeployment `
-    -ResourceGroupName "$vNetExistingRG" `
+    -ResourceGroupName "$resourceGroup" `
     -TemplateUri "$sourceUrl/mainTemplate.json" `
     -TemplateParameterObject $clusterParameters `
     -DeploymentDebugLogLevel All `
