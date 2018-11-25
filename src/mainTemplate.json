@@ -119,7 +119,7 @@
       }
     },
     "azureCloudStorageAccountKey": {
-      "type": "securestring",
+      "type": "string",
       "defaultValue": "",
       "metadata": {
         "description": "The access key of an existing storage account to use for snapshots with Azure Repository plugin"
@@ -172,7 +172,7 @@
       }
     },
     "esHttpCertPassword": {
-      "type": "securestring",
+      "type": "string",
       "defaultValue": "",
       "metadata": {
         "description": "The password for the PKCS#12 archive (.p12/.pfx) containing the key and certificate used to secure HTTP layer of Elasticsearch"
@@ -186,7 +186,7 @@
       }
     },
     "esHttpCaCertPassword": {
-      "type": "securestring",
+      "type": "string",
       "defaultValue": "",
       "metadata": {
         "description": "The password for the PKCS#12 archive (.p12/.pfx) containing the CA key and certificate used to secure HTTP layer of Elasticsearch"
@@ -200,14 +200,14 @@
       }
     },
     "esTransportCaCertPassword": {
-      "type": "securestring",
+      "type": "string",
       "defaultValue": "",
       "metadata": {
         "description": "The password for the PKCS#12 archive (.p12/.pfx) containing the CA key and certificate used to secure Transport layer of Elasticsearch"
       }
     },
     "esTransportCertPassword": {
-      "type": "securestring",
+      "type": "string",
       "defaultValue": "",
       "metadata": {
         "description": "The password for the generated certificate used to secure Transport layer of Elasticsearch"
@@ -359,14 +359,14 @@
       }
     },
     "kibanaKeyBlob": {
-      "type": "securestring",
+      "type": "string",
       "defaultValue": "",
       "metadata": {
         "description": "A Base-64 encoded form of the PEM private key (.key) to secure HTTP communication between the browser and Kibana."
       }
     },
     "kibanaKeyPassphrase": {
-      "type": "securestring",
+      "type": "string",
       "defaultValue": "",
       "metadata": {
         "description": "The passphrase to decrypt the private key. Optional as the key may not be encrypted."
@@ -949,42 +949,42 @@
       "type": "securestring",
       "defaultValue": "",
       "metadata": {
-        "description": "Admin password"
+        "description": "Admin password for Linux VM"
       }
     },
     "sshPublicKey": {
-      "type": "securestring",
+      "type": "string",
       "defaultValue": "",
       "metadata": {
         "description": "Admin ssh public key"
       }
     },
     "securityBootstrapPassword": {
-      "type": "securestring",
+      "type": "string",
       "metadata": {
         "description": "Password for the bootstrap.password to add to the keystore in 6.x. If no value is supplied, a 13 character password will be generated using the uniqueString() function"
       }
     },
     "securityAdminPassword": {
-      "type": "securestring",
+      "type": "string",
       "metadata": {
         "description": "Password for the built-in 'elastic' user. Must be > 6 characters"
       }
     },
     "securityReadPassword": {
-      "type": "securestring",
+      "type": "string",
       "metadata": {
         "description": "Password for the 'es_read' user with user (read-only) role. Must be > 6 characters"
       }
     },
     "securityKibanaPassword": {
-      "type": "securestring",
+      "type": "string",
       "metadata": {
         "description": "Password for the built-in 'kibana' user. Must be > 6 characters"
       }
     },
     "securityLogstashPassword": {
-      "type": "securestring",
+      "type": "string",
       "metadata": {
         "description": "Password for the 'logstash_system' user. Must be > 6 characters"
       }
@@ -1103,7 +1103,7 @@
       }
     },
     "appGatewayCertPassword": {
-      "type": "securestring",
+      "type": "string",
       "defaultValue": "",
       "metadata": {
         "description": "The password for the PKCS#12 archive (.p12/.pfx) containing the key and certificate for the Application Gateway."
