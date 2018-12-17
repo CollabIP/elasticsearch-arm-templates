@@ -5,4 +5,5 @@ Invoke-AzureRmVMRunCommand -ResourceGroupName 'tethrent-test-cu-es' -Name 'ctetc
 
 #>
 
-Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Force
+# Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Force
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Force
