@@ -107,7 +107,7 @@ Param(
     # Enter the Transport SSL cert string.
     # Note: The CA cert file must be first converted from binary to a Base64 string at runtime.
     # The templates will then use the CA to generate and deploy a node cert for each node.
-    [string]$TransportCACert = [Convert]::ToBase64String([IO.File]::ReadAllBytes("c:\sslcert\elastic-stack-ca.p12")),
+    [string]$TransportCACert = 'foo',
 
     # Enter the Transport SSL CA file password. Only required if the CA .p12 file is secured by a pw. Otherwise, leave blank.
     [Parameter(Mandatory=$true)]

@@ -1277,76 +1277,76 @@ port_forward()
 
 # if elasticsearch is already installed assume this is a redeploy
 # change yaml configuration and only restart the server when needed
-if monit status elasticsearch >& /dev/null; then
+# if monit status elasticsearch >& /dev/null; then
 
-  # Tethr custom - Upgrade elasticsearch
-  # Redeploys es deb package. Will upgrade to newer version if specified in deploy parameters.
-  monit stop elasticsearch
-  install_es
+#   # Tethr custom - Upgrade elasticsearch
+#   # Redeploys es deb package. Will upgrade to newer version if specified in deploy parameters.
+#   monit stop elasticsearch
+#   install_es
 
-  configure_elasticsearch_yaml
+#   configure_elasticsearch_yaml
   
-  # if this is a data node using temp disk, check existence and permissions
-  check_data_disk
+#   # if this is a data node using temp disk, check existence and permissions
+#   check_data_disk
 
-  # restart elasticsearch if the configuration has changed
-  cmp --silent /etc/elasticsearch/elasticsearch.yml /etc/elasticsearch/elasticsearch.bak \
-    || monit restart elasticsearch
+#   # restart elasticsearch if the configuration has changed
+#   cmp --silent /etc/elasticsearch/elasticsearch.yml /etc/elasticsearch/elasticsearch.bak \
+#     || monit restart elasticsearch
 
-  # Tethr custom- Start elasticsearch
-  monit start elasticsearch
+#   # Tethr custom- Start elasticsearch
+#   monit start elasticsearch
 
-  exit 0
-fi
+#   exit 0
+# fi
 
 format_data_disks
 
-log "[apt-get] updating apt-get"
-(apt-get -y update || (sleep 15; apt-get -y update)) > /dev/null
-log "[apt-get] updated apt-get"
+# log "[apt-get] updating apt-get"
+# (apt-get -y update || (sleep 15; apt-get -y update)) > /dev/null
+# log "[apt-get] updated apt-get"
 
-install_ntp
+# install_ntp
 
-install_java
+# install_java
 
-install_es
+# install_es
 
-setup_data_disk
+# setup_data_disk
 
-if [ ${INSTALL_XPACK} -ne 0 ]; then
-    install_xpack
-    # in 6.x we need to set up the bootstrap.password in the keystore to use when setting up users
-    if [[ "${ES_VERSION}" == \6* ]]; then
-        setup_bootstrap_password
-    fi
-fi
+# if [ ${INSTALL_XPACK} -ne 0 ]; then
+#     install_xpack
+#     # in 6.x we need to set up the bootstrap.password in the keystore to use when setting up users
+#     if [[ "${ES_VERSION}" == \6* ]]; then
+#         setup_bootstrap_password
+#     fi
+# fi
 
-if [[ ! -z "${INSTALL_ADDITIONAL_PLUGINS// }" ]]; then
-    install_additional_plugins
-fi
+# if [[ ! -z "${INSTALL_ADDITIONAL_PLUGINS// }" ]]; then
+#     install_additional_plugins
+# fi
 
-if [ ${INSTALL_AZURECLOUD_PLUGIN} -ne 0 ]; then
-    install_repository_azure_plugin
-fi
+# if [ ${INSTALL_AZURECLOUD_PLUGIN} -ne 0 ]; then
+#     install_repository_azure_plugin
+# fi
 
-install_monit
+# install_monit
 
-configure_elasticsearch_yaml
+# configure_elasticsearch_yaml
 
-configure_elasticsearch
+# configure_elasticsearch
 
-configure_os_properties
+# configure_os_properties
 
 port_forward
 
-start_monit
+# start_monit
 
-# 8.15.18 Tethr Custom. Disabled for Master Nodes due to problem authenticating without 2 master node minimum.
-# patch roles and users through the REST API which is a tad trickier
-if [[ ${INSTALL_XPACK} -ne 0 && ${MASTER_ONLY_NODE} -eq 0 ]]; then
-wait_for_started
-apply_security_settings
-fi
+# # 8.15.18 Tethr Custom. Disabled for Master Nodes due to problem authenticating without 2 master node minimum.
+# # patch roles and users through the REST API which is a tad trickier
+# if [[ ${INSTALL_XPACK} -ne 0 && ${MASTER_ONLY_NODE} -eq 0 ]]; then
+# wait_for_started
+# apply_security_settings
+# fi
 
 ELAPSED_TIME=$(($SECONDS - $START_TIME))
 PRETTY=$(printf '%dh:%dm:%ds\n' $(($ELAPSED_TIME/3600)) $(($ELAPSED_TIME%3600/60)) $(($ELAPSED_TIME%60)))
