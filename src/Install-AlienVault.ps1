@@ -1,22 +1,9 @@
 <#
+Install-AlienVault.ps1
+
 To run script, use Invoke-AzureRmVMRunCommand. Set in parameter -ScriptPath.
 
 Invoke-AzureRmVMRunCommand -ResourceGroupName 'tethrent-test-cu-es' -Name 'ctetcuwin16' -CommandId 'RunPowerShellScript' -ScriptPath 'Install-AgentToWindows.ps1'
-
-Invoke-AzureRmVMRunCommand -ResourceGroupName 'tethrent-test-cu-es2' -Name 'win16poc' -CommandId 'RunPowerShellScript' -ScriptPath 'Install-AlienVault.ps1'
-
-
-Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Force
-Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Force
-
-To list OS type, see below. The osType property lives inside $_.StorageProfile.osDisk
-
-get-azurermvm | Format-Table Name, @{l='osType';e={$_.StorageProfile.osDisk.osType}}, ResourceGroupName
-
-or
-
-get-azurermvm | where-Object {$_.StorageProfile.osDisk.osType -eq 'Windows'}
-
 
 Must call the script with the 'Run Agent' global install command line
 
@@ -25,14 +12,25 @@ Must call the script with the 'Run Agent' global install command line
 #>
 # Parameters section****************
 
+Param(
+[Parameter(Mandatory=$true, HelpMessage='Enter the Azure subscription name')]
+[string]
+$Subscription,
+# Enter the PS script to call in -ScriptPath. File must live in same folder script.
+[string]
+$InstallScript = 'Install-AgentToWindows.ps1'
+)
 
-# Function section*****************
+# Command section***************** 
 
-# Command section*****************
-$WinVMs = get-azurermvm | where-Object {$_.StorageProfile.osDisk.osType -eq 'Windows'}
+# Set the Subscription context
+Set-AzureRmContext $Subscription
 
-foreach ($vm in $WinVMs)
-    {Write-Host Run command on $vm.Name
-    #Invoke-AzureRmVMRunCommand -ResourceGroupName 'tethrent-test-cu-es' -Name 'ctetcuwin16' -CommandId 'RunPowerShellScript' -ScriptPath 'Install-AgentToWindows.ps1'
-    Invoke-AzureRmVMRunCommand -ResourceGroupName ($vm.ResourceGroupName) -Name ($vm.Name) -CommandId 'RunPowerShellScript' -ScriptPath 'Install-AgentToWindows.ps1'
+# Get all Win VMs in the subscription
+$WinVMs = Get-AzureRmVM | Where-Object {$_.StorageProfile.osDisk.osType -eq 'Windows'}
+
+foreach ($vm in $WinVMs){
+    Write-Host Running the Agent install script on $vm.Name -ForegroundColor Green
+    Invoke-AzureRmVMRunCommand -ResourceGroupName ($vm.ResourceGroupName) -Name ($vm.Name) -CommandId 'RunPowerShellScript' -ScriptPath $InstallScript
+    Write-Host Script run on $vm.Name complete -ForegroundColor Green
 }
