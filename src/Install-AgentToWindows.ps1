@@ -11,7 +11,7 @@ It's a global command that can be run on any Azure VM
 $service = get-service -name osquery -ErrorAction SilentlyContinue
 
 # Install AlienVault
-# If $service is empty, the install script will run.
+# If $service contains a value, the install will not run.
 if ($service ) {
     Write-Host 'AlienVault Agent osqueryd is already installed'    
 } else {
